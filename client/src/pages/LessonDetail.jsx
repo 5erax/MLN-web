@@ -89,7 +89,7 @@ export default function LessonDetail() {
             </>
           ) : (
             <>
-              <p>Muốn tìm hiểu thêm? Hãy hỏi chatbot triết học bên góc phải.</p>
+              <p>Muốn tìm hiểu thêm? Hãy hỏi trợ lý Lịch sử Đảng ở góc phải.</p>
               <div className="ld-cta-actions">
                 <Link to="/bai-hoc" className="btn btn-outline btn-sm">
                   Xem bài học khác

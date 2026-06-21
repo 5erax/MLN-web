@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { TIMELINE } from '../data/philosophyKnowledge.js';
+import { TIMELINE } from '../data/partyHistoryKnowledge.js';
 
 const router = Router();
 

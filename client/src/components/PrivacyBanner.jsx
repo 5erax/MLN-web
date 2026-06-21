@@ -26,7 +26,7 @@ export default function PrivacyBanner() {
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       </div>
       <span>
-        Chúng tôi thu thập dữ liệu đăng nhập (tên, email, ảnh đại diện), câu hỏi bạn đặt với chatbot và nội dung bạn xem để phân tích xu hướng và cải thiện trải nghiệm. Chúng tôi không bán dữ liệu của bạn.
+        Chúng tôi lưu dữ liệu đăng nhập (tên, email, ảnh đại diện), câu hỏi gửi tới trợ lý và nội dung đã xem để cải thiện trải nghiệm học tập. Chúng tôi không bán dữ liệu của bạn.
       </span>
       <button type="button" onClick={accept}>Tôi hiểu</button>
     </div>

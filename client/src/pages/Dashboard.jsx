@@ -39,10 +39,10 @@ export default function Dashboard({ user }) {
   }
 
   const QUICK_ACTIONS = [
-    { to: '/bai-hoc', icon: '📖', title: 'Bài học KTCT', desc: 'Học kinh tế chính trị Mác-Lênin' },
-    { to: '/triet-gia', icon: '📚', title: 'Nhà tư tưởng', desc: 'Khám phá các nhà tư tưởng' },
-    { to: '/khai-niem', icon: '💡', title: 'Khái niệm', desc: 'Tìm hiểu khái niệm KTCT' },
-    { to: '/so-sanh', icon: '⚖', title: 'So sánh', desc: 'So sánh hai nhà tư tưởng' },
+    { to: '/bai-hoc', icon: '📖', title: 'Bài giảng', desc: 'Học theo tiến trình Lịch sử Đảng' },
+    { to: '/triet-gia', icon: '📚', title: 'Nhân vật', desc: 'Khám phá các nhân vật tiêu biểu' },
+    { to: '/khai-niem', icon: '💡', title: 'Chủ đề - văn kiện', desc: 'Tìm hiểu sự kiện và đường lối cốt lõi' },
+    { to: '/so-sanh', icon: '⚖', title: 'Đối chiếu', desc: 'Đối chiếu hai nhân vật lịch sử' },
   ];
 
   return (

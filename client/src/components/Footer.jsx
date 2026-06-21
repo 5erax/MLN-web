@@ -2,22 +2,16 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { quote as quoteApi } from '../api';
 
-const PHILOSOPHY_FACTS = [
-  'Marx viết bộ "Tư bản" trong gần 20 năm, phần lớn tại thư viện Bảo tàng Anh.',
-  'Engels tự học hơn 20 ngôn ngữ và có thể viết thư bằng tiếng Nga, Ý, Tây Ban Nha.',
-  'Lenin đọc trung bình 500 trang mỗi ngày trong thời gian bị lưu đày ở Siberia.',
-  'Bộ "Tư bản" của Marx ban đầu dự kiến 6 tập nhưng chỉ 1 tập được xuất bản khi ông còn sống.',
-  'Engels viết "Tình cảnh giai cấp công nhân Anh" khi mới 24 tuổi.',
-  'Marx và Engels viết "Tuyên ngôn Đảng Cộng sản" chỉ trong 6 tuần.',
-  '"Tuyên ngôn Đảng Cộng sản" (1848) được dịch ra hơn 200 ngôn ngữ trên thế giới.',
-  'Lenin viết "Chủ nghĩa đế quốc" chỉ trong vài tháng tại Zurich năm 1916.',
-  'Socrates không viết bất kỳ tác phẩm nào — toàn bộ tư tưởng được truyền qua miệng.',
-  'Plato sáng lập Học viện Athens — trường đại học đầu tiên của phương Tây.',
-  'Kant sống cả đời ở Königsberg và chưa bao giờ rời thành phố quá 80km.',
-  'Marcus Aurelius viết Suy ngẫm cho chính mình, không có ý xuất bản.',
-  'Khổng Tử có hơn 3.000 đệ tử, trong đó 72 người thông thạo lục nghệ.',
-  'Từ "triết học" (philosophy) có nghĩa gốc Hy Lạp là "tình yêu trí tuệ".',
-  'Descartes nảy ra ý tưởng "Cogito ergo sum" khi nằm trong phòng ấm vào một buổi sáng mùa đông.',
+const HISTORY_FACTS = [
+  'Ngày 3/2/1930 được xác định là ngày thành lập Đảng Cộng sản Việt Nam.',
+  'Cương lĩnh chính trị đầu tiên đặt nhiệm vụ giải phóng dân tộc ở vị trí trọng yếu.',
+  'Mặt trận Việt Minh được thành lập tháng 5/1941 để tập hợp lực lượng cứu nước.',
+  'Cách mạng Tháng Tám năm 1945 giành chính quyền trên phạm vi cả nước trong thời gian ngắn.',
+  'Lời kêu gọi Toàn quốc kháng chiến được công bố ngày 19/12/1946.',
+  'Chiến thắng Điện Biên Phủ kết thúc ngày 7/5/1954.',
+  'Đại thắng mùa Xuân năm 1975 hoàn thành giải phóng miền Nam, thống nhất đất nước.',
+  'Đại hội VI năm 1986 khởi xướng công cuộc đổi mới toàn diện đất nước.',
+  'Cương lĩnh năm 1991 được bổ sung, phát triển tại Đại hội XI năm 2011.',
 ];
 
 export default function Footer() {
@@ -27,7 +21,7 @@ export default function Footer() {
     quoteApi.daily().then(({ quote: q }) => setDailyQuote(q)).catch(() => {});
   }, []);
 
-  const fact = PHILOSOPHY_FACTS[new Date().getDate() % PHILOSOPHY_FACTS.length];
+  const fact = HISTORY_FACTS[new Date().getDate() % HISTORY_FACTS.length];
 
   return (
     <footer className="site-footer">
@@ -50,14 +44,14 @@ export default function Footer() {
           {/* Col 1: Brand */}
           <div className="footer-col footer-col-brand">
             <Link to="/" className="footer-logo">
-              <span className="footer-logo-icon" aria-hidden="true">{'\u2692'}</span>
+              <span className="footer-logo-icon" aria-hidden="true">{'\u2605'}</span>
               <div className="footer-logo-text-wrap">
-                <span className="footer-logo-text">KTCT Mác-Lênin</span>
-                <span className="footer-logo-sub">Kinh tế chính trị & Triết học</span>
+                <span className="footer-logo-text">Lịch sử Đảng</span>
+                <span className="footer-logo-sub">Đảng Cộng sản Việt Nam</span>
               </div>
             </Link>
             <p className="footer-desc">
-              Nền tảng học kinh tế chính trị và triết học tương tác dành cho sinh viên MLN122. Khám phá tư tưởng Marx, Engels, Lenin và các trường phái triết học.
+              Nền tảng học tập tương tác giúp hệ thống hóa tiến trình, đường lối và bài học kinh nghiệm trong lịch sử Đảng Cộng sản Việt Nam.
             </p>
             <div className="footer-fact">
               <span className="footer-fact-label">Bạn có biết?</span>
@@ -68,14 +62,14 @@ export default function Footer() {
           {/* Col 2: Navigation */}
           <div className="footer-col">
             <span className="footer-col-title">Khám phá</span>
-            <nav className="footer-nav-links" aria-label="Footer navigation">
+            <nav className="footer-nav-links" aria-label="Điều hướng chân trang">
               <Link to="/">Trang chủ</Link>
-              <Link to="/bai-hoc">Bài học KTCT</Link>
-              <Link to="/triet-gia">Nhà tư tưởng</Link>
-              <Link to="/khai-niem">Khái niệm</Link>
-              <Link to="/so-sanh">So sánh tư tưởng</Link>
+              <Link to="/bai-hoc">Bài giảng</Link>
+              <Link to="/triet-gia">Nhân vật lịch sử</Link>
+              <Link to="/khai-niem">Chủ đề - văn kiện</Link>
+              <Link to="/so-sanh">Đối chiếu nhân vật</Link>
               <Link to="/thong-ke">Thống kê</Link>
-              <Link to="/trac-nghiem">Trắc nghiệm trường phái</Link>
+              <Link to="/trac-nghiem">Kiểm tra kiến thức</Link>
             </nav>
           </div>
 
@@ -85,15 +79,15 @@ export default function Footer() {
             <nav className="footer-nav-links">
               <Link to="/bai-hoc">
                 <span className="footer-link-icon" aria-hidden="true">📖</span>
-                Bài học kinh tế chính trị
+                Bài giảng Lịch sử Đảng
               </Link>
               <Link to="/trac-nghiem">
                 <span className="footer-link-icon" aria-hidden="true">?</span>
-                Trắc nghiệm trường phái
+                Kiểm tra kiến thức
               </Link>
               <Link to="/so-sanh">
                 <span className="footer-link-icon" aria-hidden="true">⚖</span>
-                So sánh nhà tư tưởng
+                Đối chiếu nhân vật
               </Link>
               <Link to="/thong-ke">
                 <span className="footer-link-icon" aria-hidden="true">📊</span>
@@ -108,15 +102,15 @@ export default function Footer() {
             <div className="footer-info-list">
               <div className="footer-info-item">
                 <span className="footer-info-label">Môn học</span>
-                <span className="footer-info-value">MLN122 — KTCT Mác-Lênin</span>
+                <span className="footer-info-value">Lịch sử Đảng Cộng sản Việt Nam</span>
               </div>
               <div className="footer-info-item">
-                <span className="footer-info-label">Nhà tư tưởng</span>
-                <span className="footer-info-value">13 nhà tư tưởng</span>
+                <span className="footer-info-label">Nhân vật</span>
+                <span className="footer-info-value">8 nhân vật tiêu biểu</span>
               </div>
               <div className="footer-info-item">
-                <span className="footer-info-label">Trường phái</span>
-                <span className="footer-info-value">9 trường phái chính</span>
+                <span className="footer-info-label">Tiến trình</span>
+                <span className="footer-info-value">3 giai đoạn chính</span>
               </div>
               <div className="footer-info-item">
                 <span className="footer-info-label">Dữ liệu</span>
@@ -137,11 +131,11 @@ export default function Footer() {
         {/* Bottom */}
         <div className="footer-bottom">
           <div className="footer-bottom-left">
-            <p className="footer-copy">&copy; {new Date().getFullYear()} KTCT Mác-Lênin — Kinh tế chính trị & Triết học</p>
+            <p className="footer-copy">&copy; {new Date().getFullYear()} Lịch sử Đảng Cộng sản Việt Nam</p>
             <p className="footer-copy-sub">Dữ liệu chỉ dùng cho mục đích giáo dục và phân tích nội bộ.</p>
           </div>
           <div className="footer-bottom-right">
-            <span className="footer-tech">MLN122 &middot; {new Date().getFullYear()}</span>
+            <span className="footer-tech">Học tập tương tác &middot; {new Date().getFullYear()}</span>
           </div>
         </div>
       </div>

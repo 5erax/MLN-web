@@ -18,14 +18,14 @@ export default function ConceptDetail({ user }) {
 
   if (loading) return (
     <div className="page page--narrow">
-      <div className="loading-wrap"><div className="loading-spinner" aria-label="Đang tải" /><span className="loading-text">Đang tải khái niệm...</span></div>
+      <div className="loading-wrap"><div className="loading-spinner" aria-label="Đang tải" /><span className="loading-text">Đang tải chủ đề...</span></div>
     </div>
   );
   if (!concept) return (
     <div className="page page--narrow">
       <div className="empty-state">
         <div className="empty-icon" aria-hidden="true">?</div>
-        <p>Không tìm thấy khái niệm này.</p>
+        <p>Không tìm thấy chủ đề này.</p>
         <Link to="/khai-niem" className="btn btn-secondary btn-sm">Quay lại danh sách</Link>
       </div>
     </div>
@@ -33,7 +33,7 @@ export default function ConceptDetail({ user }) {
 
   return (
     <div className="page page--narrow cd-page">
-      <Link to="/khai-niem" className="back-link">&larr; Khái niệm</Link>
+      <Link to="/khai-niem" className="back-link">&larr; Chủ đề và văn kiện</Link>
 
       <article className="cd-article">
         {/* Header */}
@@ -53,10 +53,10 @@ export default function ConceptDetail({ user }) {
         {/* CTA */}
         <div className="cd-cta stagger-3">
           <div className="cd-cta-inner">
-            <p>Muốn tìm hiểu thêm? Hãy hỏi chatbot KTCT bên góc phải.</p>
+            <p>Muốn tìm hiểu thêm? Hãy hỏi trợ lý Lịch sử Đảng ở góc phải.</p>
             <div className="cd-cta-actions">
-              <Link to="/khai-niem" className="btn btn-outline btn-sm">Xem khái niệm khác</Link>
-              <Link to="/triet-gia" className="btn btn-ghost btn-sm">Khám phá nhà tư tưởng</Link>
+              <Link to="/khai-niem" className="btn btn-outline btn-sm">Xem chủ đề khác</Link>
+              <Link to="/triet-gia" className="btn btn-ghost btn-sm">Khám phá nhân vật</Link>
             </div>
           </div>
         </div>

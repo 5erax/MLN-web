@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom';
 import { quiz as quizApi } from '../api';
 
 const SCHOOL_ICONS = {
-  'Chủ nghĩa duy lý': '🔬',
-  'Chủ nghĩa duy tâm': '🌀',
-  'Chủ nghĩa kinh nghiệm': '🔎',
-  'Chủ nghĩa hiện sinh': '🌊',
-  'Chủ nghĩa khắc kỷ': '🛡',
-  'Nho giáo': '📜',
+  'Nắm vững kiến thức': '🏆',
+  'Đạt yêu cầu': '✓',
+  'Cần ôn thêm': '📖',
+  'Nên học lại bài': '↻',
 };
 
 export default function Quiz() {
@@ -45,17 +43,17 @@ export default function Quiz() {
 
   return (
     <div className="page page--quiz quiz-page">
-      {/* Extension banner */}
+      {/* Source banner */}
       <div className="quiz-ext-banner stagger-1">
-        <span className="quiz-ext-badge">Phần mở rộng — Triết học</span>
-        <p>Đây là trắc nghiệm tính cách triết học. Để học kinh tế chính trị, hãy xem <Link to="/bai-hoc">Bài học KTCT</Link>.</p>
+        <span className="quiz-ext-badge">Ôn tập theo giáo trình</span>
+        <p>Các câu hỏi bao quát ba giai đoạn chính. Bạn có thể xem lại <Link to="/bai-hoc">bài giảng Lịch sử Đảng</Link> trước khi làm.</p>
       </div>
 
       {/* Header */}
       <div className="quiz-header stagger-2">
         <span className="quiz-icon" aria-hidden="true">?</span>
-        <h1 className="page-title">Bạn thuộc trường phái nào?</h1>
-        <p className="page-desc">Trắc nghiệm ngắn dựa trên tư tưởng kinh tế chính trị và triết học. Chọn câu trả lời gần với quan điểm của bạn.</p>
+        <h1 className="page-title">Kiểm tra kiến thức Lịch sử Đảng</h1>
+        <p className="page-desc">Trả lời 10 câu hỏi về các mốc lịch sử, đường lối và bước ngoặt quan trọng.</p>
       </div>
 
       {!result ? (
@@ -115,7 +113,7 @@ export default function Quiz() {
           <p className="quiz-result-desc">{result.description}</p>
           <hr className="divider" />
           <div className="quiz-result-actions">
-            <Link to="/triet-gia" className="btn btn-primary">Khám phá nhà tư tưởng</Link>
+            <Link to="/bai-hoc" className="btn btn-primary">Xem lại bài giảng</Link>
             <button type="button" className="btn btn-outline" onClick={() => { setResult(null); setAnswers({}); }}>Làm lại</button>
           </div>
         </div>

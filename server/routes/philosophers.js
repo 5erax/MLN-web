@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import Philosopher from '../models/Philosopher.js';
-import { PHILOSOPHERS } from '../data/philosophyKnowledge.js';
+import { PHILOSOPHERS } from '../data/partyHistoryKnowledge.js';
 
 const router = Router();
 
@@ -46,6 +46,7 @@ async function seedPhilosophers() {
           { upsert: true }
         );
       }
+      await Philosopher.deleteMany({ slug: { $nin: Object.keys(PHILOSOPHERS) } });
     }
     seeded = true;
     console.log('Philosophers seeded');

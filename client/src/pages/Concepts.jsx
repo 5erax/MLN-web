@@ -3,17 +3,13 @@ import { Link } from 'react-router-dom';
 import { concepts as api } from '../api';
 
 const CONCEPT_ICONS = {
-  'Kinh tế chính trị': '⚒',
-  'Nhận thức luận': '🔎',
-  'Siêu hình học': '🌀',
-  'Đạo đức học': '⚖',
-  'Logic học': '💡',
-  'Triết học chính trị': '🏛',
-  'Mỹ học': '🎨',
+  '1930-1945': '★',
+  '1945-1975': '⚑',
+  'Từ 1975': '📈',
 };
 
 function isKtctConcept(c) {
-  return (c.school || '').startsWith('Kinh tế chính trị');
+  return c.school === '1930-1945';
 }
 
 export default function Concepts() {
@@ -32,36 +28,36 @@ export default function Concepts() {
 
   if (loading) return (
     <div className="page page--narrow">
-      <div className="loading-wrap"><div className="loading-spinner" aria-label="Đang tải" /><span className="loading-text">Đang tải khái niệm...</span></div>
+      <div className="loading-wrap"><div className="loading-spinner" aria-label="Đang tải" /><span className="loading-text">Đang tải chủ đề...</span></div>
     </div>
   );
 
   return (
     <div className="page concepts-page">
       <div className="concepts-header stagger-1">
-        <span className="concepts-icon" aria-hidden="true">{'\u2692'}</span>
-        <h1 className="page-title">Khái niệm</h1>
-        <p className="page-desc">Các khái niệm nền tảng trong kinh tế chính trị Mác-Lênin và triết học.</p>
+        <span className="concepts-icon" aria-hidden="true">{'\u2605'}</span>
+        <h1 className="page-title">Chủ đề và văn kiện</h1>
+        <p className="page-desc">Các sự kiện, đường lối và văn kiện cốt lõi theo tiến trình Lịch sử Đảng.</p>
       </div>
 
       {list.length === 0 ? (
         <div className="empty-state">
           <div className="empty-icon" aria-hidden="true">💡</div>
-          <p>Chưa có khái niệm nào.</p>
+          <p>Chưa có chủ đề nào.</p>
         </div>
       ) : (
         <>
-          {/* KTCT - Phần chính */}
+          {/* Đảng ra đời và giành chính quyền */}
           {ktctList.length > 0 && (
             <div className="concepts-section">
               <div className="concepts-section-header">
-                <span className="concepts-section-badge">Phần chính</span>
-                <h2 className="concepts-section-title">Kinh tế chính trị Mác-Lênin</h2>
+                <span className="concepts-section-badge">Chương 1</span>
+                <h2 className="concepts-section-title">Đảng ra đời và giành chính quyền</h2>
               </div>
               <div className="concepts-grid">
                 {ktctList.map((c, i) => (
                   <Link key={c._id} to={`/khai-niem/${c.slug}`} className={`concept-card concept-card--ktct stagger-${(i % 6) + 1}`}>
-                    <div className="concept-card-icon" aria-hidden="true">{'\u2692'}</div>
+                    <div className="concept-card-icon" aria-hidden="true">{'\u2605'}</div>
                     <div className="concept-card-body">
                       <h3>{c.title}</h3>
                       {c.school && <span className="badge badge-school">{c.school}</span>}
@@ -76,12 +72,12 @@ export default function Concepts() {
             </div>
           )}
 
-          {/* Triết học - Mở rộng */}
+          {/* Kháng chiến, thống nhất và đổi mới */}
           {otherList.length > 0 && (
             <div className="concepts-section concepts-section--ext">
               <div className="concepts-section-header">
-                <span className="concepts-section-badge concepts-section-badge--ext">Mở rộng</span>
-                <h2 className="concepts-section-title">Triết học</h2>
+                <span className="concepts-section-badge concepts-section-badge--ext">Chương 2-3</span>
+                <h2 className="concepts-section-title">Kháng chiến, thống nhất và đổi mới</h2>
               </div>
               <div className="concepts-grid">
                 {otherList.map((c, i) => (

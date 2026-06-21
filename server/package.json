@@ -1,7 +1,7 @@
 {
-  "name": "philosophy-website-server",
+  "name": "party-history-website-server",
   "version": "1.0.0",
-  "description": "Backend for modern philosophy website",
+  "description": "Backend for the Vietnamese Communist Party History learning website",
   "main": "index.js",
   "type": "module",
   "engines": {

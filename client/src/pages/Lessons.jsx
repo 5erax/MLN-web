@@ -8,7 +8,7 @@ export default function Lessons() {
         <span className="lessons-header-icon" aria-hidden="true">{'\u{1F4DA}'}</span>
         <h1 className="page-title">Bài học</h1>
         <p className="page-desc">
-          Các bài học chuyên sâu về Kinh tế chính trị Mác - Lênin, giúp bạn nắm vững lý luận và liên hệ thực tiễn.
+          Bài giảng bám theo tiến trình Lịch sử Đảng, giúp bạn hiểu bối cảnh, đường lối, diễn biến và bài học kinh nghiệm.
         </p>
       </div>
 

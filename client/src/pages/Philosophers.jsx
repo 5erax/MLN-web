@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { philosophers as api } from '../api';
 
-const KTCT_SCHOOLS = ['Chủ nghĩa Mác (Marxism)', 'Chủ nghĩa Mác-Lênin'];
+const RESISTANCE_PERIODS = ['Giai đoạn 1930-1945', 'Giai đoạn 1945-1975'];
 
 export default function Philosophers() {
   const [list, setList] = useState([]);
@@ -37,9 +37,8 @@ export default function Philosophers() {
     );
   }, [debouncedSearch, list]);
 
-  // Split into KTCT and others
-  const ktctFiltered = useMemo(() => filtered.filter(p => KTCT_SCHOOLS.includes(p.school)), [filtered]);
-  const otherFiltered = useMemo(() => filtered.filter(p => !KTCT_SCHOOLS.includes(p.school)), [filtered]);
+  const resistanceFiltered = useMemo(() => filtered.filter(p => RESISTANCE_PERIODS.includes(p.school)), [filtered]);
+  const renewalFiltered = useMemo(() => filtered.filter(p => !RESISTANCE_PERIODS.includes(p.school)), [filtered]);
 
   if (loading) return (
     <div className="page">
@@ -51,10 +50,10 @@ export default function Philosophers() {
     <div className="page phil-page">
       <div className="phil-header stagger-1">
         <div>
-          <h1 className="page-title">Nhà tư tưởng</h1>
-          <p className="page-desc">Chọn một nhà tư tưởng để xem tiểu sử và tư tưởng chính.</p>
+          <h1 className="page-title">Nhân vật lịch sử</h1>
+          <p className="page-desc">Tìm hiểu vai trò và đóng góp của các nhân vật tiêu biểu trong lịch sử Đảng.</p>
         </div>
-        <span className="phil-count">{list.length} nhà tư tưởng</span>
+        <span className="phil-count">{list.length} nhân vật</span>
       </div>
 
       {/* Search */}
@@ -66,9 +65,9 @@ export default function Philosophers() {
           type="text"
           value={search}
           onChange={handleSearch}
-          placeholder="Tìm theo tên, trường phái..."
+          placeholder="Tìm theo tên hoặc giai đoạn..."
           className="phil-search-input"
-           aria-label="Tìm kiếm nhà tư tưởng"
+           aria-label="Tìm kiếm nhân vật lịch sử"
         />
         {search && (
           <button type="button" className="phil-search-clear" onClick={() => setSearch('')} aria-label="Xóa tìm kiếm">
@@ -79,20 +78,20 @@ export default function Philosophers() {
 
       {filtered.length === 0 ? (
         <div className="empty-state stagger-3">
-          <div className="empty-icon" aria-hidden="true">{'\u2692'}</div>
-          <p>Không tìm thấy nhà tư tưởng nào phù hợp.</p>
+          <div className="empty-icon" aria-hidden="true">{'\u2605'}</div>
+          <p>Không tìm thấy nhân vật nào phù hợp.</p>
         </div>
       ) : (
         <>
-          {/* KTCT - Phần chính */}
-          {ktctFiltered.length > 0 && (
+          {/* Đấu tranh giành chính quyền và kháng chiến */}
+          {resistanceFiltered.length > 0 && (
             <div className="phil-section">
               <div className="phil-section-header">
-                <span className="phil-section-badge">Phần chính</span>
-                <h2 className="phil-section-title">Kinh tế chính trị Mác-Lênin</h2>
+                <span className="phil-section-badge">1930-1975</span>
+                <h2 className="phil-section-title">Đấu tranh giành chính quyền và kháng chiến</h2>
               </div>
               <div className="phil-grid">
-                {ktctFiltered.map((p, i) => (
+                {resistanceFiltered.map((p, i) => (
                   <Link key={p._id} to={`/triet-gia/${p.slug}`} className={`phil-card phil-card--ktct stagger-${(i % 7) + 1}`}>
                     <div className="phil-img-wrap">
                       {p.imageUrl ? (
@@ -114,15 +113,15 @@ export default function Philosophers() {
             </div>
           )}
 
-          {/* Triết học - Mở rộng */}
-          {otherFiltered.length > 0 && (
+          {/* Xây dựng đất nước và đổi mới */}
+          {renewalFiltered.length > 0 && (
             <div className="phil-section phil-section--ext">
               <div className="phil-section-header">
-                <span className="phil-section-badge phil-section-badge--ext">Mở rộng</span>
-                <h2 className="phil-section-title">Triết học</h2>
+                <span className="phil-section-badge phil-section-badge--ext">Từ 1975</span>
+                <h2 className="phil-section-title">Xây dựng đất nước và đổi mới</h2>
               </div>
               <div className="phil-grid">
-                {otherFiltered.map((p, i) => (
+                {renewalFiltered.map((p, i) => (
                   <Link key={p._id} to={`/triet-gia/${p.slug}`} className={`phil-card stagger-${(i % 7) + 1}`}>
                     <div className="phil-img-wrap">
                       {p.imageUrl ? (

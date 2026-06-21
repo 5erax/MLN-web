@@ -70,7 +70,7 @@ export default function LessonQuiz() {
             <h2>{passed ? 'Tuyệt vời! Bạn đã vượt qua!' : 'Chưa đạt — hãy thử lại!'}</h2>
             <p>
               {passed
-                ? `Bạn đã trả lời đúng ${score}/${totalQuestions} câu hỏi. Kiến thức về độc quyền của bạn rất tốt!`
+                ? `Bạn đã trả lời đúng ${score}/${totalQuestions} câu hỏi. Bạn đã nắm tốt nội dung bài học “${lesson.title}”!`
                 : `Bạn đã trả lời đúng ${score}/${totalQuestions} câu hỏi. Cần đúng ít nhất ${passingScore} câu để đạt. Hãy đọc lại bài học và thử lại!`}
             </p>
           </div>

@@ -3,11 +3,11 @@ import ReactMarkdown from 'react-markdown';
 import { chat as chatApi } from '../api';
 
 const SAMPLE_QUESTIONS = [
-  'Giá trị thặng dư theo Marx là gì?',
-  'Lenin nói gì về chủ nghĩa đế quốc?',
-  'Duy vật biện chứng và duy vật lịch sử',
-  'So sánh Marx và Engels',
-  'Đấu tranh giai cấp trong tư tưởng Mác',
+  'Vì sao Đảng Cộng sản Việt Nam ra đời là bước ngoặt lịch sử?',
+  'Ý nghĩa của Cách mạng Tháng Tám năm 1945?',
+  'Đường lối kháng chiến chống thực dân Pháp',
+  'Vì sao Đại hội VI mở ra thời kỳ đổi mới?',
+  'So sánh Cương lĩnh đầu tiên và Luận cương tháng 10/1930',
 ];
 
 export default function ChatBox({ user }) {
@@ -52,9 +52,9 @@ export default function ChatBox({ user }) {
           {/* Gradient header */}
           <div className="chat-header">
             <div className="chat-header-left">
-              <span className="chat-avatar" aria-hidden="true">{'\u2692'}</span>
+              <span className="chat-avatar" aria-hidden="true">{'\u2605'}</span>
               <div className="chat-header-info">
-                <span className="chat-header-title">Trợ lý KTCT</span>
+                <span className="chat-header-title">Trợ lý Lịch sử Đảng</span>
                 <span className="chat-header-status">
                   <span className="status-dot" aria-hidden="true" />
                   Sẵn sàng
@@ -69,9 +69,9 @@ export default function ChatBox({ user }) {
           <div className="chat-messages" ref={listRef}>
             {messages.length === 0 && !thinking && (
               <div className="chat-welcome">
-                <div className="chat-welcome-icon" aria-hidden="true">{'\u2692'}</div>
+                <div className="chat-welcome-icon" aria-hidden="true">{'\u2605'}</div>
                 <p className="chat-welcome-title">Xin chào!</p>
-                <p className="chat-welcome-desc">Tôi trả lời trong phạm vi <strong>kinh tế chính trị</strong> và <strong>triết học</strong>: nhà tư tưởng, trường phái, khái niệm.</p>
+                <p className="chat-welcome-desc">Tôi hỗ trợ nội dung <strong>Lịch sử Đảng Cộng sản Việt Nam</strong>: sự kiện, nhân vật, đường lối và văn kiện.</p>
                 <p className="chat-samples-label">Gợi ý câu hỏi:</p>
                 <div className="chat-samples">
                   {SAMPLE_QUESTIONS.map((q, i) => (
@@ -83,7 +83,7 @@ export default function ChatBox({ user }) {
             {messages.map((m, i) => (
               <div key={i} className={`chat-msg ${m.role}`}>
                 {m.role === 'assistant' && (
-                  <span className="msg-avatar" aria-hidden="true">{'\u2692'}</span>
+                  <span className="msg-avatar" aria-hidden="true">{'\u2605'}</span>
                 )}
                 {m.role === 'assistant' ? (
                   <div className="msg-content markdown"><ReactMarkdown>{m.content}</ReactMarkdown></div>
@@ -94,7 +94,7 @@ export default function ChatBox({ user }) {
             ))}
             {thinking && (
               <div className="chat-msg assistant">
-                <span className="msg-avatar" aria-hidden="true">{'\u2692'}</span>
+                <span className="msg-avatar" aria-hidden="true">{'\u2605'}</span>
                 <div className="msg-content thinking">
                   <span className="dot" /> <span className="dot" /> <span className="dot" />
                 </div>
@@ -107,7 +107,7 @@ export default function ChatBox({ user }) {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Hỏi về KTCT, nhà tư tưởng, trường phái..."
+              placeholder="Hỏi về sự kiện, nhân vật, đường lối..."
               maxLength={1000}
               aria-label="Tin nhắn"
             />

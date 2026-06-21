@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { SCHOOLS_DETAIL } from '../data/philosophyKnowledge.js';
+import { SCHOOLS_DETAIL } from '../data/partyHistoryKnowledge.js';
 
 const router = Router();
 

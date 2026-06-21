@@ -6,7 +6,14 @@ import Concept from '../models/Concept.js';
 import QuizResult from '../models/QuizResult.js';
 import PageView from '../models/PageView.js';
 import { optionalAuth } from '../middleware/auth.js';
-import { PHILOSOPHERS, SCHOOLS_DETAIL, TIMELINE } from '../data/philosophyKnowledge.js';
+import { CONCEPT_DETAILS, PHILOSOPHERS, SCHOOLS_DETAIL, TIMELINE } from '../data/partyHistoryKnowledge.js';
+
+const QUIZ_LEVELS = ['Nắm vững kiến thức', 'Đạt yêu cầu', 'Cần ôn thêm', 'Nên học lại bài'];
+const CURRENT_CHAT_TOPICS = [
+  ...Object.values(PHILOSOPHERS).map((person) => person.name),
+  ...Object.values(CONCEPT_DETAILS).map((concept) => concept.title),
+  'Lịch sử Đảng',
+];
 
 const router = Router();
 
@@ -171,7 +178,7 @@ router.get('/philosopher-richness', async (req, res) => {
 router.get('/top-philosophers', async (req, res) => {
   try {
     const topics = await ChatMessage.aggregate([
-      { $match: { role: 'user', topicDetected: { $exists: true, $ne: '' }, rejected: { $ne: true } } },
+      { $match: { role: 'user', topicDetected: { $in: CURRENT_CHAT_TOPICS }, rejected: { $ne: true } } },
       { $group: { _id: '$topicDetected', count: { $sum: 1 } } },
       { $sort: { count: -1 } },
       { $limit: 10 }
@@ -228,12 +235,14 @@ router.get('/recent-activity', async (req, res) => {
 // --- Quiz result distribution ---
 router.get('/quiz-distribution', async (req, res) => {
   try {
+    const filter = { primarySchool: { $in: QUIZ_LEVELS } };
     const [distribution, totalQuizzes] = await Promise.all([
       QuizResult.aggregate([
+        { $match: filter },
         { $group: { _id: '$primarySchool', count: { $sum: 1 } } },
         { $sort: { count: -1 } }
       ]),
-      QuizResult.countDocuments()
+      QuizResult.countDocuments(filter)
     ]);
     res.json({
       totalQuizzes,

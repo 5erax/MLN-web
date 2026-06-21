@@ -3,34 +3,27 @@ import { Link } from 'react-router-dom';
 import { quote, philosophers as philApi, schools as schoolsApi, timeline as timelineApi } from '../api';
 
 const FEATURES = [
-  { to: '/bai-hoc', title: 'Bài học KTCT', desc: 'Giá trị thặng dư, độc quyền, duy vật biện chứng, chủ nghĩa đế quốc...', icon: '📖' },
-  { to: '/triet-gia', title: 'Nhà tư tưởng', desc: 'Marx, Engels, Lenin, Socrates, Plato, Aristotle, Kant, Nietzsche...', icon: '📚' },
-  { to: '/khai-niem', title: 'Khái niệm', desc: 'Giá trị thặng dư, đấu tranh giai cấp, duy vật biện chứng, ý niệm...', icon: '💡' },
-  { to: '/so-sanh', title: 'So sánh tư tưởng', desc: 'Chọn hai nhà tư tưởng để so sánh quan điểm.', icon: '⚖' },
-  { to: '/thong-ke', title: 'Thống kê', desc: 'Nhà tư tưởng được hỏi nhiều nhất, chủ đề hot...', icon: '📊' },
+  { to: '/bai-hoc', title: 'Bài giảng', desc: 'Học theo tiến trình lịch sử, đường lối và các bước ngoặt lớn.', icon: '📖' },
+  { to: '/triet-gia', title: 'Nhân vật lịch sử', desc: 'Tìm hiểu vai trò và đóng góp của các lãnh đạo tiêu biểu.', icon: '📚' },
+  { to: '/khai-niem', title: 'Chủ đề - văn kiện', desc: 'Cương lĩnh, đường lối kháng chiến, đổi mới và hội nhập.', icon: '💡' },
+  { to: '/so-sanh', title: 'Đối chiếu nhân vật', desc: 'Đặt hai nhân vật cạnh nhau để nhận diện đóng góp.', icon: '⚖' },
+  { to: '/thong-ke', title: 'Thống kê học tập', desc: 'Theo dõi nội dung được quan tâm và hoạt động học tập.', icon: '📊' },
 ];
 
-const PHILOSOPHER_NAMES = ['Karl Marx', 'Friedrich Engels', 'V.I. Lenin', 'Socrates', 'Plato', 'Aristotle', 'Kant', 'Nietzsche', 'Marcus Aurelius', 'Khổng Tử', 'Lão Tử', 'Descartes', 'Sartre'];
+const PHILOSOPHER_NAMES = ['Hồ Chí Minh', 'Trần Phú', 'Lê Hồng Phong', 'Nguyễn Văn Cừ', 'Trường Chinh', 'Võ Nguyên Giáp', 'Lê Duẩn', 'Nguyễn Văn Linh'];
 
 const SCHOOL_ICONS = {
-  'Chủ nghĩa Mác (Marxism)': '⚒',
-  'Chủ nghĩa Mác-Lênin': '★',
-  'Triết học Hy Lạp cổ đại': '🏛',
-  'Khắc kỷ (Stoicism)': '🛡',
-  'Khai sáng Đức': '💡',
-  'Hiện sinh': '🌊',
-  'Nho giáo': '📜',
-  'Đạo giáo (Taoism)': '☯',
-  'Duy lý luận (Rationalism)': '🔬',
-  'Chủ nghĩa Hiện sinh': '🌊',
+  'Đảng ra đời và giành chính quyền': '★',
+  'Kháng chiến và thống nhất đất nước': '⚑',
+  'Xây dựng đất nước và đổi mới': '📈',
 };
 
-const KTCT_SCHOOLS = ['Chủ nghĩa Mác (Marxism)', 'Chủ nghĩa Mác-Lênin'];
+const RESISTANCE_PERIODS = ['Giai đoạn 1930-1945', 'Giai đoạn 1945-1975'];
 
 export default function Home({ user }) {
   const [dailyQuote, setDailyQuote] = useState(null);
-  const [ktctPhilosophers, setKtctPhilosophers] = useState([]);
-  const [otherPhilosophers, setOtherPhilosophers] = useState([]);
+  const [resistanceLeaders, setResistanceLeaders] = useState([]);
+  const [renewalLeaders, setRenewalLeaders] = useState([]);
   const [schoolsList, setSchoolsList] = useState([]);
   const [timelineData, setTimelineData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -44,8 +37,8 @@ export default function Home({ user }) {
     ]).then(([quoteRes, philRes, schoolRes, timelineRes]) => {
       setDailyQuote(quoteRes.quote);
       const all = philRes.philosophers || [];
-      setKtctPhilosophers(all.filter(p => KTCT_SCHOOLS.includes(p.school)));
-      setOtherPhilosophers(all.filter(p => !KTCT_SCHOOLS.includes(p.school)));
+      setResistanceLeaders(all.filter(p => RESISTANCE_PERIODS.includes(p.school)));
+      setRenewalLeaders(all.filter(p => !RESISTANCE_PERIODS.includes(p.school)));
       setSchoolsList(schoolRes.schools || []);
       setTimelineData(timelineRes.timeline || []);
       setLoading(false);
@@ -68,17 +61,17 @@ export default function Home({ user }) {
           <div className="hero-orb hero-orb-3" />
         </div>
         <div className="hero-inner">
-          <span className="hero-badge">Kinh tế chính trị Mác-Lênin</span>
+          <span className="hero-badge">Lịch sử Đảng Cộng sản Việt Nam</span>
           <h1 className="hero-title">
-            Kinh tế chính trị,<br />Nền tảng tư tưởng
+            Hiểu lịch sử,<br />Nắm vững đường lối
           </h1>
           <p className="hero-subtitle">
-            Khám phá kinh tế chính trị Mác-Lênin, các nhà tư tưởng vĩ đại và khái niệm nền tảng. 
-            Chatbot hỗ trợ học tập trong phạm vi kinh tế chính trị và triết học.
+            Học theo tiến trình từ khi Đảng ra đời, qua hai cuộc kháng chiến đến công cuộc đổi mới và hội nhập.
+            Trợ lý học tập giúp bạn tra cứu sự kiện, nhân vật, đường lối và văn kiện.
           </p>
           <div className="hero-actions">
-            <Link to="/triet-gia" className="btn btn-primary btn-lg">Khám phá nhà tư tưởng</Link>
-            <Link to="/trac-nghiem" className="btn btn-outline btn-lg">Bạn thuộc trường phái nào?</Link>
+            <Link to="/bai-hoc" className="btn btn-primary btn-lg">Bắt đầu bài giảng</Link>
+            <Link to="/trac-nghiem" className="btn btn-outline btn-lg">Kiểm tra kiến thức</Link>
           </div>
           <div className="hero-names" aria-hidden="true">
             {PHILOSOPHER_NAMES.map((n, i) => (
@@ -91,23 +84,23 @@ export default function Home({ user }) {
       {/* Stats Strip */}
       <section className="home-stats-strip stagger-1">
         <div className="home-stat-item">
-          <span className="home-stat-num">13</span>
-          <span className="home-stat-label">Nhà tư tưởng</span>
+          <span className="home-stat-num">8</span>
+          <span className="home-stat-label">Nhân vật</span>
         </div>
         <div className="home-stat-divider" />
         <div className="home-stat-item">
-          <span className="home-stat-num">9</span>
-          <span className="home-stat-label">Trường phái</span>
+          <span className="home-stat-num">3</span>
+          <span className="home-stat-label">Giai đoạn</span>
         </div>
         <div className="home-stat-divider" />
         <div className="home-stat-item">
-          <span className="home-stat-num">35+</span>
-          <span className="home-stat-label">Khái niệm</span>
+          <span className="home-stat-num">15</span>
+          <span className="home-stat-label">Chủ đề</span>
         </div>
         <div className="home-stat-divider" />
         <div className="home-stat-item">
-          <span className="home-stat-num">2500+</span>
-          <span className="home-stat-label">Năm lịch sử</span>
+          <span className="home-stat-num">95+</span>
+          <span className="home-stat-label">Năm lãnh đạo</span>
         </div>
       </section>
 
@@ -127,18 +120,18 @@ export default function Home({ user }) {
         </section>
       )}
 
-      {/* KTCT - Phần chính */}
-      {ktctPhilosophers.length > 0 && (
+      {/* Đấu tranh giành chính quyền và kháng chiến */}
+      {resistanceLeaders.length > 0 && (
         <section className="home-philosophers stagger-3">
           <div className="home-phil-header">
             <div>
-              <span className="home-section-badge">Phần chính</span>
-              <h2 className="section-title">Kinh tế chính trị Mác-Lênin</h2>
+              <span className="home-section-badge">1930-1975</span>
+              <h2 className="section-title">Nhân vật qua các chặng đấu tranh</h2>
             </div>
             <Link to="/triet-gia" className="btn btn-ghost btn-sm">Xem tất cả &rarr;</Link>
           </div>
           <div className="home-phil-grid">
-            {ktctPhilosophers.map((p, i) => (
+            {resistanceLeaders.map((p, i) => (
               <Link key={p._id} to={`/triet-gia/${p.slug}`} className={`home-phil-card home-phil-card--ktct stagger-${i + 3}`}>
                 <div className="home-phil-avatar">
                   {p.imageUrl ? (
@@ -156,18 +149,18 @@ export default function Home({ user }) {
         </section>
       )}
 
-      {/* Triết học mở rộng */}
-      {otherPhilosophers.length > 0 && (
+      {/* Đổi mới và phát triển */}
+      {renewalLeaders.length > 0 && (
         <section className="home-philosophers home-philosophers--ext stagger-4">
           <div className="home-phil-header">
             <div>
-              <span className="home-section-badge home-section-badge--ext">Mở rộng</span>
-              <h2 className="section-title">Triết học</h2>
+              <span className="home-section-badge home-section-badge--ext">Từ 1975</span>
+              <h2 className="section-title">Xây dựng đất nước và đổi mới</h2>
             </div>
             <Link to="/triet-gia" className="btn btn-ghost btn-sm">Xem tất cả &rarr;</Link>
           </div>
           <div className="home-phil-grid">
-            {otherPhilosophers.slice(0, 5).map((p, i) => (
+            {renewalLeaders.slice(0, 5).map((p, i) => (
               <Link key={p._id} to={`/triet-gia/${p.slug}`} className={`home-phil-card stagger-${i + 4}`}>
                 <div className="home-phil-avatar">
                   {p.imageUrl ? (
@@ -188,8 +181,8 @@ export default function Home({ user }) {
       {/* Schools Section */}
       {schoolsList.length > 0 && (
         <section className="home-schools stagger-4">
-          <h2 className="section-title">Các trường phái tư tưởng</h2>
-          <p className="home-schools-desc">Các trường phái tư tưởng chính được trình bày trong hệ thống, lấy kinh tế chính trị Mác-Lênin làm chủ đạo.</p>
+          <h2 className="section-title">Ba giai đoạn lịch sử chính</h2>
+          <p className="home-schools-desc">Nội dung bám theo cấu trúc ba chương chính của Giáo trình Lịch sử Đảng Cộng sản Việt Nam.</p>
           <div className="home-schools-grid">
             {schoolsList.map((s, i) => (
               <div key={s.name} className={`home-school-card stagger-${i + 4}`}>
@@ -221,7 +214,7 @@ export default function Home({ user }) {
       {timelineData.length > 0 && (
         <section className="home-timeline stagger-5">
           <h2 className="section-title">Dòng thời gian</h2>
-          <p className="home-timeline-desc">Những mốc quan trọng trong lịch sử tư tưởng và kinh tế chính trị.</p>
+          <p className="home-timeline-desc">Những mốc quan trọng trong quá trình Đảng lãnh đạo cách mạng Việt Nam.</p>
           <div className="timeline-container">
             <div className="timeline-line" aria-hidden="true" />
             {timelineData.map((item, i) => (
@@ -260,8 +253,8 @@ export default function Home({ user }) {
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </div>
           <div>
-            <h3>Chatbot Kinh tế chính trị</h3>
-            <p>Có thắc mắc? Hãy hỏi trợ lý ở góc phải màn hình. Chatbot trả lời trong phạm vi kinh tế chính trị và triết học.</p>
+            <h3>Trợ lý Lịch sử Đảng</h3>
+            <p>Hãy hỏi trợ lý ở góc phải về sự kiện, nhân vật, đường lối, đại hội hoặc văn kiện cần ôn tập.</p>
           </div>
         </div>
       </section>

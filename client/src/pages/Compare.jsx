@@ -41,15 +41,15 @@ export default function Compare() {
     <div className="page cmp-page">
       <div className="cmp-header stagger-1">
         <span className="cmp-icon" aria-hidden="true">⚖</span>
-        <h1 className="page-title">So sánh tư tưởng</h1>
-        <p className="page-desc">Chọn hai triết gia để so sánh quan điểm và tư tưởng chính.</p>
+        <h1 className="page-title">Đối chiếu nhân vật</h1>
+        <p className="page-desc">Chọn hai nhân vật để đối chiếu bối cảnh, vai trò và đóng góp lịch sử.</p>
       </div>
 
       {/* Selection form */}
       <div className="cmp-form stagger-2">
         <div className="cmp-select-group">
           <div className="cmp-select-wrap">
-            <label className="cmp-label">Triết gia 1</label>
+            <label className="cmp-label">Nhân vật 1</label>
             <select value={a} onChange={(e) => setA(e.target.value)} className="cmp-select">
               <option value="">-- Chọn --</option>
               {list.map((p) => (
@@ -61,7 +61,7 @@ export default function Compare() {
           <div className="cmp-vs" aria-hidden="true">VS</div>
 
           <div className="cmp-select-wrap">
-            <label className="cmp-label">Triết gia 2</label>
+            <label className="cmp-label">Nhân vật 2</label>
             <select value={b} onChange={(e) => setB(e.target.value)} className="cmp-select">
               <option value="">-- Chọn --</option>
               {list.map((p) => (
@@ -92,7 +92,7 @@ export default function Compare() {
                 <span className="badge badge-school">{p.school}</span>
                 <p className="cmp-col-summary">{p.summary}</p>
                 <div className="cmp-col-concepts">
-                  <h4>Tư tưởng chính</h4>
+                  <h4>Đóng góp nổi bật</h4>
                   <ul>
                     {p.concepts.slice(0, 4).map((c, i) => <li key={i}>{c}</li>)}
                   </ul>
@@ -107,7 +107,7 @@ export default function Compare() {
 
           {/* Tip */}
           <div className="cmp-tip">
-            <p>Bạn có thể hỏi chatbot: &ldquo;So sánh {comparison.p1.name} và {comparison.p2.name}&rdquo; để có thêm phân tích chi tiết.</p>
+            <p>Bạn có thể hỏi trợ lý: &ldquo;Đối chiếu {comparison.p1.name} và {comparison.p2.name}&rdquo; để có thêm phân tích.</p>
           </div>
         </div>
       )}
@@ -116,7 +116,7 @@ export default function Compare() {
         <div className="cmp-empty stagger-3">
           <div className="empty-state">
             <div className="empty-icon" aria-hidden="true">⚖</div>
-            <p>Chọn hai triết gia ở trên để bắt đầu so sánh.</p>
+            <p>Chọn hai nhân vật ở trên để bắt đầu đối chiếu.</p>
           </div>
         </div>
       )}

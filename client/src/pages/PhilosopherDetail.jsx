@@ -23,7 +23,7 @@ export default function PhilosopherDetail({ user }) {
     <div className="page page--narrow">
       <div className="empty-state">
         <div className="empty-icon" aria-hidden="true">?</div>
-        <p>Không tìm thấy nhà tư tưởng này.</p>
+        <p>Không tìm thấy nhân vật này.</p>
         <Link to="/triet-gia" className="btn btn-secondary btn-sm">Quay lại danh sách</Link>
       </div>
     </div>
@@ -40,7 +40,7 @@ export default function PhilosopherDetail({ user }) {
 
   return (
     <div className="page page--narrow pd-page">
-      <Link to="/triet-gia" className="back-link">&larr; Nhà tư tưởng</Link>
+      <Link to="/triet-gia" className="back-link">&larr; Nhân vật lịch sử</Link>
 
       <article className="pd-article">
         {/* Hero Header */}
@@ -96,7 +96,7 @@ export default function PhilosopherDetail({ user }) {
         {/* Concepts */}
         {philosopher.concepts && philosopher.concepts.length > 0 && (
           <section className="pd-section stagger-1">
-            <h2 className="section-title">Tư tưởng chính</h2>
+            <h2 className="section-title">Đóng góp nổi bật</h2>
             <div className="pd-concept-grid">
               {philosopher.concepts.map((c, i) => (
                 <div key={i} className={`pd-concept-card stagger-${(i % 5) + 2}`}>
@@ -111,7 +111,7 @@ export default function PhilosopherDetail({ user }) {
         {/* Quotes */}
         {quotes.length > 0 && (
           <section className="pd-section stagger-2">
-            <h2 className="section-title">Câu nói nổi tiếng</h2>
+            <h2 className="section-title">Trích dẫn tiêu biểu</h2>
             <div className="pd-quotes-grid">
               {quotes.map((q, i) => (
                 <div key={i} className={`pd-quote-card stagger-${(i % 4) + 2}`}>
@@ -127,7 +127,7 @@ export default function PhilosopherDetail({ user }) {
         {/* Works */}
         {works.length > 0 && (
           <section className="pd-section stagger-3">
-            <h2 className="section-title">Tác phẩm tiêu biểu</h2>
+            <h2 className="section-title">Văn kiện và dấu mốc tiêu biểu</h2>
             <div className="pd-works-list">
               {works.map((w, i) => (
                 <div key={i} className={`pd-work-card stagger-${(i % 4) + 2}`}>
@@ -150,7 +150,7 @@ export default function PhilosopherDetail({ user }) {
         {/* Influences */}
         {(influences.length > 0 || influencedBy.length > 0) && (
           <section className="pd-section stagger-4">
-            <h2 className="section-title">Ảnh hưởng</h2>
+            <h2 className="section-title">Cơ sở và ảnh hưởng</h2>
             <div className="pd-influence-grid">
               {influences.length > 0 && (
                 <div className="pd-influence-col">
@@ -185,10 +185,10 @@ export default function PhilosopherDetail({ user }) {
         {/* CTA */}
         <div className="pd-cta stagger-5">
           <div className="pd-cta-inner">
-            <p>Muốn tìm hiểu thêm? Hãy hỏi chatbot KTCT bên góc phải.</p>
+            <p>Muốn tìm hiểu thêm? Hãy hỏi trợ lý Lịch sử Đảng ở góc phải.</p>
             <div className="pd-cta-actions">
-              <Link to="/so-sanh" className="btn btn-outline btn-sm">So sánh với nhà tư tưởng khác</Link>
-              <Link to="/triet-gia" className="btn btn-ghost btn-sm">Xem tất cả nhà tư tưởng</Link>
+              <Link to="/so-sanh" className="btn btn-outline btn-sm">Đối chiếu với nhân vật khác</Link>
+              <Link to="/triet-gia" className="btn btn-ghost btn-sm">Xem tất cả nhân vật</Link>
             </div>
           </div>
         </div>

@@ -7,170 +7,157 @@ const router = Router();
 const QUIZ_QUESTIONS = [
   {
     id: '1',
-    question: 'Bạn tin rằng con người nên hành động thế nào?',
+    question: 'Đảng Cộng sản Việt Nam ra đời vào ngày nào?',
+    correctAnswer: 'b',
     options: [
-      { id: 'a', text: 'Theo bổn phận và quy luật phổ quát', school: 'Kant' },
-      { id: 'b', text: 'Vượt lên giá trị cũ, sáng tạo giá trị mới', school: 'Nietzsche' },
-      { id: 'c', text: 'Theo đức hạnh và trung đạo', school: 'Aristotle' },
-      { id: 'd', text: 'Chấp nhận số phận, kiểm soát phản ứng', school: 'Khắc kỷ' }
-    ]
+      { id: 'a', text: '3/2/1929' },
+      { id: 'b', text: '3/2/1930' },
+      { id: 'c', text: '2/9/1945' },
+      { id: 'd', text: '19/12/1946' },
+    ],
   },
   {
     id: '2',
-    question: 'Nguồn gốc tri thức quan trọng nhất là gì?',
+    question: 'Ai chủ trì Hội nghị thành lập Đảng đầu năm 1930?',
+    correctAnswer: 'a',
     options: [
-      { id: 'a', text: 'Đối thoại và chất vấn để tự phát hiện chân lý', school: 'Socrates' },
-      { id: 'b', text: 'Lý tính và các phạm trù', school: 'Kant' },
-      { id: 'c', text: 'Ý niệm bất biến vượt trên cảm giác', school: 'Plato' },
-      { id: 'd', text: 'Quan sát và logic quy nạp', school: 'Aristotle' }
-    ]
+      { id: 'a', text: 'Nguyễn Ái Quốc' },
+      { id: 'b', text: 'Trần Phú' },
+      { id: 'c', text: 'Lê Hồng Phong' },
+      { id: 'd', text: 'Nguyễn Văn Cừ' },
+    ],
   },
   {
     id: '3',
-    question: 'Đối với những điều không kiểm soát được, bạn thường:',
+    question: 'Hội nghị Trung ương 8 tháng 5/1941 đặt nhiệm vụ nào lên hàng đầu?',
+    correctAnswer: 'c',
     options: [
-      { id: 'a', text: 'Chấp nhận và tập trung vào điều mình kiểm soát được', school: 'Khắc kỷ' },
-      { id: 'b', text: 'Cố gắng vượt lên và biến nó thành sức mạnh', school: 'Nietzsche' },
-      { id: 'c', text: 'Suy xét theo lý tính và bổn phận', school: 'Kant' },
-      { id: 'd', text: 'Tìm trung đạo trong cảm xúc và hành vi', school: 'Aristotle' }
-    ]
+      { id: 'a', text: 'Công nghiệp hóa đất nước' },
+      { id: 'b', text: 'Cải cách ruộng đất' },
+      { id: 'c', text: 'Giải phóng dân tộc' },
+      { id: 'd', text: 'Hội nhập quốc tế' },
+    ],
   },
   {
     id: '4',
-    question: 'Khi gặp bất đồng quan điểm, bạn thường làm gì?',
+    question: 'Thắng lợi nào đưa đến sự ra đời của nước Việt Nam Dân chủ Cộng hòa?',
+    correctAnswer: 'd',
     options: [
-      { id: 'a', text: 'Đặt câu hỏi để cùng nhau tìm ra sự thật', school: 'Socrates' },
-      { id: 'b', text: 'Tìm điểm chung qua đạo đức và lễ nghĩa', school: 'Khổng Tử' },
-      { id: 'c', text: 'Giữ bình tĩnh và chấp nhận khác biệt', school: 'Khắc kỷ' },
-      { id: 'd', text: 'Phân tích logic để tìm ra ai đúng', school: 'Aristotle' }
-    ]
+      { id: 'a', text: 'Cao trào 1930-1931' },
+      { id: 'b', text: 'Phong trào dân chủ 1936-1939' },
+      { id: 'c', text: 'Chiến thắng Điện Biên Phủ' },
+      { id: 'd', text: 'Cách mạng Tháng Tám năm 1945' },
+    ],
   },
   {
     id: '5',
-    question: 'Điều gì quan trọng nhất trong cuộc sống?',
+    question: 'Đường lối kháng chiến chống thực dân Pháp có đặc điểm cơ bản nào?',
+    correctAnswer: 'a',
     options: [
-      { id: 'a', text: 'Sống có đức hạnh, giữ mối quan hệ tốt đẹp', school: 'Khổng Tử' },
-      { id: 'b', text: 'Tìm kiếm sự thật và hiểu chính mình', school: 'Socrates' },
-      { id: 'c', text: 'Tự do sáng tạo và vượt qua giới hạn', school: 'Nietzsche' },
-      { id: 'd', text: 'Hướng tới thế giới lý tưởng và cái đẹp', school: 'Plato' }
-    ]
+      { id: 'a', text: 'Toàn dân, toàn diện, trường kỳ, tự lực cánh sinh và tranh thủ quốc tế' },
+      { id: 'b', text: 'Chỉ dựa vào lực lượng quân sự chính quy' },
+      { id: 'c', text: 'Đánh nhanh để kết thúc chiến tranh ngay' },
+      { id: 'd', text: 'Phụ thuộc hoàn toàn vào viện trợ bên ngoài' },
+    ],
   },
   {
     id: '6',
-    question: 'Bạn nghĩ thế nào về đạo đức?',
+    question: 'Chiến thắng Điện Biên Phủ diễn ra vào ngày nào?',
+    correctAnswer: 'c',
     options: [
-      { id: 'a', text: 'Đạo đức là bổn phận phổ quát, ai cũng phải tuân theo', school: 'Kant' },
-      { id: 'b', text: 'Đạo đức là thói quen rèn luyện theo đức hạnh', school: 'Aristotle' },
-      { id: 'c', text: 'Đạo đức do kẻ mạnh sáng tạo, không phải bất biến', school: 'Nietzsche' },
-      { id: 'd', text: 'Đạo đức bắt đầu từ gia đình và mối quan hệ', school: 'Khổng Tử' }
-    ]
+      { id: 'a', text: '19/8/1945' },
+      { id: 'b', text: '2/9/1945' },
+      { id: 'c', text: '7/5/1954' },
+      { id: 'd', text: '30/4/1975' },
+    ],
   },
   {
     id: '7',
-    question: 'Bạn phản ứng thế nào khi đối mặt khó khăn?',
+    question: 'Đại hội III năm 1960 xác định cách mạng miền Bắc giữ vai trò nào?',
+    correctAnswer: 'b',
     options: [
-      { id: 'a', text: 'Xem khó khăn là cơ hội rèn nội tâm', school: 'Khắc kỷ' },
-      { id: 'b', text: 'Phân tích vấn đề một cách logic và hệ thống', school: 'Aristotle' },
-      { id: 'c', text: 'Tự hỏi "mình thật sự biết gì về vấn đề này?"', school: 'Socrates' },
-      { id: 'd', text: 'Biến đau khổ thành động lực để mạnh mẽ hơn', school: 'Nietzsche' }
-    ]
+      { id: 'a', text: 'Quyết định trực tiếp đối với giải phóng miền Nam' },
+      { id: 'b', text: 'Quyết định nhất đối với sự phát triển của toàn bộ cách mạng Việt Nam' },
+      { id: 'c', text: 'Chỉ hỗ trợ về ngoại giao' },
+      { id: 'd', text: 'Không liên quan đến cách mạng miền Nam' },
+    ],
   },
   {
     id: '8',
-    question: 'Theo bạn, bản chất của thực tại là gì?',
+    question: 'Sự kiện nào hoàn thành giải phóng miền Nam, thống nhất đất nước?',
+    correctAnswer: 'd',
     options: [
-      { id: 'a', text: 'Thực tại đích thực là thế giới ý niệm vĩnh cửu, vượt trên vật chất', school: 'Plato' },
-      { id: 'b', text: 'Thực tại gồm hai thực thể tách biệt: tư duy và vật chất', school: 'Descartes' },
-      { id: 'c', text: 'Thực tại tối cao là Đạo — vô hình nhưng vận hành vạn vật', school: 'Lão Tử' },
-      { id: 'd', text: 'Thực tại là vật chất cụ thể có hình thức và mục đích', school: 'Aristotle' }
-    ]
+      { id: 'a', text: 'Hiệp định Genève năm 1954' },
+      { id: 'b', text: 'Phong trào Đồng khởi' },
+      { id: 'c', text: 'Hiệp định Paris năm 1973' },
+      { id: 'd', text: 'Đại thắng mùa Xuân năm 1975' },
+    ],
   },
   {
     id: '9',
-    question: 'Tự do thật sự có nghĩa là gì với bạn?',
+    question: 'Đại hội nào khởi xướng công cuộc đổi mới toàn diện đất nước?',
+    correctAnswer: 'c',
     options: [
-      { id: 'a', text: 'Con người hoàn toàn tự do và phải chịu trách nhiệm tuyệt đối cho lựa chọn của mình', school: 'Sartre' },
-      { id: 'b', text: 'Tự do thật sự là tuân theo lý tính và bổn phận đạo đức', school: 'Kant' },
-      { id: 'c', text: 'Tự do là khả năng tự vượt qua giới hạn và sáng tạo giá trị của chính mình', school: 'Nietzsche' },
-      { id: 'd', text: 'Tự do nằm ở việc kiểm soát phản ứng nội tâm, không phải hoàn cảnh bên ngoài', school: 'Khắc kỷ' }
-    ]
+      { id: 'a', text: 'Đại hội IV năm 1976' },
+      { id: 'b', text: 'Đại hội V năm 1982' },
+      { id: 'c', text: 'Đại hội VI năm 1986' },
+      { id: 'd', text: 'Đại hội VII năm 1991' },
+    ],
   },
   {
     id: '10',
-    question: 'Khi đối diện với đau khổ và nghịch cảnh, bạn nghĩ ta nên:',
+    question: 'Bài học xuyên suốt nào thể hiện rõ trong lịch sử lãnh đạo của Đảng?',
+    correctAnswer: 'a',
     options: [
-      { id: 'a', text: 'Thuận theo tự nhiên, không cưỡng cầu — nước mềm nhưng thắng đá cứng', school: 'Lão Tử' },
-      { id: 'b', text: 'Đón nhận gian khó như bài tập rèn luyện đức hạnh và nghị lực', school: 'Khắc kỷ' },
-      { id: 'c', text: '"Điều không giết được tôi sẽ làm tôi mạnh mẽ hơn"', school: 'Nietzsche' },
-      { id: 'd', text: 'Đau khổ là trạng thái ta lựa chọn — ta hoàn toàn tự do để nhìn nhận nó khác đi', school: 'Sartre' }
-    ]
+      { id: 'a', text: 'Xuất phát từ thực tiễn, phát huy sức mạnh nhân dân và giữ vững độc lập tự chủ' },
+      { id: 'b', text: 'Sao chép nguyên mẫu kinh nghiệm nước ngoài' },
+      { id: 'c', text: 'Tách đấu tranh quân sự khỏi chính trị và ngoại giao' },
+      { id: 'd', text: 'Chỉ ưu tiên một lực lượng xã hội duy nhất' },
+    ],
   },
-  {
-    id: '11',
-    question: 'Phương pháp học hỏi và tìm kiếm tri thức lý tưởng nhất là gì?',
-    options: [
-      { id: 'a', text: 'Nhận ra mình không biết gì — đó là khởi đầu của tri thức chân thật', school: 'Socrates' },
-      { id: 'b', text: 'Hoài nghi triệt để mọi thứ cho đến khi tìm được chân lý không thể phủ nhận', school: 'Descartes' },
-      { id: 'c', text: 'Học phải gắn liền với thực hành và tu dưỡng đạo đức từng ngày', school: 'Khổng Tử' },
-      { id: 'd', text: 'Tri thức đến từ quan sát thực nghiệm và phân loại có hệ thống', school: 'Aristotle' }
-    ]
-  },
-  {
-    id: '12',
-    question: 'Theo bạn, mối quan hệ với người khác nên được xây dựng như thế nào?',
-    options: [
-      { id: 'a', text: 'Qua lễ nghĩa, nhân ái và ý thức về trách nhiệm trong từng vai trò xã hội', school: 'Khổng Tử' },
-      { id: 'b', text: 'Người khác là "địa ngục" — nhưng cũng là gương để ta nhận ra chính mình', school: 'Sartre' },
-      { id: 'c', text: 'Quan hệ tốt đẹp khi thuận tự nhiên, không cưỡng ép hay kiểm soát lẫn nhau', school: 'Lão Tử' },
-      { id: 'd', text: 'Luôn đối xử với người khác như mục đích tự thân, không phải phương tiện', school: 'Kant' }
-    ]
-  }
 ];
 
-const SCHOOL_DESCRIPTIONS = {
-  'Socrates': 'Bạn có xu hướng triết học Socrates: coi trọng đối thoại, chất vấn và "biết rằng mình không biết gì".',
-  'Plato': 'Bạn gần với tư tưởng Plato: tin vào ý niệm, lý tính và cấu trúc lý tưởng.',
-  'Aristotle': 'Bạn thiên về Aristotle: trung đạo, đức hạnh thực hành và logic.',
-  'Kant': 'Bạn gần với Kant: đạo đức bổn phận và mệnh lệnh nhất quyết.',
-  'Nietzsche': 'Bạn có nét Nietzsche: ý chí quyền lực, siêu nhân và sáng tạo giá trị.',
-  'Khắc kỷ': 'Bạn gần với Khắc kỷ: chấp nhận số phận, kiểm soát nội tâm.',
-  'Khổng Tử': 'Bạn gần với Khổng Tử: coi trọng đức hạnh, lễ nghĩa, mối quan hệ xã hội hài hòa.',
-  'Lão Tử': 'Bạn gần với tư tưởng Lão Tử và Đạo giáo: tin vào vô vi, thuận theo tự nhiên và sức mạnh tiềm ẩn của sự mềm mại, không cưỡng cầu.',
-  'Descartes': 'Bạn thiên về Descartes và Duy lý luận: đặt lý tính và tư duy làm nền tảng, hoài nghi có phương pháp để tìm đến chân lý vững chắc.',
-  'Sartre': 'Bạn gần với Sartre và triết học Hiện sinh: đề cao tự do tuyệt đối, trách nhiệm cá nhân và việc tự kiến tạo ý nghĩa cho cuộc đời mình.'
-};
-
-router.get('/questions', (req, res) => {
-  res.json({ questions: QUIZ_QUESTIONS });
+router.get('/questions', (_req, res) => {
+  const questions = QUIZ_QUESTIONS.map(({ correctAnswer, ...question }) => question);
+  res.json({ questions });
 });
 
 router.post('/submit', optionalAuth, async (req, res) => {
-  const { answers } = req.body; // { "1": "a", "2": "c", "3": "a" }
+  const { answers } = req.body;
   if (!answers || typeof answers !== 'object') {
-    return res.status(400).json({ error: 'answers required' });
+    return res.status(400).json({ error: 'Vui lòng gửi đầy đủ câu trả lời.' });
   }
-  const counts = {};
-  for (const q of QUIZ_QUESTIONS) {
-    const choiceId = answers[q.id];
-    const opt = q.options.find(o => o.id === choiceId);
-    if (opt) counts[opt.school] = (counts[opt.school] || 0) + 1;
-  }
-  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-  const top = sorted[0];
+
+  const correct = QUIZ_QUESTIONS.reduce(
+    (total, question) => total + (answers[question.id] === question.correctAnswer ? 1 : 0),
+    0
+  );
+  const total = QUIZ_QUESTIONS.length;
+  const primarySchool = correct >= 9
+    ? 'Nắm vững kiến thức'
+    : correct >= 7
+      ? 'Đạt yêu cầu'
+      : correct >= 5
+        ? 'Cần ôn thêm'
+        : 'Nên học lại bài';
+
   const result = {
-    primarySchool: top?.[0] || 'Khắc kỷ',
-    score: counts,
-    description: top ? SCHOOL_DESCRIPTIONS[top[0]] || 'Bạn có sự pha trộn nhiều trường phái.' : 'Hãy thử lại với đầy đủ câu trả lời.'
+    primarySchool,
+    score: { correct, total },
+    description: `Bạn trả lời đúng ${correct}/${total} câu. ${correct >= 7
+      ? 'Bạn đã nắm được các mốc và nội dung cơ bản của môn học.'
+      : 'Hãy xem lại bài học và dòng thời gian trước khi làm lại.'}`,
   };
 
-  // Save quiz result to DB
   try {
     await QuizResult.create({
       user: req.user?._id || null,
-      primarySchool: result.primarySchool,
-      score: counts,
+      primarySchool,
+      score: result.score,
     });
-  } catch { /* non-blocking */ }
+  } catch {
+    // Việc lưu thống kê không làm gián đoạn kết quả quiz.
+  }
 
   res.json(result);
 });

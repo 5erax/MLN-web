@@ -27,8 +27,8 @@ export default function Layout({ user, loading, onLogout }) {
   const navItems = [
     { to: '/', label: 'Trang chủ' },
     { to: '/bai-hoc', label: 'Bài học' },
-    { to: '/triet-gia', label: 'Nhà tư tưởng' },
-    { to: '/khai-niem', label: 'Khái niệm' },
+    { to: '/triet-gia', label: 'Nhân vật' },
+    { to: '/khai-niem', label: 'Chủ đề - văn kiện' },
     { to: '/so-sanh', label: 'So sánh' },
     { to: '/thong-ke', label: 'Thống kê' },
   ];
@@ -81,10 +81,10 @@ export default function Layout({ user, loading, onLogout }) {
       <header className={`site-header ${scrolled ? 'scrolled' : ''}`}>
         <div className="header-inner">
           <Link to="/" className="logo" onClick={() => setMenuOpen(false)}>
-            <span className="logo-icon" aria-hidden="true">{'\u2692'}</span>
+            <span className="logo-icon" aria-hidden="true">{'\u2605'}</span>
             <div className="logo-text-wrap">
-              <span className="logo-text">KTCT Mác-Lênin</span>
-              <span className="logo-sub">Kinh tế chính trị & Triết học</span>
+              <span className="logo-text">Lịch sử Đảng</span>
+              <span className="logo-sub">Đảng Cộng sản Việt Nam</span>
             </div>
           </Link>
           <nav className="nav nav-desktop">{navLinks}</nav>

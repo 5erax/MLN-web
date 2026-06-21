@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import ChatMessage from '../models/ChatMessage.js';
-import { getChatResponse } from '../data/philosophyKnowledge.js';
+import { getChatResponse } from '../data/partyHistoryKnowledge.js';
 import { optionalAuth } from '../middleware/auth.js';
 
 const router = Router();

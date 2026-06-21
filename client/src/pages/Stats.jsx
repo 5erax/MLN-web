@@ -71,12 +71,12 @@ export default function Stats() {
 // Human-readable page names for Vietnamese paths
 const PAGE_NAMES = {
   '/': 'Trang chủ',
-  '/triet-gia': 'Danh sách triết gia',
-  '/khai-niem': 'Khái niệm',
+  '/triet-gia': 'Danh sách nhân vật',
+  '/khai-niem': 'Chủ đề - văn kiện',
   '/bai-hoc': 'Bài học',
   '/dashboard': 'Dashboard',
   '/trac-nghiem': 'Trắc nghiệm',
-  '/so-sanh': 'So sánh triết gia',
+  '/so-sanh': 'Đối chiếu nhân vật',
   '/thong-ke': 'Thống kê',
 };
 
@@ -191,8 +191,8 @@ function UsersTab({ engagement, overview, quiz, chatAct, topP, hotQ, recent, vis
       {/* Quiz Distribution */}
       {quiz && quiz.totalQuizzes > 0 && (
         <section className="stats-section stagger-4">
-          <h2 className="section-title">Kết quả trắc nghiệm — Trường phái phổ biến</h2>
-          <p className="stats-section-desc">Phân bố trường phái triết học qua {quiz.totalQuizzes} lượt làm bài.</p>
+          <h2 className="section-title">Kết quả kiểm tra kiến thức</h2>
+          <p className="stats-section-desc">Phân bố mức độ hoàn thành qua {quiz.totalQuizzes} lượt làm bài.</p>
           <div className="quiz-dist-grid">
             {quiz.distribution.map((d, i) => (
               <div key={i} className="quiz-dist-card">
@@ -232,7 +232,7 @@ function UsersTab({ engagement, overview, quiz, chatAct, topP, hotQ, recent, vis
       {/* Top Philosophers from Chat */}
       {topP?.topics?.length > 0 && (
         <section className="stats-section stagger-6">
-          <h2 className="section-title">Triết gia được hỏi nhiều nhất</h2>
+          <h2 className="section-title">Chủ đề được hỏi nhiều nhất</h2>
           <div className="stat-bars">
             {topP.topics.map((t, i) => (
               <div key={i} className="stat-bar-row">
@@ -326,7 +326,7 @@ function UsersTab({ engagement, overview, quiz, chatAct, topP, hotQ, recent, vis
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
           </div>
           <h3>Chưa có nhiều dữ liệu</h3>
-          <p>Hãy đăng nhập, chat với trợ lý triết học và làm trắc nghiệm để thấy thống kê tại đây!</p>
+          <p>Hãy đăng nhập, hỏi trợ lý Lịch sử Đảng và làm bài kiểm tra để xem thống kê tại đây.</p>
           <div className="empty-actions">
             <Link to="/trac-nghiem" className="btn btn-primary">Làm trắc nghiệm</Link>
           </div>
@@ -351,15 +351,15 @@ function KnowledgeTab({ overview, schoolD, eraD, richness }) {
         <div className="stats-overview stagger-3">
           <div className="stat-card stat-card--accent">
             <span className="stat-card-value">{overview.totalPhilosophers}</span>
-            <span className="stat-card-label">Triết gia</span>
+            <span className="stat-card-label">Nhân vật</span>
           </div>
           <div className="stat-card">
             <span className="stat-card-value">{overview.totalSchools}</span>
-            <span className="stat-card-label">Trường phái</span>
+            <span className="stat-card-label">Giai đoạn</span>
           </div>
           <div className="stat-card">
             <span className="stat-card-value">{overview.totalConcepts}</span>
-            <span className="stat-card-label">Khái niệm</span>
+            <span className="stat-card-label">Chủ đề</span>
           </div>
           <div className="stat-card">
             <span className="stat-card-value">{overview.totalQuotes}</span>
@@ -379,8 +379,8 @@ function KnowledgeTab({ overview, schoolD, eraD, richness }) {
       {/* Philosopher Richness */}
       {items.length > 0 && (
         <section className="stats-section stagger-4">
-          <h2 className="section-title">Độ phong phú tri thức theo triết gia</h2>
-          <p className="stats-section-desc">Tổng khái niệm, trích dẫn và tác phẩm trong kho dữ liệu.</p>
+          <h2 className="section-title">Nội dung theo nhân vật</h2>
+          <p className="stats-section-desc">Tổng đóng góp, trích dẫn và văn kiện trong kho dữ liệu.</p>
           <div className="stat-bars">
             {items.map((p, i) => (
               <Link to={`/triet-gia/${p.slug}`} key={p.slug} className="stat-bar-row stat-bar-row--link">
@@ -388,9 +388,9 @@ function KnowledgeTab({ overview, schoolD, eraD, richness }) {
                   <span className="stat-bar-rank">{i + 1}</span>
                   <span className="stat-bar-name">{p.name}</span>
                   <span className="stat-bar-badges">
-                    <span className="stat-badge" title="Khái niệm">{p.concepts} kn</span>
+                    <span className="stat-badge" title="Đóng góp">{p.concepts} đg</span>
                     <span className="stat-badge stat-badge--gold" title="Trích dẫn">{p.quotes} td</span>
-                    <span className="stat-badge stat-badge--blue" title="Tác phẩm">{p.works} tp</span>
+                    <span className="stat-badge stat-badge--blue" title="Văn kiện và dấu mốc">{p.works} vk</span>
                   </span>
                 </div>
                 <div className="stat-bar-track">
@@ -405,7 +405,7 @@ function KnowledgeTab({ overview, schoolD, eraD, richness }) {
       {/* School Distribution */}
       {schools.length > 0 && (
         <section className="stats-section stagger-5">
-          <h2 className="section-title">Phân bố trường phái triết học</h2>
+          <h2 className="section-title">Nội dung theo giai đoạn lịch sử</h2>
           <div className="school-dist-grid">
             {schools.map((s, i) => (
               <div key={i} className="school-dist-card">
