@@ -95,7 +95,11 @@ export default function Footer() {
           margin-top: auto;
           color: var(--text-muted);
           background:
-            linear-gradient(180deg, rgba(255,255,255,0.92), rgba(250,249,246,0.98));
+            linear-gradient(
+              180deg,
+              rgba(255, 255, 255, 0.92),
+              rgba(250, 249, 246, 0.98)
+            );
           border-top: 1px solid rgba(226, 232, 240, 0.9);
         }
 
@@ -119,7 +123,7 @@ export default function Footer() {
         .footer-logo {
           display: inline-flex;
           align-items: center;
-          gap: 0.72rem;
+          gap: 0.78rem;
           color: var(--text);
           text-decoration: none;
           width: fit-content;
@@ -139,7 +143,7 @@ export default function Footer() {
           border-radius: 13px;
           background: var(--gradient-accent);
           color: white;
-          font-size: 1.2rem;
+          font-size: 1.15rem;
           font-weight: 900;
           box-shadow: 0 10px 22px rgba(44, 82, 130, 0.16);
         }
@@ -147,32 +151,35 @@ export default function Footer() {
         .footer-logo-text-wrap {
           display: flex;
           flex-direction: column;
-          gap: 0.05rem;
+          justify-content: center;
+          gap: 0.2rem;
           min-width: 0;
+          padding-top: 0.03rem;
         }
 
         .footer-logo-text {
           color: var(--text);
-          font-size: 1.22rem;
+          font-size: 1.18rem;
           font-weight: 900;
-          letter-spacing: -0.02em;
-          line-height: 1.05;
+          letter-spacing: -0.03em;
+          line-height: 1.12;
           white-space: nowrap;
         }
 
         .footer-logo-sub {
+          display: block;
           color: var(--text-light);
-          font-size: 0.62rem;
+          font-size: 0.6rem;
           font-weight: 800;
-          letter-spacing: 0.14em;
-          line-height: 1;
+          letter-spacing: 0.11em;
+          line-height: 1.25;
           text-transform: uppercase;
           white-space: nowrap;
         }
 
         .footer-desc {
           max-width: 430px;
-          margin: 0.7rem 0 0;
+          margin: 0.75rem 0 0;
           color: var(--text-muted);
           font-size: 0.9rem;
           line-height: 1.65;
@@ -291,19 +298,33 @@ export default function Footer() {
         }
 
         @media (max-width: 420px) {
-          .footer-logo-sub {
-            max-width: 230px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-
-          .footer-logo-text {
-            font-size: 1.08rem;
+          .footer-logo {
+            gap: 0.65rem;
           }
 
           .footer-logo-icon {
             width: 36px;
             height: 36px;
+            border-radius: 12px;
+            font-size: 1.05rem;
+          }
+
+          .footer-logo-text-wrap {
+            gap: 0.18rem;
+          }
+
+          .footer-logo-text {
+            font-size: 1.08rem;
+            line-height: 1.12;
+          }
+
+          .footer-logo-sub {
+            max-width: 230px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 0.52rem;
+            letter-spacing: 0.08em;
+            line-height: 1.25;
           }
         }
       `}</style>

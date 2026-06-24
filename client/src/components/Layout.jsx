@@ -269,76 +269,76 @@ export default function Layout({ user, loading, onLogout }) {
   }
 
   .logo {
-    color: var(--text);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    width: fit-content;
-    min-width: 0;
-    text-decoration: none;
-  }
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: fit-content;
+  min-width: 0;
+  text-decoration: none;
+}
 
-  .logo:hover {
-    text-decoration: none;
-  }
+.logo:hover {
+  text-decoration: none;
+}
 
-  .logo-icon {
-    width: 44px;
-    height: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--gradient-accent);
-    color: white;
-    border-radius: 14px;
-    font-family: var(--font-serif);
-    font-size: 1.35rem;
-    font-weight: 800;
-    box-shadow:
-      0 12px 28px rgba(44, 82, 130, 0.22),
-      inset 0 1px 0 rgba(255, 255, 255, 0.22);
-    flex-shrink: 0;
-    transition: transform var(--transition), box-shadow var(--transition);
-  }
+.logo-icon {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-accent);
+  color: white;
+  border-radius: 14px;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 800;
+  box-shadow:
+    0 12px 28px rgba(44, 82, 130, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  flex-shrink: 0;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
 
-  .logo:hover .logo-icon {
-    transform: translateY(-1px) scale(1.03);
-    box-shadow:
-      0 16px 34px rgba(44, 82, 130, 0.28),
-      inset 0 1px 0 rgba(255, 255, 255, 0.25);
-  }
+.logo:hover .logo-icon {
+  transform: translateY(-1px) scale(1.03);
+}
 
-  .logo-text-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 0.08rem;
-    min-width: 0;
-  }
+.logo-text-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.22rem;
+  min-width: 0;
+  padding-top: 0.05rem;
+}
 
-  .logo-text {
-    font-family: var(--font-serif);
-    font-size: 1.45rem;
-    font-weight: 850;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
-    color: var(--text);
-    white-space: nowrap;
-    transition: color var(--transition);
-  }
+.logo-text {
+  font-family: var(--font-sans);
+  font-size: 1.34rem;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  color: var(--text);
+  white-space: nowrap;
+  transition: color var(--transition);
+}
 
-  .logo-sub {
-    font-size: 0.68rem;
-    color: var(--text-light);
-    font-weight: 800;
-    letter-spacing: 0.17em;
-    text-transform: uppercase;
-    line-height: 1;
-    white-space: nowrap;
-  }
+.logo-sub {
+  display: block;
+  color: var(--text-light);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  line-height: 1.25;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
 
-  .logo:hover .logo-text {
-    color: var(--accent);
-  }
+.logo:hover .logo-text {
+  color: var(--accent);
+}
 
   .nav {
     display: flex;
@@ -788,49 +788,55 @@ export default function Layout({ user, loading, onLogout }) {
   }
 
   @media (max-width: 560px) {
-    .header-inner {
-      min-height: 64px;
-      padding: 0 1rem;
-      gap: 0.75rem;
-    }
-
-    .logo {
-      gap: 0.55rem;
-    }
-
-    .logo-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      font-size: 1.1rem;
-    }
-
-    .logo-text {
-      font-size: 1.08rem;
-      line-height: 1.1;
-    }
-
-    .logo-sub {
-      font-size: 0.52rem;
-      letter-spacing: 0.06em;
-      max-width: 210px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .menu-toggle {
-      width: 40px;
-      height: 40px;
-    }
-
-    .nav-overlay {
-      inset: 64px 0 0;
-    }
-
-    .nav-mobile.open {
-      max-height: calc(100dvh - 64px);
-    }
+  .header-inner {
+    min-height: 64px;
+    padding: 0 1rem;
+    gap: 0.75rem;
   }
+
+  .logo {
+    gap: 0.65rem;
+  }
+
+  .logo-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    font-size: 1.05rem;
+  }
+
+  .logo-text-wrap {
+    gap: 0.18rem;
+  }
+
+  .logo-text {
+    font-size: 1.08rem;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+  }
+
+  .logo-sub {
+    font-size: 0.52rem;
+    line-height: 1.25;
+    letter-spacing: 0.08em;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .menu-toggle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .nav-overlay {
+    inset: 64px 0 0;
+  }
+
+  .nav-mobile.open {
+    max-height: calc(100dvh - 64px);
+  }
+}
 
   @media (max-width: 360px) {
     .logo-sub {
