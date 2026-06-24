@@ -1,204 +1,226 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  sourceCategories,
-  sourceUsageRules,
+    sourceCategories,
+    sourceUsageRules,
 } from '../data/sourceLibraryData';
 
 export default function SourceLibrary() {
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [keyword, setKeyword] = useState('');
+    const [activeCategory, setActiveCategory] = useState('all');
+    const [keyword, setKeyword] = useState('');
 
-  const allSources = useMemo(() => {
-    return sourceCategories.flatMap((category) =>
-      category.sources.map((source) => ({
-        ...source,
-        categoryId: category.id,
-        categoryTitle: category.title,
-        categoryIcon: category.icon,
-      }))
-    );
-  }, []);
+    const allSources = useMemo(() => {
+        return sourceCategories.flatMap((category) =>
+            category.sources.map((source) => ({
+                ...source,
+                categoryId: category.id,
+                categoryTitle: category.title,
+                categoryIcon: category.icon,
+            }))
+        );
+    }, []);
 
-  const filteredSources = useMemo(() => {
-    const normalizedKeyword = keyword.trim().toLowerCase();
+    const filteredSources = useMemo(() => {
+        const normalizedKeyword = keyword.trim().toLowerCase();
 
-    return allSources.filter((source) => {
-      const matchesCategory =
-        activeCategory === 'all' || source.categoryId === activeCategory;
+        return allSources.filter((source) => {
+            const matchesCategory =
+                activeCategory === 'all' || source.categoryId === activeCategory;
 
-      const searchableText = [
-        source.title,
-        source.publisher,
-        source.type,
-        source.usage,
-        source.reliability,
-        source.categoryTitle,
-        ...(source.relatedLessons || []),
-      ]
-        .join(' ')
-        .toLowerCase();
+            const searchableText = [
+                source.title,
+                source.publisher,
+                source.type,
+                source.sourceType,
+                source.reliabilityLevel,
+                source.usage,
+                source.reliability,
+                source.categoryTitle,
+                ...(source.relatedLessons || []),
+            ]
+                .join(' ')
+                .toLowerCase();
 
-      const matchesKeyword =
-        !normalizedKeyword || searchableText.includes(normalizedKeyword);
+            const matchesKeyword =
+                !normalizedKeyword || searchableText.includes(normalizedKeyword);
 
-      return matchesCategory && matchesKeyword;
-    });
-  }, [activeCategory, keyword, allSources]);
+            return matchesCategory && matchesKeyword;
+        });
+    }, [activeCategory, keyword, allSources]);
 
-  return (
-    <div className="page page--wide source-page">
-      <header className="source-hero">
-        <span className="badge badge-school">Học liệu đáng tin cậy</span>
-        <h1 className="page-title">Nguồn học liệu Lịch sử Đảng</h1>
-        <p className="page-desc">
-          Tập hợp các nhóm giáo trình, văn kiện và tài liệu tham khảo để xây dựng bài học,
-          quiz và trò chơi ôn tập có cơ sở kiểm chứng rõ ràng.
-        </p>
+    return (
+        <div className="page page--wide source-page">
+            <header className="source-hero">
+                <span className="badge badge-school">Học liệu đáng tin cậy</span>
+                <h1 className="page-title">Nguồn học liệu Lịch sử Đảng</h1>
+                <p className="page-desc">
+                    Tập hợp các nhóm giáo trình, văn kiện và tài liệu tham khảo để xây dựng bài học,
+                    quiz và trò chơi ôn tập có cơ sở kiểm chứng rõ ràng.
+                </p>
 
-        <div className="source-hero-actions">
-          <Link to="/bai-hoc" className="btn btn-primary">
-            Xem bài học
-          </Link>
-          <Link to="/tro-choi-on-tap" className="btn btn-outline">
-            Ôn tập tương tác
-          </Link>
-        </div>
-      </header>
+                <div className="source-hero-actions">
+                    <Link to="/bai-hoc" className="btn btn-primary">
+                        Xem bài học
+                    </Link>
+                    <Link to="/tro-choi-on-tap" className="btn btn-outline">
+                        Ôn tập tương tác
+                    </Link>
+                </div>
+            </header>
 
-      <section className="source-rules">
-        <div className="source-section-heading">
-          <h2>Quy tắc sử dụng nguồn</h2>
-          <p>
-            Dùng các nguyên tắc này khi thêm bài mới, sửa nội dung hoặc tạo câu hỏi ôn tập.
-          </p>
-        </div>
-
-        <div className="source-rules-grid">
-          {sourceUsageRules.map((rule) => (
-            <article key={rule.title} className="source-rule-card">
-              <h3>{rule.title}</h3>
-              <p>{rule.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="source-filter-panel">
-        <div className="source-filter-top">
-          <div>
-            <h2>Thư viện nguồn</h2>
-            <p>
-              Lọc theo nhóm tài liệu hoặc tìm kiếm theo tên văn kiện, giáo trình, bài học liên quan.
-            </p>
-          </div>
-
-          <label className="source-search">
-            <span>Tìm kiếm</span>
-            <input
-              type="search"
-              value={keyword}
-              onChange={(event) => setKeyword(event.target.value)}
-              placeholder="Ví dụ: Cương lĩnh, đổi mới, Đại hội VI..."
-            />
-          </label>
-        </div>
-
-        <div className="source-tabs" aria-label="Lọc nguồn học liệu">
-          <button
-            type="button"
-            className={activeCategory === 'all' ? 'active' : ''}
-            onClick={() => setActiveCategory('all')}
-          >
-            Tất cả
-          </button>
-
-          {sourceCategories.map((category) => (
-            <button
-              key={category.id}
-              type="button"
-              className={activeCategory === category.id ? 'active' : ''}
-              onClick={() => setActiveCategory(category.id)}
-            >
-              <span aria-hidden="true">{category.icon}</span>
-              {category.title}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <section className="source-results">
-        <div className="source-result-count">
-          Hiển thị <strong>{filteredSources.length}</strong> nguồn học liệu
-        </div>
-
-        {filteredSources.length === 0 ? (
-          <div className="empty-state">
-            <div className="empty-icon" aria-hidden="true">
-              📚
-            </div>
-            <p>Không tìm thấy nguồn phù hợp với bộ lọc hiện tại.</p>
-          </div>
-        ) : (
-          <div className="source-grid">
-            {filteredSources.map((source) => (
-              <article key={source.id} className="source-card">
-                <div className="source-card-top">
-                  <span className="source-card-icon" aria-hidden="true">
-                    {source.categoryIcon}
-                  </span>
-                  <div>
-                    <span className="source-card-category">
-                      {source.categoryTitle}
-                    </span>
-                    <h3>{source.title}</h3>
-                  </div>
+            <section className="source-rules">
+                <div className="source-section-heading">
+                    <h2>Quy tắc sử dụng nguồn</h2>
+                    <p>
+                        Dùng các nguyên tắc này khi thêm bài mới, sửa nội dung hoặc tạo câu hỏi ôn tập.
+                    </p>
                 </div>
 
-                <dl className="source-meta">
-                  <div>
-                    <dt>Loại tài liệu</dt>
-                    <dd>{source.type}</dd>
-                  </div>
-                  <div>
-                    <dt>Đơn vị / giai đoạn</dt>
-                    <dd>{source.publisher}</dd>
-                  </div>
-                </dl>
-
-                <div className="source-info-block">
-                  <h4>Cách dùng trong web</h4>
-                  <p>{source.usage}</p>
-                </div>
-
-                <div className="source-info-block">
-                  <h4>Độ tin cậy</h4>
-                  <p>{source.reliability}</p>
-                </div>
-
-                <div className="source-related">
-                  <h4>Bài học liên quan</h4>
-                  <div className="source-related-tags">
-                    {source.relatedLessons.map((lesson) => (
-                      <span key={lesson}>{lesson}</span>
+                <div className="source-rules-grid">
+                    {sourceUsageRules.map((rule) => (
+                        <article key={rule.title} className="source-rule-card">
+                            <h3>{rule.title}</h3>
+                            <p>{rule.description}</p>
+                        </article>
                     ))}
-                  </div>
                 </div>
-              </article>
-            ))}
-          </div>
-        )}
-      </section>
+            </section>
 
-      <section className="source-next-step">
-        <h2>Bước nâng cấp tiếp theo</h2>
-        <p>
-          Sau khi có thư viện nguồn, nên gắn trường <code>sources</code> vào từng bài học
-          trong <code>lessonsData.js</code> để mỗi bài hiển thị nguồn tham khảo riêng.
-        </p>
-      </section>
+            <section className="source-filter-panel">
+                <div className="source-filter-top">
+                    <div>
+                        <h2>Thư viện nguồn</h2>
+                        <p>
+                            Lọc theo nhóm tài liệu hoặc tìm kiếm theo tên văn kiện, giáo trình, bài học liên quan.
+                        </p>
+                    </div>
 
-      <style>{`
+                    <label className="source-search">
+                        <span>Tìm kiếm</span>
+                        <input
+                            type="search"
+                            value={keyword}
+                            onChange={(event) => setKeyword(event.target.value)}
+                            placeholder="Ví dụ: Cương lĩnh, đổi mới, Đại hội VI..."
+                        />
+                    </label>
+                </div>
+
+                <div className="source-tabs" aria-label="Lọc nguồn học liệu">
+                    <button
+                        type="button"
+                        className={activeCategory === 'all' ? 'active' : ''}
+                        onClick={() => setActiveCategory('all')}
+                    >
+                        Tất cả
+                    </button>
+
+                    {sourceCategories.map((category) => (
+                        <button
+                            key={category.id}
+                            type="button"
+                            className={activeCategory === category.id ? 'active' : ''}
+                            onClick={() => setActiveCategory(category.id)}
+                        >
+                            <span aria-hidden="true">{category.icon}</span>
+                            {category.title}
+                        </button>
+                    ))}
+                </div>
+            </section>
+
+            <section className="source-results">
+                <div className="source-result-count">
+                    Hiển thị <strong>{filteredSources.length}</strong> nguồn học liệu
+                </div>
+
+                {filteredSources.length === 0 ? (
+                    <div className="empty-state">
+                        <div className="empty-icon" aria-hidden="true">
+                            📚
+                        </div>
+                        <p>Không tìm thấy nguồn phù hợp với bộ lọc hiện tại.</p>
+                    </div>
+                ) : (
+                    <div className="source-grid">
+                        {filteredSources.map((source) => (
+                            <article key={source.id} className="source-card">
+                                <div className="source-card-top">
+                                    <span className="source-card-icon" aria-hidden="true">
+                                        {source.categoryIcon}
+                                    </span>
+                                    <div>
+                                        <span className="source-card-category">
+                                            {source.categoryTitle}
+                                        </span>
+                                        <h3>{source.title}</h3>
+                                        {source.reliabilityLevel && (
+                                            <span className="source-reliability-badge">
+                                                {source.reliabilityLevel}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <dl className="source-meta">
+                                    <div>
+                                        <dt>Loại tài liệu</dt>
+                                        <dd>{source.type}</dd>
+                                    </div>
+                                    <div>
+                                        <dt>Nguồn / đơn vị</dt>
+                                        <dd>{source.publisher}</dd>
+                                    </div>
+                                    {source.sourceType && (
+                                        <div>
+                                            <dt>Nhóm nguồn</dt>
+                                            <dd>{source.sourceType}</dd>
+                                        </div>
+                                    )}
+                                </dl>
+
+                                <div className="source-info-block">
+                                    <h4>Cách dùng trong web</h4>
+                                    <p>{source.usage}</p>
+                                </div>
+
+                                <div className="source-info-block">
+                                    <h4>Độ tin cậy</h4>
+                                    <p>{source.reliability}</p>
+                                </div>
+
+                                <div className="source-related">
+                                    <h4>Bài học liên quan</h4>
+                                    <div className="source-related-tags">
+                                        {(source.relatedLessons || []).map((lesson) => (
+                                            <span key={lesson}>{lesson}</span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="source-card-actions">
+                                    {source.url ? (
+                                        <a
+                                            href={source.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="source-open-link"
+                                        >
+                                            Mở nguồn chính thống ↗
+                                        </a>
+                                    ) : (
+                                        <span className="source-no-link">
+                                            Tài liệu nội bộ / cần upload riêng
+                                        </span>
+                                    )}
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                )}
+            </section>
+
+            <style>{`
         .source-page {
           padding-bottom: 4rem;
         }
@@ -230,18 +252,16 @@ export default function SourceLibrary() {
           margin-bottom: 1.25rem;
         }
 
-        .source-section-heading h2,
-        .source-filter-top h2,
-        .source-next-step h2 {
+.source-section-heading h2,
+.source-filter-top h2 {
           font-family: var(--font-serif);
           color: var(--text);
           margin: 0 0 0.35rem;
           font-size: 1.45rem;
         }
 
-        .source-section-heading p,
-        .source-filter-top p,
-        .source-next-step p {
+.source-section-heading p,
+.source-filter-top p {
           color: var(--text-muted);
           margin: 0;
           line-height: 1.65;
@@ -482,23 +502,62 @@ export default function SourceLibrary() {
           font-size: 0.78rem;
           font-weight: 600;
         }
+.source-reliability-badge {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 0.45rem;
+  border-radius: 999px;
+  background: var(--accent-green-light);
+  color: var(--accent-green);
+  padding: 0.22rem 0.6rem;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
 
-        .source-next-step {
-          margin-top: 2rem;
-          background: var(--gradient-warm);
-          border: 1px solid var(--border-light);
-          border-radius: var(--radius-lg);
-          padding: 1.5rem;
-        }
+.source-meta {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
 
-        .source-next-step code {
-          background: rgba(255, 255, 255, 0.7);
-          border: 1px solid var(--border-light);
-          border-radius: var(--radius-xs);
-          padding: 0.1rem 0.3rem;
-          color: var(--accent);
-          font-size: 0.9em;
-        }
+.source-card-actions {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.source-open-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 42px;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: white;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.source-open-link:hover {
+  color: white;
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-accent);
+}
+
+.source-no-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 42px;
+  border-radius: var(--radius);
+  background: var(--bg-alt);
+  color: var(--text-light);
+  border: 1px dashed var(--border);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
 
         @media (max-width: 980px) {
           .source-rules-grid {
@@ -522,6 +581,6 @@ export default function SourceLibrary() {
           }
         }
       `}</style>
-    </div>
-  );
+        </div>
+    );
 }
