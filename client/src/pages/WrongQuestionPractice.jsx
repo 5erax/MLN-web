@@ -1,414 +1,413 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  examChapters,
-  examDifficulties,
-  examQuestionBank,
+    examChapters,
+    examDifficulties,
+    examQuestionBank,
 } from '../data/examQuestionBank';
 import {
-  clearWrongQuestions,
-  getWrongQuestionRecords,
-  getWrongQuestionSummary,
-  markWrongQuestionResolved,
-  removeWrongQuestion,
-  reopenWrongQuestion,
-  saveWrongQuestionAttempt,
+    clearWrongQuestions,
+    getWrongQuestionRecords,
+    getWrongQuestionSummary,
+    markWrongQuestionResolved,
+    removeWrongQuestion,
+    reopenWrongQuestion,
+    saveWrongQuestionAttempt,
 } from '../utils/wrongQuestionStore';
 
 const STATUS_FILTERS = [
-  { id: 'active', label: 'Đang cần ôn' },
-  { id: 'resolved', label: 'Đã xử lý' },
-  { id: 'all', label: 'Tất cả' },
+    { id: 'active', label: 'Đang cần ôn' },
+    { id: 'resolved', label: 'Đã xử lý' },
+    { id: 'all', label: 'Tất cả' },
 ];
 
 function shuffle(list) {
-  return [...list].sort(() => Math.random() - 0.5);
+    return [...list].sort(() => Math.random() - 0.5);
 }
 
 function getDifficultyLabel(id) {
-  return examDifficulties.find((item) => item.id === id)?.label || id;
+    return examDifficulties.find((item) => item.id === id)?.label || id;
 }
 
 function getChapterLabel(id) {
-  return examChapters.find((item) => item.id === id)?.label || id;
+    return examChapters.find((item) => item.id === id)?.label || id;
 }
 
 export default function WrongQuestionPractice() {
-  const [version, setVersion] = useState(0);
-  const [chapterId, setChapterId] = useState('all');
-  const [difficulty, setDifficulty] = useState('all');
-  const [statusFilter, setStatusFilter] = useState('active');
-  const [sessionQuestions, setSessionQuestions] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedOptionId, setSelectedOptionId] = useState(null);
+    const [version, setVersion] = useState(0);
+    const [chapterId, setChapterId] = useState('all');
+    const [difficulty, setDifficulty] = useState('all');
+    const [statusFilter, setStatusFilter] = useState('active');
+    const [sessionQuestions, setSessionQuestions] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [selectedOptionId, setSelectedOptionId] = useState(null);
 
-  const records = useMemo(() => getWrongQuestionRecords(), [version]);
-  const summary = useMemo(
-    () => getWrongQuestionSummary(examQuestionBank),
-    [version]
-  );
-
-  const wrongQuestions = useMemo(() => {
-    return examQuestionBank
-      .filter((question) => records[question.id])
-      .map((question) => ({
-        ...question,
-        wrongRecord: records[question.id],
-      }))
-      .filter((question) => {
-        const matchesChapter =
-          chapterId === 'all' || question.chapterId === chapterId;
-
-        const matchesDifficulty =
-          difficulty === 'all' || question.difficulty === difficulty;
-
-        const matchesStatus =
-          statusFilter === 'all' ||
-          (statusFilter === 'active' && !question.wrongRecord.resolved) ||
-          (statusFilter === 'resolved' && question.wrongRecord.resolved);
-
-        return matchesChapter && matchesDifficulty && matchesStatus;
-      });
-  }, [records, chapterId, difficulty, statusFilter]);
-
-  const currentQuestion = sessionQuestions[currentIndex];
-  const hasSession = sessionQuestions.length > 0;
-  const answered = Boolean(selectedOptionId);
-  const isCorrect =
-    answered && selectedOptionId === currentQuestion?.correctAnswer;
-
-  const startPractice = () => {
-    const selected = shuffle(wrongQuestions).map((question) => ({
-      ...question,
-      options: shuffle(question.options),
-    }));
-
-    setSessionQuestions(selected);
-    setCurrentIndex(0);
-    setSelectedOptionId(null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const resetPractice = () => {
-    setSessionQuestions([]);
-    setCurrentIndex(0);
-    setSelectedOptionId(null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleAnswer = (optionId) => {
-    if (!currentQuestion || selectedOptionId) return;
-
-    setSelectedOptionId(optionId);
-
-    if (optionId === currentQuestion.correctAnswer) {
-      markWrongQuestionResolved(currentQuestion.id);
-    } else {
-      saveWrongQuestionAttempt(currentQuestion, optionId);
-    }
-
-    setVersion((value) => value + 1);
-  };
-
-  const goNext = () => {
-    if (currentIndex + 1 >= sessionQuestions.length) {
-      resetPractice();
-      setVersion((value) => value + 1);
-      return;
-    }
-
-    setCurrentIndex((value) => value + 1);
-    setSelectedOptionId(null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleClearAll = () => {
-    const confirmed = window.confirm(
-      'Bạn có chắc muốn xóa toàn bộ danh sách câu sai trên trình duyệt này không?'
+    const records = useMemo(() => getWrongQuestionRecords(), [version]);
+    const summary = useMemo(
+        () => getWrongQuestionSummary(examQuestionBank),
+        [version]
     );
 
-    if (!confirmed) return;
+    const wrongQuestions = useMemo(() => {
+        return examQuestionBank
+            .filter((question) => records[question.id])
+            .map((question) => ({
+                ...question,
+                wrongRecord: records[question.id],
+            }))
+            .filter((question) => {
+                const matchesChapter =
+                    chapterId === 'all' || question.chapterId === chapterId;
 
-    clearWrongQuestions();
-    resetPractice();
-    setVersion((value) => value + 1);
-  };
+                const matchesDifficulty =
+                    difficulty === 'all' || question.difficulty === difficulty;
 
-  const handleRemoveQuestion = (questionId) => {
-    removeWrongQuestion(questionId);
-    setVersion((value) => value + 1);
-  };
+                const matchesStatus =
+                    statusFilter === 'all' ||
+                    (statusFilter === 'active' && !question.wrongRecord.resolved) ||
+                    (statusFilter === 'resolved' && question.wrongRecord.resolved);
 
-  const handleReopenQuestion = (questionId) => {
-    reopenWrongQuestion(questionId);
-    setVersion((value) => value + 1);
-  };
+                return matchesChapter && matchesDifficulty && matchesStatus;
+            });
+    }, [records, chapterId, difficulty, statusFilter]);
 
-  if (hasSession && currentQuestion) {
-    return (
-      <div className="page page--wide wrong-page">
-        <header className="wrong-session-header">
-          <div>
-            <span className="badge badge-school">Luyện lại câu sai</span>
-            <h1 className="page-title">Câu {currentIndex + 1}/{sessionQuestions.length}</h1>
-            <p className="page-desc">
-              Trả lời đúng để chuyển câu này sang trạng thái đã xử lý.
-            </p>
-          </div>
+    const currentQuestion = sessionQuestions[currentIndex];
+    const hasSession = sessionQuestions.length > 0;
+    const answered = Boolean(selectedOptionId);
+    const isCorrect =
+        answered && selectedOptionId === currentQuestion?.correctAnswer;
 
-          <button type="button" className="btn btn-outline" onClick={resetPractice}>
-            Thoát phiên luyện
-          </button>
-        </header>
+    const startPractice = () => {
+        const selected = shuffle(wrongQuestions).map((question) => ({
+            ...question,
+            options: shuffle(question.options),
+        }));
 
-        <section className={`wrong-question-card ${answered ? (isCorrect ? 'is-correct' : 'is-wrong') : ''}`}>
-          <div className="wrong-question-top">
-            <div>
-              <div className="wrong-question-tags">
-                <span>{currentQuestion.chapterLabel}</span>
-                <span>{getDifficultyLabel(currentQuestion.difficulty)}</span>
-                <span>Sai {currentQuestion.wrongRecord?.wrongCount || 1} lần</span>
-              </div>
+        setSessionQuestions(selected);
+        setCurrentIndex(0);
+        setSelectedOptionId(null);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
-              <h2>{currentQuestion.question}</h2>
-            </div>
-          </div>
+    const resetPractice = () => {
+        setSessionQuestions([]);
+        setCurrentIndex(0);
+        setSelectedOptionId(null);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
-          <div className="wrong-options">
-            {currentQuestion.options.map((option) => {
-              const isSelected = selectedOptionId === option.id;
-              const isRightOption =
-                answered && option.id === currentQuestion.correctAnswer;
-              const isWrongSelected =
-                answered && isSelected && option.id !== currentQuestion.correctAnswer;
+    const handleAnswer = (optionId) => {
+        if (!currentQuestion || selectedOptionId) return;
 
-              return (
-                <button
-                  key={option.id}
-                  type="button"
-                  className={`wrong-option ${isSelected ? 'is-selected' : ''} ${
-                    isRightOption ? 'is-right' : ''
-                  } ${isWrongSelected ? 'is-wrong' : ''}`}
-                  onClick={() => handleAnswer(option.id)}
-                >
-                  <span className="wrong-option-letter">
-                    {option.id.toUpperCase()}
-                  </span>
-                  <span>{option.text}</span>
-                </button>
-              );
-            })}
-          </div>
+        setSelectedOptionId(optionId);
 
-          {answered && (
-            <div className="wrong-feedback">
-              <h3>{isCorrect ? 'Đúng rồi — câu này đã được xử lý' : 'Chưa đúng — hãy đọc kỹ giải thích'}</h3>
-              <p>{currentQuestion.explanation}</p>
+        if (optionId === currentQuestion.correctAnswer) {
+            markWrongQuestionResolved(currentQuestion.id);
+        } else {
+            saveWrongQuestionAttempt(currentQuestion, optionId);
+        }
 
-              {currentQuestion.relatedLessonSlug && (
-                <Link
-                  to={`/bai-hoc/${currentQuestion.relatedLessonSlug}`}
-                  className="wrong-related-link"
-                >
-                  Xem lại bài học liên quan
-                </Link>
-              )}
-            </div>
-          )}
-        </section>
+        setVersion((value) => value + 1);
+    };
 
-        <div className="wrong-submit-bar">
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={goNext}
-            disabled={!answered}
-          >
-            {currentIndex + 1 >= sessionQuestions.length
-              ? 'Hoàn thành phiên luyện'
-              : 'Câu tiếp theo'}
-          </button>
-        </div>
+    const goNext = () => {
+        if (currentIndex + 1 >= sessionQuestions.length) {
+            resetPractice();
+            setVersion((value) => value + 1);
+            return;
+        }
 
-        <WrongQuestionStyle />
-      </div>
-    );
-  }
+        setCurrentIndex((value) => value + 1);
+        setSelectedOptionId(null);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
-  return (
-    <div className="page page--wide wrong-page">
-      <header className="wrong-hero">
-        <span className="badge badge-school">Luyện sai để nhớ lâu</span>
-        <h1 className="page-title">Luyện lại câu sai</h1>
-        <p className="page-desc">
-          Những câu bạn làm sai ở trang ôn thi sẽ được lưu tại đây. Khi trả lời đúng lại,
-          câu đó sẽ được chuyển sang trạng thái đã xử lý.
-        </p>
+    const handleClearAll = () => {
+        const confirmed = window.confirm(
+            'Bạn có chắc muốn xóa toàn bộ danh sách câu sai trên trình duyệt này không?'
+        );
 
-        <div className="wrong-hero-actions">
-          <Link to="/on-thi" className="btn btn-primary">
-            Làm đề ôn thi
-          </Link>
-          <Link to="/bai-hoc" className="btn btn-outline">
-            Xem bài học
-          </Link>
-          <button
-            type="button"
-            className="btn btn-ghost"
-            onClick={handleClearAll}
-            disabled={summary.totalRecords === 0}
-          >
-            Xóa danh sách câu sai
-          </button>
-        </div>
-      </header>
+        if (!confirmed) return;
 
-      <section className="wrong-summary-grid">
-        <SummaryCard label="Câu từng sai" value={summary.totalRecords} />
-        <SummaryCard label="Đang cần ôn" value={summary.activeCount} />
-        <SummaryCard label="Đã xử lý" value={summary.resolvedCount} />
-        <SummaryCard label="Tổng lượt sai" value={summary.totalWrongAttempts} />
-      </section>
+        clearWrongQuestions();
+        resetPractice();
+        setVersion((value) => value + 1);
+    };
 
-      <section className="wrong-toolbar">
-        <label>
-          <span>Chương</span>
-          <select
-            value={chapterId}
-            onChange={(event) => setChapterId(event.target.value)}
-          >
-            {examChapters.map((chapter) => (
-              <option key={chapter.id} value={chapter.id}>
-                {chapter.label}
-              </option>
-            ))}
-          </select>
-        </label>
+    const handleRemoveQuestion = (questionId) => {
+        removeWrongQuestion(questionId);
+        setVersion((value) => value + 1);
+    };
 
-        <label>
-          <span>Độ khó</span>
-          <select
-            value={difficulty}
-            onChange={(event) => setDifficulty(event.target.value)}
-          >
-            {examDifficulties.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.label}
-              </option>
-            ))}
-          </select>
-        </label>
+    const handleReopenQuestion = (questionId) => {
+        reopenWrongQuestion(questionId);
+        setVersion((value) => value + 1);
+    };
 
-        <label>
-          <span>Trạng thái</span>
-          <select
-            value={statusFilter}
-            onChange={(event) => setStatusFilter(event.target.value)}
-          >
-            {STATUS_FILTERS.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.label}
-              </option>
-            ))}
-          </select>
-        </label>
+    if (hasSession && currentQuestion) {
+        return (
+            <div className="page page--wide wrong-page">
+                <header className="wrong-session-header">
+                    <div>
+                        <span className="badge badge-school">Luyện lại câu sai</span>
+                        <h1 className="page-title">Câu {currentIndex + 1}/{sessionQuestions.length}</h1>
+                        <p className="page-desc">
+                            Trả lời đúng để chuyển câu này sang trạng thái đã xử lý.
+                        </p>
+                    </div>
 
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={startPractice}
-          disabled={wrongQuestions.length === 0}
-        >
-          Bắt đầu luyện {wrongQuestions.length} câu
-        </button>
-      </section>
+                    <button type="button" className="btn btn-outline" onClick={resetPractice}>
+                        Thoát phiên luyện
+                    </button>
+                </header>
 
-      {wrongQuestions.length === 0 ? (
-        <div className="empty-state">
-          <div className="empty-icon" aria-hidden="true">
-            🎯
-          </div>
-          <p>
-            Chưa có câu sai phù hợp với bộ lọc hiện tại. Hãy làm đề ở trang ôn thi trước.
-          </p>
-          <Link to="/on-thi" className="btn btn-primary btn-sm">
-            Đi tới ôn thi
-          </Link>
-        </div>
-      ) : (
-        <section className="wrong-list">
-          {wrongQuestions.map((question) => (
-            <article key={question.id} className="wrong-list-card">
-              <div className="wrong-list-main">
-                <div className="wrong-question-tags">
-                  <span>{getChapterLabel(question.chapterId)}</span>
-                  <span>{getDifficultyLabel(question.difficulty)}</span>
-                  <span>
-                    {question.wrongRecord.resolved ? 'Đã xử lý' : 'Đang cần ôn'}
-                  </span>
+                <section className={`wrong-question-card ${answered ? (isCorrect ? 'is-correct' : 'is-wrong') : ''}`}>
+                    <div className="wrong-question-top">
+                        <div>
+                            <div className="wrong-question-tags">
+                                <span>{currentQuestion.chapterLabel}</span>
+                                <span>{getDifficultyLabel(currentQuestion.difficulty)}</span>
+                                <span>Sai {currentQuestion.wrongRecord?.wrongCount || 1} lần</span>
+                            </div>
+
+                            <h2>{currentQuestion.question}</h2>
+                        </div>
+                    </div>
+
+                    <div className="wrong-options">
+                        {currentQuestion.options.map((option, optionIndex) => {
+                            const isSelected = selectedOptionId === option.id;
+                            const isRightOption =
+                                answered && option.id === currentQuestion.correctAnswer;
+                            const isWrongSelected =
+                                answered && isSelected && option.id !== currentQuestion.correctAnswer;
+
+                            return (
+                                <button
+                                    key={option.id}
+                                    type="button"
+                                    className={`wrong-option ${isSelected ? 'is-selected' : ''} ${isRightOption ? 'is-right' : ''
+                                        } ${isWrongSelected ? 'is-wrong' : ''}`}
+                                    onClick={() => handleAnswer(option.id)}
+                                >
+                                    <span className="wrong-option-letter">
+                                        {String.fromCharCode(65 + optionIndex)}
+                                    </span>
+                                    <span>{option.text}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {answered && (
+                        <div className="wrong-feedback">
+                            <h3>{isCorrect ? 'Đúng rồi — câu này đã được xử lý' : 'Chưa đúng — hãy đọc kỹ giải thích'}</h3>
+                            <p>{currentQuestion.explanation}</p>
+
+                            {currentQuestion.relatedLessonSlug && (
+                                <Link
+                                    to={`/bai-hoc/${currentQuestion.relatedLessonSlug}`}
+                                    className="wrong-related-link"
+                                >
+                                    Xem lại bài học liên quan
+                                </Link>
+                            )}
+                        </div>
+                    )}
+                </section>
+
+                <div className="wrong-submit-bar">
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={goNext}
+                        disabled={!answered}
+                    >
+                        {currentIndex + 1 >= sessionQuestions.length
+                            ? 'Hoàn thành phiên luyện'
+                            : 'Câu tiếp theo'}
+                    </button>
                 </div>
 
-                <h2>{question.question}</h2>
+                <WrongQuestionStyle />
+            </div>
+        );
+    }
 
-                <p>
-                  Sai <strong>{question.wrongRecord.wrongCount}</strong> lần.
-                  Lần sai gần nhất:{' '}
-                  <strong>
-                    {question.wrongRecord.lastWrongAt
-                      ? new Date(question.wrongRecord.lastWrongAt).toLocaleString('vi-VN')
-                      : 'Chưa rõ'}
-                  </strong>
+    return (
+        <div className="page page--wide wrong-page">
+            <header className="wrong-hero">
+                <span className="badge badge-school">Luyện sai để nhớ lâu</span>
+                <h1 className="page-title">Luyện lại câu sai</h1>
+                <p className="page-desc">
+                    Những câu bạn làm sai ở trang ôn thi sẽ được lưu tại đây. Khi trả lời đúng lại,
+                    câu đó sẽ được chuyển sang trạng thái đã xử lý.
                 </p>
-              </div>
 
-              <div className="wrong-list-actions">
-                {question.wrongRecord.resolved ? (
-                  <button
-                    type="button"
-                    className="btn btn-outline btn-sm"
-                    onClick={() => handleReopenQuestion(question.id)}
-                  >
-                    Đưa vào ôn lại
-                  </button>
-                ) : (
-                  <Link
-                    to={`/bai-hoc/${question.relatedLessonSlug}`}
-                    className="btn btn-outline btn-sm"
-                  >
-                    Xem bài học
-                  </Link>
-                )}
+                <div className="wrong-hero-actions">
+                    <Link to="/on-thi" className="btn btn-primary">
+                        Làm đề ôn thi
+                    </Link>
+                    <Link to="/bai-hoc" className="btn btn-outline">
+                        Xem bài học
+                    </Link>
+                    <button
+                        type="button"
+                        className="btn btn-ghost"
+                        onClick={handleClearAll}
+                        disabled={summary.totalRecords === 0}
+                    >
+                        Xóa danh sách câu sai
+                    </button>
+                </div>
+            </header>
+
+            <section className="wrong-summary-grid">
+                <SummaryCard label="Câu từng sai" value={summary.totalRecords} />
+                <SummaryCard label="Đang cần ôn" value={summary.activeCount} />
+                <SummaryCard label="Đã xử lý" value={summary.resolvedCount} />
+                <SummaryCard label="Tổng lượt sai" value={summary.totalWrongAttempts} />
+            </section>
+
+            <section className="wrong-toolbar">
+                <label>
+                    <span>Chương</span>
+                    <select
+                        value={chapterId}
+                        onChange={(event) => setChapterId(event.target.value)}
+                    >
+                        {examChapters.map((chapter) => (
+                            <option key={chapter.id} value={chapter.id}>
+                                {chapter.label}
+                            </option>
+                        ))}
+                    </select>
+                </label>
+
+                <label>
+                    <span>Độ khó</span>
+                    <select
+                        value={difficulty}
+                        onChange={(event) => setDifficulty(event.target.value)}
+                    >
+                        {examDifficulties.map((item) => (
+                            <option key={item.id} value={item.id}>
+                                {item.label}
+                            </option>
+                        ))}
+                    </select>
+                </label>
+
+                <label>
+                    <span>Trạng thái</span>
+                    <select
+                        value={statusFilter}
+                        onChange={(event) => setStatusFilter(event.target.value)}
+                    >
+                        {STATUS_FILTERS.map((item) => (
+                            <option key={item.id} value={item.id}>
+                                {item.label}
+                            </option>
+                        ))}
+                    </select>
+                </label>
 
                 <button
-                  type="button"
-                  className="btn btn-ghost btn-sm"
-                  onClick={() => handleRemoveQuestion(question.id)}
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={startPractice}
+                    disabled={wrongQuestions.length === 0}
                 >
-                  Xóa
+                    Bắt đầu luyện {wrongQuestions.length} câu
                 </button>
-              </div>
-            </article>
-          ))}
-        </section>
-      )}
+            </section>
 
-      <WrongQuestionStyle />
-    </div>
-  );
+            {wrongQuestions.length === 0 ? (
+                <div className="empty-state">
+                    <div className="empty-icon" aria-hidden="true">
+                        🎯
+                    </div>
+                    <p>
+                        Chưa có câu sai phù hợp với bộ lọc hiện tại. Hãy làm đề ở trang ôn thi trước.
+                    </p>
+                    <Link to="/on-thi" className="btn btn-primary btn-sm">
+                        Đi tới ôn thi
+                    </Link>
+                </div>
+            ) : (
+                <section className="wrong-list">
+                    {wrongQuestions.map((question) => (
+                        <article key={question.id} className="wrong-list-card">
+                            <div className="wrong-list-main">
+                                <div className="wrong-question-tags">
+                                    <span>{getChapterLabel(question.chapterId)}</span>
+                                    <span>{getDifficultyLabel(question.difficulty)}</span>
+                                    <span>
+                                        {question.wrongRecord.resolved ? 'Đã xử lý' : 'Đang cần ôn'}
+                                    </span>
+                                </div>
+
+                                <h2>{question.question}</h2>
+
+                                <p>
+                                    Sai <strong>{question.wrongRecord.wrongCount}</strong> lần.
+                                    Lần sai gần nhất:{' '}
+                                    <strong>
+                                        {question.wrongRecord.lastWrongAt
+                                            ? new Date(question.wrongRecord.lastWrongAt).toLocaleString('vi-VN')
+                                            : 'Chưa rõ'}
+                                    </strong>
+                                </p>
+                            </div>
+
+                            <div className="wrong-list-actions">
+                                {question.wrongRecord.resolved ? (
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline btn-sm"
+                                        onClick={() => handleReopenQuestion(question.id)}
+                                    >
+                                        Đưa vào ôn lại
+                                    </button>
+                                ) : (
+                                    <Link
+                                        to={`/bai-hoc/${question.relatedLessonSlug}`}
+                                        className="btn btn-outline btn-sm"
+                                    >
+                                        Xem bài học
+                                    </Link>
+                                )}
+
+                                <button
+                                    type="button"
+                                    className="btn btn-ghost btn-sm"
+                                    onClick={() => handleRemoveQuestion(question.id)}
+                                >
+                                    Xóa
+                                </button>
+                            </div>
+                        </article>
+                    ))}
+                </section>
+            )}
+
+            <WrongQuestionStyle />
+        </div>
+    );
 }
 
 function SummaryCard({ label, value }) {
-  return (
-    <article className="wrong-summary-card">
-      <strong>{value}</strong>
-      <span>{label}</span>
-    </article>
-  );
+    return (
+        <article className="wrong-summary-card">
+            <strong>{value}</strong>
+            <span>{label}</span>
+        </article>
+    );
 }
 
 function WrongQuestionStyle() {
-  return (
-    <style>{`
+    return (
+        <style>{`
       .wrong-page {
         padding-bottom: 4rem;
       }
@@ -720,5 +719,5 @@ function WrongQuestionStyle() {
         }
       }
     `}</style>
-  );
+    );
 }

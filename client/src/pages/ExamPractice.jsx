@@ -345,7 +345,7 @@ function ExamSession({
                             </div>
 
                             <div className="exam-options">
-                                {question.options.map((option) => {
+                                {question.options.map((option, optionIndex) => {
                                     const isSelected = selected === option.id;
                                     const isRightOption = submitted && option.id === question.correctAnswer;
                                     const isWrongSelected =
@@ -361,7 +361,7 @@ function ExamSession({
                                             onClick={() => chooseAnswer(question.id, option.id)}
                                         >
                                             <span className="exam-option-letter">
-                                                {option.id.toUpperCase()}
+                                                {String.fromCharCode(65 + optionIndex)}
                                             </span>
                                             <span>{option.text}</span>
                                         </button>
