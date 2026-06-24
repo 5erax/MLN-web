@@ -24,16 +24,17 @@ export default function Layout({ user, loading, onLogout }) {
     return location.pathname.startsWith(path);
   };
 
-     const navItems = [
-    { to: '/', label: 'Trang chủ' },
-    { to: '/bai-hoc', label: 'Bài học' },
-    { to: '/tro-choi-on-tap', label: 'Ôn tập' },
-    { to: '/nguon-hoc-lieu', label: 'Nguồn học liệu' },
-    { to: '/triet-gia', label: 'Nhân vật' },
-    { to: '/khai-niem', label: 'Chủ đề - văn kiện' },
-    { to: '/so-sanh', label: 'So sánh' },
-    { to: '/thong-ke', label: 'Thống kê' },
-  ];
+    const navItems = [
+  { to: '/', label: 'Trang chủ' },
+  { to: '/bai-hoc', label: 'Bài học' },
+  { to: '/tro-choi-on-tap', label: 'Ôn tập' },
+  { to: '/tien-do', label: 'Tiến độ' },
+  { to: '/nguon-hoc-lieu', label: 'Nguồn học liệu' },
+  { to: '/triet-gia', label: 'Nhân vật' },
+  { to: '/khai-niem', label: 'Chủ đề - văn kiện' },
+  { to: '/so-sanh', label: 'So sánh' },
+  { to: '/thong-ke', label: 'Thống kê' },
+];
 
   const navLinks = (
     <>

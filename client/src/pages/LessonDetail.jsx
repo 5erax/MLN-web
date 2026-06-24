@@ -1,11 +1,17 @@
+import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { lessons, lessonQuizzes } from '../data/lessonsData';
 import LessonSources from '../components/LessonSources';
+import { markLessonAsRead } from '../utils/learningProgress';
 export default function LessonDetail() {
   const { slug } = useParams();
   const lesson = lessons.find((l) => l.slug === slug);
   const hasQuiz = Boolean(lessonQuizzes[slug]);
-
+  useEffect(() => {
+    if (slug && lesson) {
+      markLessonAsRead(slug);
+    }
+  }, [slug, lesson]);
   if (!lesson)
     return (
       <div className="page page--narrow">

@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { lessons, lessonQuizzes } from '../data/lessonsData';
+import { saveLessonQuizResult } from '../utils/learningProgress';
 
 export default function LessonQuiz() {
   const { slug } = useParams();
@@ -46,7 +47,17 @@ export default function LessonQuiz() {
   );
   const passed = allAnswered && score >= passingScore;
   const percentage = allAnswered ? Math.round((score / totalQuestions) * 100) : 0;
+useEffect(() => {
+  if (!slug || !allAnswered) {
+    return;
+  }
 
+  saveLessonQuizResult(slug, {
+    score,
+    percentage,
+    passed,
+  });
+}, [slug, allAnswered, score, percentage, passed]);
   return (
     <div className="page page--quiz lq-page">
       <Link to={`/bai-hoc/${slug}`} className="back-link">

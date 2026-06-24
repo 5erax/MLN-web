@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
 import { lessons } from '../data/lessonsData';
+import LessonProgressBadge, {
+  lessonProgressBadgeStyle,
+} from '../components/LessonProgressBadge';
 
 export default function Lessons() {
   return (
@@ -29,7 +32,10 @@ export default function Lessons() {
                 {lesson.icon}
               </div>
               <div className="lesson-card-body">
-                <span className="badge badge-school">{lesson.category}</span>
+                <div className="lesson-card-badges">
+                  <span className="badge badge-school">{lesson.category}</span>
+                  <LessonProgressBadge slug={lesson.slug} />
+                </div>
                 <h3 className="lesson-card-title">{lesson.title}</h3>
                 <p className="lesson-card-desc">{lesson.description}</p>
                 <div className="lesson-card-meta">
@@ -108,7 +114,13 @@ export default function Lessons() {
           line-height: 1.55;
           margin: 0 0 0.75rem;
         }
-
+        .lesson-card-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
         .lesson-card-meta {
           display: flex;
           align-items: center;
@@ -139,6 +151,7 @@ export default function Lessons() {
             font-size: 1.8rem;
           }
         }
+          ${lessonProgressBadgeStyle}
       `}</style>
     </div>
   );
