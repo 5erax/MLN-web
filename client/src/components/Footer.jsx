@@ -1,141 +1,90 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { quote as quoteApi } from '../api';
 
-const HISTORY_FACTS = [
-  'Ngày 3/2/1930 được xác định là ngày thành lập Đảng Cộng sản Việt Nam.',
-  'Cương lĩnh chính trị đầu tiên đặt nhiệm vụ giải phóng dân tộc ở vị trí trọng yếu.',
-  'Mặt trận Việt Minh được thành lập tháng 5/1941 để tập hợp lực lượng cứu nước.',
-  'Cách mạng Tháng Tám năm 1945 giành chính quyền trên phạm vi cả nước trong thời gian ngắn.',
-  'Lời kêu gọi Toàn quốc kháng chiến được công bố ngày 19/12/1946.',
-  'Chiến thắng Điện Biên Phủ kết thúc ngày 7/5/1954.',
-  'Đại thắng mùa Xuân năm 1975 hoàn thành giải phóng miền Nam, thống nhất đất nước.',
-  'Đại hội VI năm 1986 khởi xướng công cuộc đổi mới toàn diện đất nước.',
-  'Cương lĩnh năm 1991 được bổ sung, phát triển tại Đại hội XI năm 2011.',
+const footerLinks = [
+  { to: '/bai-hoc', label: 'Bài học' },
+  { to: '/on-thi', label: 'Ôn thi' },
+  { to: '/tro-choi-on-tap', label: 'Ôn tập' },
+  { to: '/tien-do', label: 'Tiến độ' },
+];
+
+const resourceLinks = [
+  { to: '/triet-gia', label: 'Nhân vật' },
+  { to: '/khai-niem', label: 'Chủ đề - văn kiện' },
+  { to: '/nguon-hoc-lieu', label: 'Nguồn học liệu' },
+  { to: '/so-sanh', label: 'So sánh' },
 ];
 
 export default function Footer() {
-  const [dailyQuote, setDailyQuote] = useState(null);
-
-  useEffect(() => {
-    quoteApi.daily().then(({ quote: q }) => setDailyQuote(q)).catch(() => {});
-  }, []);
-
-  const fact = HISTORY_FACTS[new Date().getDate() % HISTORY_FACTS.length];
+  const year = new Date().getFullYear();
 
   return (
     <footer className="site-footer">
-      {/* Quote banner */}
-      {dailyQuote && (
-        <div className="footer-quote-banner">
-          <div className="footer-quote-inner">
-            <span className="footer-quote-mark" aria-hidden="true">&ldquo;</span>
-            <blockquote className="footer-quote-text">
-              {dailyQuote.text}
-            </blockquote>
-            <cite className="footer-quote-author">— {dailyQuote.author}</cite>
-          </div>
-        </div>
-      )}
-
       <div className="footer-inner">
-        {/* Main grid */}
-        <div className="footer-grid">
-          {/* Col 1: Brand */}
-          <div className="footer-col footer-col-brand">
+        <div className="footer-top">
+          <div className="footer-brand">
             <Link to="/" className="footer-logo">
-              <span className="footer-logo-icon" aria-hidden="true">{'\u2605'}</span>
+              <span className="footer-logo-icon" aria-hidden="true">
+                ★
+              </span>
+
               <div className="footer-logo-text-wrap">
                 <span className="footer-logo-text">Lịch sử Đảng</span>
-                <span className="footer-logo-sub">Đảng Cộng sản Việt Nam</span>
+                <span className="footer-logo-sub">
+                  Đảng Cộng sản Việt Nam
+                </span>
               </div>
             </Link>
+
             <p className="footer-desc">
-              Nền tảng học tập tương tác giúp hệ thống hóa tiến trình, đường lối và bài học kinh nghiệm trong lịch sử Đảng Cộng sản Việt Nam.
+              Nền tảng học tập giúp hệ thống hóa bài học, nhân vật, văn kiện,
+              câu hỏi ôn thi và nguồn tham khảo Lịch sử Đảng.
             </p>
-            <div className="footer-fact">
-              <span className="footer-fact-label">Bạn có biết?</span>
-              <p className="footer-fact-text">{fact}</p>
-            </div>
           </div>
 
-          {/* Col 2: Navigation */}
-          <div className="footer-col">
-            <span className="footer-col-title">Khám phá</span>
-            <nav className="footer-nav-links" aria-label="Điều hướng chân trang">
-              <Link to="/">Trang chủ</Link>
-              <Link to="/bai-hoc">Bài giảng</Link>
-              <Link to="/triet-gia">Nhân vật lịch sử</Link>
-              <Link to="/khai-niem">Chủ đề - văn kiện</Link>
-              <Link to="/so-sanh">Đối chiếu nhân vật</Link>
-              <Link to="/thong-ke">Thống kê</Link>
-              <Link to="/trac-nghiem">Kiểm tra kiến thức</Link>
-            </nav>
-          </div>
+          <nav className="footer-link-group" aria-label="Học tập">
+            <span className="footer-title">Học tập</span>
 
-          {/* Col 3: Features */}
-          <div className="footer-col">
-            <span className="footer-col-title">Tính năng</span>
-            <nav className="footer-nav-links">
-              <Link to="/bai-hoc">
-                <span className="footer-link-icon" aria-hidden="true">📖</span>
-                Bài giảng Lịch sử Đảng
-              </Link>
-              <Link to="/trac-nghiem">
-                <span className="footer-link-icon" aria-hidden="true">?</span>
-                Kiểm tra kiến thức
-              </Link>
-              <Link to="/so-sanh">
-                <span className="footer-link-icon" aria-hidden="true">⚖</span>
-                Đối chiếu nhân vật
-              </Link>
-              <Link to="/thong-ke">
-                <span className="footer-link-icon" aria-hidden="true">📊</span>
-                Thống kê tương tác
-              </Link>
-            </nav>
-          </div>
+            <div className="footer-links">
+              {footerLinks.map((item) => (
+                <Link key={item.to} to={item.to}>
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </nav>
 
-          {/* Col 4: Info */}
-          <div className="footer-col">
-            <span className="footer-col-title">Thông tin</span>
-            <div className="footer-info-list">
-              <div className="footer-info-item">
-                <span className="footer-info-label">Môn học</span>
-                <span className="footer-info-value">Lịch sử Đảng Cộng sản Việt Nam</span>
-              </div>
-              <div className="footer-info-item">
-                <span className="footer-info-label">Nhân vật</span>
-                <span className="footer-info-value">8 nhân vật tiêu biểu</span>
-              </div>
-              <div className="footer-info-item">
-                <span className="footer-info-label">Tiến trình</span>
-                <span className="footer-info-value">3 giai đoạn chính</span>
-              </div>
-              <div className="footer-info-item">
-                <span className="footer-info-label">Dữ liệu</span>
-                <span className="footer-info-value">Chỉ dùng cho giáo dục</span>
-              </div>
+          <nav className="footer-link-group" aria-label="Tra cứu">
+            <span className="footer-title">Tra cứu</span>
+
+            <div className="footer-links">
+              {resourceLinks.map((item) => (
+                <Link key={item.to} to={item.to}>
+                  {item.label}
+                </Link>
+              ))}
             </div>
-            <div className="footer-badges">
-              <span className="footer-badge">React</span>
-              <span className="footer-badge">Express</span>
-              <span className="footer-badge">MongoDB</span>
-            </div>
+          </nav>
+
+          <div className="footer-note">
+            <span className="footer-title">Ghi chú</span>
+
+            <p>
+              Nội dung dùng cho học tập, ôn luyện và tham khảo. Khi làm bài học
+              thuật, nên đối chiếu với giáo trình và văn kiện chính thống.
+            </p>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="footer-divider" />
-
-        {/* Bottom */}
         <div className="footer-bottom">
-          <div className="footer-bottom-left">
-            <p className="footer-copy">&copy; {new Date().getFullYear()} Lịch sử Đảng Cộng sản Việt Nam</p>
-            <p className="footer-copy-sub">Dữ liệu chỉ dùng cho mục đích giáo dục và phân tích nội bộ.</p>
-          </div>
-          <div className="footer-bottom-right">
-            <span className="footer-tech">Học tập tương tác &middot; {new Date().getFullYear()}</span>
+          <p>
+            © {year} Lịch sử Đảng Cộng sản Việt Nam. Dữ liệu phục vụ mục đích
+            giáo dục.
+          </p>
+
+          <div className="footer-badges" aria-label="Công nghệ">
+            <span>React</span>
+            <span>Express</span>
+            <span>MongoDB</span>
           </div>
         </div>
       </div>
@@ -144,278 +93,218 @@ export default function Footer() {
         .site-footer {
           flex-shrink: 0;
           margin-top: auto;
-          background: var(--bg-card);
-          border-top: 1px solid var(--border-light);
           color: var(--text-muted);
-          font-size: 0.88rem;
-          position: relative;
+          background:
+            linear-gradient(180deg, rgba(255,255,255,0.92), rgba(250,249,246,0.98));
+          border-top: 1px solid rgba(226, 232, 240, 0.9);
         }
 
-        /* ---- Quote banner ---- */
-        .footer-quote-banner {
-          background: var(--gradient-dark);
-          color: white;
-          padding: 1.75rem 1.5rem;
-          text-align: center;
-        }
-        .footer-quote-inner {
-          max-width: 700px;
-          margin: 0 auto;
-          position: relative;
-        }
-        .footer-quote-mark {
-          position: absolute;
-          top: -1.2rem;
-          left: -0.5rem;
-          font-family: var(--font-serif);
-          font-size: 4rem;
-          color: var(--accent-gold);
-          opacity: 0.3;
-          line-height: 1;
-          user-select: none;
-        }
-        .footer-quote-text {
-          margin: 0;
-          font-family: var(--font-serif);
-          font-size: 1.1rem;
-          font-style: italic;
-          line-height: 1.7;
-          color: rgba(255,255,255,0.9);
-        }
-        .footer-quote-author {
-          display: block;
-          margin-top: 0.75rem;
-          font-style: normal;
-          font-size: 0.88rem;
-          color: var(--accent-gold);
-          font-weight: 500;
-        }
-
-        /* ---- Inner container ---- */
         .footer-inner {
-          max-width: 1100px;
+          max-width: 1180px;
           margin: 0 auto;
-          padding: 2.5rem 1.5rem 1.5rem;
+          padding: 1.45rem 1.25rem 1rem;
         }
 
-        /* ---- Grid ---- */
-        .footer-grid {
+        .footer-top {
           display: grid;
-          grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
-          gap: 2.5rem;
+          grid-template-columns: minmax(280px, 1.45fr) 0.8fr 0.9fr minmax(230px, 1fr);
+          gap: 1.4rem;
+          align-items: start;
         }
 
-        /* ---- Brand column ---- */
-        .footer-col-brand {
-          display: flex;
-          flex-direction: column;
-          gap: 0.85rem;
+        .footer-brand {
+          min-width: 0;
         }
 
         .footer-logo {
-          display: flex;
+          display: inline-flex;
           align-items: center;
-          gap: 0.65rem;
+          gap: 0.72rem;
           color: var(--text);
           text-decoration: none;
+          width: fit-content;
         }
-        .footer-logo:hover { text-decoration: none; }
-        .footer-logo:hover .footer-logo-text { color: var(--accent); }
+
+        .footer-logo:hover {
+          text-decoration: none;
+        }
+
         .footer-logo-icon {
           width: 40px;
           height: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: var(--gradient-accent);
-          color: white;
-          border-radius: var(--radius-sm);
-          font-family: var(--font-serif);
-          font-size: 1.2rem;
-          font-weight: 600;
-          flex-shrink: 0;
-        }
-        .footer-logo-text-wrap { display: flex; flex-direction: column; }
-        .footer-logo-text {
-          font-family: var(--font-serif);
-          font-size: 1.25rem;
-          font-weight: 600;
-          line-height: 1.2;
-          color: var(--text);
-          transition: color var(--transition);
-        }
-        .footer-logo-sub {
-          font-size: 0.62rem;
-          color: var(--text-light);
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          line-height: 1.2;
-        }
-        .footer-desc {
-          color: var(--text-light);
-          font-size: 0.85rem;
-          margin: 0;
-          line-height: 1.6;
-        }
-        .footer-fact {
-          background: var(--accent-gold-light);
-          border: 1px solid rgba(197,165,90,0.15);
-          border-radius: var(--radius-sm);
-          padding: 0.75rem 0.85rem;
-        }
-        .footer-fact-label {
-          display: block;
-          font-size: 0.7rem;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-          color: var(--accent-gold);
-          margin-bottom: 0.25rem;
-        }
-        .footer-fact-text {
-          margin: 0;
-          font-size: 0.82rem;
-          color: var(--text-muted);
-          line-height: 1.5;
-        }
-
-        /* ---- Column headers ---- */
-        .footer-col-title {
-          display: block;
-          font-size: 0.72rem;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.08em;
-          color: var(--text);
-          margin-bottom: 0.85rem;
-        }
-
-        /* ---- Nav links ---- */
-        .footer-nav-links {
-          display: flex;
-          flex-direction: column;
-          gap: 0.35rem;
-        }
-        .footer-nav-links a {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          color: var(--text-muted);
-          font-size: 0.88rem;
-          padding: 0.25rem 0;
-          transition: color var(--transition), padding-left var(--transition);
-          text-decoration: none;
-        }
-        .footer-nav-links a:hover {
-          color: var(--accent);
-          padding-left: 4px;
-          text-decoration: none;
-        }
-        .footer-link-icon {
-          width: 20px;
-          height: 20px;
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          background: var(--accent-light);
-          color: var(--accent);
-          border-radius: 4px;
-          font-size: 0.7rem;
-          font-weight: 700;
           flex-shrink: 0;
+          border-radius: 13px;
+          background: var(--gradient-accent);
+          color: white;
+          font-size: 1.2rem;
+          font-weight: 900;
+          box-shadow: 0 10px 22px rgba(44, 82, 130, 0.16);
         }
 
-        /* ---- Info column ---- */
-        .footer-info-list {
+        .footer-logo-text-wrap {
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
-          margin-bottom: 0.85rem;
+          gap: 0.05rem;
+          min-width: 0;
         }
-        .footer-info-item {
-          display: flex;
-          flex-direction: column;
-          gap: 0.1rem;
+
+        .footer-logo-text {
+          color: var(--text);
+          font-size: 1.22rem;
+          font-weight: 900;
+          letter-spacing: -0.02em;
+          line-height: 1.05;
+          white-space: nowrap;
         }
-        .footer-info-label {
-          font-size: 0.68rem;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
+
+        .footer-logo-sub {
           color: var(--text-light);
+          font-size: 0.62rem;
+          font-weight: 800;
+          letter-spacing: 0.14em;
+          line-height: 1;
+          text-transform: uppercase;
+          white-space: nowrap;
         }
-        .footer-info-value {
-          font-size: 0.85rem;
+
+        .footer-desc {
+          max-width: 430px;
+          margin: 0.7rem 0 0;
           color: var(--text-muted);
+          font-size: 0.9rem;
+          line-height: 1.65;
         }
+
+        .footer-title {
+          display: block;
+          margin-bottom: 0.55rem;
+          color: var(--text);
+          font-size: 0.76rem;
+          font-weight: 900;
+          letter-spacing: 0.07em;
+          text-transform: uppercase;
+        }
+
+        .footer-links {
+          display: grid;
+          gap: 0.34rem;
+        }
+
+        .footer-links a {
+          width: fit-content;
+          color: var(--text-muted);
+          font-size: 0.88rem;
+          font-weight: 650;
+          line-height: 1.35;
+          text-decoration: none;
+          transition:
+            color var(--transition),
+            transform var(--transition);
+        }
+
+        .footer-links a:hover {
+          color: var(--accent);
+          transform: translateX(2px);
+          text-decoration: none;
+        }
+
+        .footer-note p {
+          margin: 0;
+          color: var(--text-muted);
+          font-size: 0.86rem;
+          line-height: 1.65;
+        }
+
+        .footer-bottom {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+          margin-top: 1.1rem;
+          padding-top: 0.85rem;
+          border-top: 1px solid rgba(226, 232, 240, 0.9);
+        }
+
+        .footer-bottom p {
+          margin: 0;
+          color: var(--text-light);
+          font-size: 0.8rem;
+          line-height: 1.5;
+        }
+
         .footer-badges {
           display: flex;
           flex-wrap: wrap;
+          justify-content: flex-end;
           gap: 0.35rem;
-        }
-        .footer-badge {
-          display: inline-block;
-          padding: 0.15rem 0.5rem;
-          background: var(--bg-alt);
-          border: 1px solid var(--border-light);
-          border-radius: 99px;
-          font-size: 0.68rem;
-          font-weight: 500;
-          color: var(--text-light);
-          letter-spacing: 0.02em;
+          flex-shrink: 0;
         }
 
-        /* ---- Divider ---- */
-        .footer-divider {
-          height: 1px;
-          background: var(--border-light);
-          margin: 2rem 0 1.25rem;
+        .footer-badges span {
+          display: inline-flex;
+          align-items: center;
+          min-height: 24px;
+          padding: 0 0.55rem;
+          border-radius: 999px;
+          color: var(--text-light);
+          background: white;
+          border: 1px solid rgba(226, 232, 240, 0.95);
+          font-size: 0.7rem;
+          font-weight: 800;
         }
 
-        /* ---- Bottom ---- */
-        .footer-bottom {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-          gap: 1rem;
-        }
-        .footer-copy {
-          margin: 0 0 0.2rem;
-          font-size: 0.82rem;
-          color: var(--text-muted);
-          font-weight: 500;
-        }
-        .footer-copy-sub {
-          margin: 0;
-          font-size: 0.75rem;
-          color: var(--text-light);
-        }
-        .footer-tech {
-          font-size: 0.75rem;
-          color: var(--text-light);
-          opacity: 0.7;
-          font-weight: 500;
-        }
-
-        /* ---- Mobile ---- */
-        @media (max-width: 900px) {
-          .footer-grid {
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+        @media (max-width: 980px) {
+          .footer-top {
+            grid-template-columns: 1.2fr 1fr 1fr;
           }
-          .footer-col-brand { grid-column: 1 / -1; }
+
+          .footer-brand {
+            grid-column: 1 / -1;
+          }
+
+          .footer-desc {
+            max-width: 620px;
+          }
         }
 
-        @media (max-width: 540px) {
-          .footer-grid {
+        @media (max-width: 700px) {
+          .footer-inner {
+            padding: 1.25rem 1rem 1rem;
+          }
+
+          .footer-top {
             grid-template-columns: 1fr;
-            gap: 1.75rem;
+            gap: 1.1rem;
           }
-          .footer-quote-banner { padding: 1.25rem 1rem; }
-          .footer-quote-text { font-size: 0.95rem; }
-          .footer-inner { padding: 2rem 1.25rem 1.25rem; }
-          .footer-nav-links a:hover { padding-left: 0; }
-          .footer-bottom { flex-direction: column; align-items: flex-start; }
+
+          .footer-bottom {
+            align-items: flex-start;
+            flex-direction: column;
+          }
+
+          .footer-badges {
+            justify-content: flex-start;
+          }
+        }
+
+        @media (max-width: 420px) {
+          .footer-logo-sub {
+            max-width: 230px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .footer-logo-text {
+            font-size: 1.08rem;
+          }
+
+          .footer-logo-icon {
+            width: 36px;
+            height: 36px;
+          }
         }
       `}</style>
     </footer>

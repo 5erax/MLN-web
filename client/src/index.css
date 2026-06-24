@@ -51,7 +51,15 @@
 /* ========== Reset & base ========== */
 *, *::before, *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  min-height: 100%;
+}
+
+body,
+#root {
+  min-height: 100%;
+}
 
 body {
   margin: 0;
@@ -109,10 +117,11 @@ a:hover { color: var(--accent-hover); }
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-height: 100dvh;
 }
+
 .app-main {
   flex: 1 0 auto;
-  min-height: 70vh;
 }
 
 /* ========== Global page layout ========== */
