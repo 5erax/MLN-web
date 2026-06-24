@@ -1,352 +1,733 @@
-import { useEffect, useState, useMemo, useCallback, useRef } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { philosophers as api } from '../api';
-import { staticPeople } from '../data/staticPartyHistoryData';
-const RESISTANCE_PERIODS = ['Giai đoạn 1930-1945', 'Giai đoạn 1945-1975'];
+import { concepts as api } from '../api';
+import { staticConcepts } from '../data/staticPartyHistoryData';
 
-export default function Philosophers() {
+const PERIOD_FILTERS = [
+  { id: 'all', label: 'Tất cả giai đoạn', shortLabel: 'Tất cả' },
+  { id: '1930-1945', label: '1930-1945', shortLabel: '1930-1945' },
+  { id: '1945-1975', label: '1945-1975', shortLabel: '1945-1975' },
+  { id: 'Từ 1975', label: 'Từ 1975', shortLabel: 'Từ 1975' },
+];
+
+const PERIOD_META = {
+  '1930-1945': {
+    title: 'Đảng ra đời và giành chính quyền',
+    badge: 'Chương 1',
+    icon: '★',
+    description:
+      'Các chủ đề về sự ra đời của Đảng, Cương lĩnh đầu tiên, chuyển hướng chiến lược và Cách mạng Tháng Tám.',
+  },
+  '1945-1975': {
+    title: 'Kháng chiến và thống nhất đất nước',
+    badge: 'Chương 2',
+    icon: '⚑',
+    description:
+      'Các chủ đề về kháng chiến chống Pháp, chống Mỹ, chiến tranh nhân dân, ngoại giao và thống nhất đất nước.',
+  },
+  'Từ 1975': {
+    title: 'Xây dựng đất nước và đổi mới',
+    badge: 'Chương 3',
+    icon: '📈',
+    description:
+      'Các chủ đề về đổi mới, kinh tế thị trường định hướng xã hội chủ nghĩa, công nghiệp hóa và hội nhập quốc tế.',
+  },
+};
+
+function normalizeText(value = '') {
+  return value
+    .toString()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd');
+}
+
+function getPeriodKey(concept) {
+  const school = concept.school || '';
+
+  if (school.includes('1930')) return '1930-1945';
+  if (school.includes('1945')) return '1945-1975';
+  if (school.includes('1975')) return 'Từ 1975';
+
+  return 'Khác';
+}
+
+function getConceptIcon(concept) {
+  const period = getPeriodKey(concept);
+  return PERIOD_META[period]?.icon || '📄';
+}
+
+export default function Concepts() {
   const [list, setList] = useState([]);
-  const [search, setSearch] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [keyword, setKeyword] = useState('');
+  const [activePeriod, setActivePeriod] = useState('all');
   const [loading, setLoading] = useState(true);
-  const debounceRef = useRef(null);
+  const [usedFallback, setUsedFallback] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
+    setUsedFallback(false);
+
     api.list()
-      .then(({ philosophers }) => {
-        const nextList = philosophers?.length ? philosophers : staticPeople;
+      .then(({ concepts: c }) => {
+        const nextList = c?.length ? c : staticConcepts;
         setList(nextList);
+        setUsedFallback(!c?.length);
         setLoading(false);
       })
       .catch(() => {
-        setList(staticPeople);
+        setList(staticConcepts);
+        setUsedFallback(true);
         setLoading(false);
       });
   }, []);
 
-  // Debounce search input (300ms)
-  const handleSearch = useCallback((e) => {
-    const val = e.target.value;
-    setSearch(val);
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => setDebouncedSearch(val), 300);
-  }, []);
+  const summary = useMemo(() => {
+    return {
+      total: list.length,
+      early: list.filter((item) => getPeriodKey(item) === '1930-1945').length,
+      resistance: list.filter((item) => getPeriodKey(item) === '1945-1975')
+        .length,
+      renewal: list.filter((item) => getPeriodKey(item) === 'Từ 1975').length,
+    };
+  }, [list]);
 
-  // Memoized filtered list
-  const filtered = useMemo(() => {
-    if (!debouncedSearch.trim()) return list;
-    const q = debouncedSearch.toLowerCase();
-    return list.filter(p =>
-      p.name.toLowerCase().includes(q) ||
-      (p.nameVi && p.nameVi.toLowerCase().includes(q)) ||
-      (p.school && p.school.toLowerCase().includes(q))
+  const filteredConcepts = useMemo(() => {
+    const q = normalizeText(keyword.trim());
+
+    return list.filter((concept) => {
+      const period = getPeriodKey(concept);
+      const matchesPeriod = activePeriod === 'all' || period === activePeriod;
+
+      const searchableText = normalizeText(
+        [
+          concept.title,
+          concept.school,
+          concept.description,
+          period,
+          PERIOD_META[period]?.title,
+        ]
+          .filter(Boolean)
+          .join(' ')
+      );
+
+      const matchesKeyword = !q || searchableText.includes(q);
+
+      return matchesPeriod && matchesKeyword;
+    });
+  }, [list, keyword, activePeriod]);
+
+  const groupedConcepts = useMemo(() => {
+    return filteredConcepts.reduce((groups, concept) => {
+      const period = getPeriodKey(concept);
+      if (!groups[period]) groups[period] = [];
+      groups[period].push(concept);
+      return groups;
+    }, {});
+  }, [filteredConcepts]);
+
+  const clearFilters = () => {
+    setKeyword('');
+    setActivePeriod('all');
+  };
+
+  if (loading) {
+    return (
+      <div className="page page--narrow">
+        <div className="loading-wrap">
+          <div className="loading-spinner" aria-label="Đang tải" />
+          <span className="loading-text">Đang tải chủ đề...</span>
+        </div>
+      </div>
     );
-  }, [debouncedSearch, list]);
-
-  const resistanceFiltered = useMemo(() => filtered.filter(p => RESISTANCE_PERIODS.includes(p.school)), [filtered]);
-  const renewalFiltered = useMemo(() => filtered.filter(p => !RESISTANCE_PERIODS.includes(p.school)), [filtered]);
-
-  if (loading) return (
-    <div className="page">
-      <div className="loading-wrap"><div className="loading-spinner" aria-label="Đang tải" /><span className="loading-text">Đang tải...</span></div>
-    </div>
-  );
+  }
 
   return (
-    <div className="page phil-page">
-      <div className="phil-header stagger-1">
-        <div>
-          <h1 className="page-title">Nhân vật lịch sử</h1>
-          <p className="page-desc">Tìm hiểu vai trò và đóng góp của các nhân vật tiêu biểu trong lịch sử Đảng.</p>
-        </div>
-        <span className="phil-count">{list.length} nhân vật</span>
-      </div>
+    <div className="page page--wide concepts-page">
+      <header className="concepts-hero">
+        <div className="concepts-hero-content">
+          <span className="badge badge-school">Chủ đề - Văn kiện</span>
 
-      {/* Search */}
-      <div className="phil-search stagger-2">
-        <div className="phil-search-icon" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
+          <h1 className="page-title">Thư viện chủ đề và văn kiện</h1>
+
+          <p className="page-desc">
+            Tra cứu các khái niệm, đường lối, sự kiện và văn kiện cốt lõi theo
+            tiến trình Lịch sử Đảng Cộng sản Việt Nam.
+          </p>
+
+          <div className="concepts-hero-actions">
+            <Link to="/bai-hoc" className="btn btn-primary">
+              Học theo bài
+            </Link>
+            <Link to="/nguon-hoc-lieu" className="btn btn-outline">
+              Xem nguồn học liệu
+            </Link>
+          </div>
+
+          {usedFallback && (
+            <div className="concepts-fallback-note">
+              Đang dùng dữ liệu dự phòng vì API chưa trả dữ liệu hoặc đang tạm
+              thời không khả dụng.
+            </div>
+          )}
         </div>
-        <input
-          type="text"
-          value={search}
-          onChange={handleSearch}
-          placeholder="Tìm theo tên hoặc giai đoạn..."
-          className="phil-search-input"
-          aria-label="Tìm kiếm nhân vật lịch sử"
-        />
-        {search && (
-          <button type="button" className="phil-search-clear" onClick={() => setSearch('')} aria-label="Xóa tìm kiếm">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
-          </button>
+      </header>
+
+      <section className="concepts-summary">
+        <SummaryCard label="Tổng chủ đề" value={summary.total} />
+        <SummaryCard label="1930-1945" value={summary.early} />
+        <SummaryCard label="1945-1975" value={summary.resistance} />
+        <SummaryCard label="Từ 1975" value={summary.renewal} />
+      </section>
+
+      <section className="concepts-toolbar">
+        <div className="concepts-toolbar-main">
+          <label className="concepts-search">
+            <span>Tìm kiếm chủ đề</span>
+            <input
+              type="search"
+              value={keyword}
+              onChange={(event) => setKeyword(event.target.value)}
+              placeholder="Ví dụ: Cương lĩnh, Điện Biên Phủ, đổi mới..."
+            />
+          </label>
+
+          <label className="concepts-filter">
+            <span>Giai đoạn</span>
+            <select
+              value={activePeriod}
+              onChange={(event) => setActivePeriod(event.target.value)}
+            >
+              {PERIOD_FILTERS.map((filter) => (
+                <option key={filter.id} value={filter.id}>
+                  {filter.label}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+
+        <div className="concepts-period-tabs" aria-label="Lọc theo giai đoạn">
+          {PERIOD_FILTERS.map((filter) => (
+            <button
+              key={filter.id}
+              type="button"
+              className={activePeriod === filter.id ? 'active' : ''}
+              onClick={() => setActivePeriod(filter.id)}
+            >
+              {filter.shortLabel}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="concepts-results">
+        <div className="concepts-result-header">
+          <div>
+            <h2>
+              Hiển thị {filteredConcepts.length}/{list.length} chủ đề
+            </h2>
+            <p>
+              Chọn một chủ đề để xem nội dung trọng tâm, mốc cần nhớ, gợi ý ôn
+              thi và nguồn nên đối chiếu.
+            </p>
+          </div>
+
+          {(keyword || activePeriod !== 'all') && (
+            <button
+              type="button"
+              className="btn btn-outline btn-sm"
+              onClick={clearFilters}
+            >
+              Xóa bộ lọc
+            </button>
+          )}
+        </div>
+
+        {filteredConcepts.length === 0 ? (
+          <div className="empty-state">
+            <div className="empty-icon" aria-hidden="true">
+              📄
+            </div>
+            <p>Không tìm thấy chủ đề phù hợp với bộ lọc hiện tại.</p>
+            <button
+              type="button"
+              className="btn btn-primary btn-sm"
+              onClick={clearFilters}
+            >
+              Hiển thị tất cả
+            </button>
+          </div>
+        ) : (
+          <div className="concepts-sections">
+            {Object.entries(groupedConcepts).map(([period, concepts]) => {
+              const meta = PERIOD_META[period] || {
+                title: 'Chủ đề khác',
+                badge: 'Khác',
+                icon: '📄',
+                description: 'Các chủ đề bổ sung chưa phân loại theo giai đoạn.',
+              };
+
+              return (
+                <section key={period} className="concept-period-section">
+                  <div className="concept-period-header">
+                    <div className="concept-period-icon" aria-hidden="true">
+                      {meta.icon}
+                    </div>
+
+                    <div>
+                      <span className="concept-period-badge">
+                        {meta.badge}
+                      </span>
+                      <h2>{meta.title}</h2>
+                      <p>{meta.description}</p>
+                    </div>
+
+                    <span className="concept-period-count">
+                      {concepts.length} chủ đề
+                    </span>
+                  </div>
+
+                  <div className="concepts-grid">
+                    {concepts.map((concept, index) => (
+                      <Link
+                        key={concept._id || concept.slug}
+                        to={`/khai-niem/${concept.slug}`}
+                        className={`concept-card stagger-${(index % 6) + 1}`}
+                      >
+                        <div className="concept-card-icon" aria-hidden="true">
+                          {getConceptIcon(concept)}
+                        </div>
+
+                        <div className="concept-card-body">
+                          <div className="concept-card-topline">
+                            {concept.school && (
+                              <span className="badge badge-school">
+                                {concept.school}
+                              </span>
+                            )}
+                          </div>
+
+                          <h3>{concept.title}</h3>
+
+                          {concept.description && (
+                            <p>
+                              {concept.description.length > 150
+                                ? `${concept.description.slice(0, 150)}...`
+                                : concept.description}
+                            </p>
+                          )}
+
+                          <span className="concept-card-link">
+                            Xem chi tiết →
+                          </span>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              );
+            })}
+          </div>
         )}
-      </div>
-
-      {filtered.length === 0 ? (
-        <div className="empty-state stagger-3">
-          <div className="empty-icon" aria-hidden="true">{'\u2605'}</div>
-          <p>Không tìm thấy nhân vật nào phù hợp.</p>
-        </div>
-      ) : (
-        <>
-          {/* Đấu tranh giành chính quyền và kháng chiến */}
-          {resistanceFiltered.length > 0 && (
-            <div className="phil-section">
-              <div className="phil-section-header">
-                <span className="phil-section-badge">1930-1975</span>
-                <h2 className="phil-section-title">Đấu tranh giành chính quyền và kháng chiến</h2>
-              </div>
-              <div className="phil-grid">
-                {resistanceFiltered.map((p, i) => (
-                  <Link key={p._id} to={`/triet-gia/${p.slug}`} className={`phil-card phil-card--ktct stagger-${(i % 7) + 1}`}>
-                    <div className="phil-img-wrap">
-                      {p.imageUrl ? (
-                        <img src={p.imageUrl} alt={p.imageAlt || p.name} loading="lazy" />
-                      ) : (
-                        <div className="phil-placeholder" aria-hidden="true">{p.name.charAt(0)}</div>
-                      )}
-                      <div className="phil-img-overlay" />
-                    </div>
-                    <div className="phil-info">
-                      <h3>{p.name}</h3>
-                      {p.nameVi && p.nameVi !== p.name && <span className="phil-name-vi">{p.nameVi}</span>}
-                      <span className="phil-dates">{p.birthDeath}</span>
-                      <span className="badge badge-school">{p.school}</span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Xây dựng đất nước và đổi mới */}
-          {renewalFiltered.length > 0 && (
-            <div className="phil-section phil-section--ext">
-              <div className="phil-section-header">
-                <span className="phil-section-badge phil-section-badge--ext">Từ 1975</span>
-                <h2 className="phil-section-title">Xây dựng đất nước và đổi mới</h2>
-              </div>
-              <div className="phil-grid">
-                {renewalFiltered.map((p, i) => (
-                  <Link key={p._id} to={`/triet-gia/${p.slug}`} className={`phil-card stagger-${(i % 7) + 1}`}>
-                    <div className="phil-img-wrap">
-                      {p.imageUrl ? (
-                        <img src={p.imageUrl} alt={p.imageAlt || p.name} loading="lazy" />
-                      ) : (
-                        <div className="phil-placeholder" aria-hidden="true">{p.name.charAt(0)}</div>
-                      )}
-                      <div className="phil-img-overlay" />
-                    </div>
-                    <div className="phil-info">
-                      <h3>{p.name}</h3>
-                      {p.nameVi && p.nameVi !== p.name && <span className="phil-name-vi">{p.nameVi}</span>}
-                      <span className="phil-dates">{p.birthDeath}</span>
-                      <span className="badge badge-school">{p.school}</span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
-        </>
-      )}
+      </section>
 
       <style>{`
-        /* Header */
-        .phil-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          gap: 1rem;
-          margin-bottom: 0.5rem;
-        }
-        .phil-header .page-desc { margin-bottom: 0; }
-        .phil-count {
-          flex-shrink: 0;
-          font-size: 0.82rem;
-          font-weight: 500;
-          color: var(--text-light);
-          background: var(--bg-alt);
-          padding: 0.3rem 0.75rem;
-          border-radius: 99px;
-          margin-top: 0.5rem;
+        .concepts-page {
+          padding-bottom: 4rem;
         }
 
-        /* Search */
-        .phil-search {
+        .concepts-hero {
           position: relative;
-          margin-bottom: 1.75rem;
-          max-width: 400px;
+          overflow: hidden;
+          text-align: center;
+          border: 1px solid var(--border-light);
+          border-radius: var(--radius-2xl);
+          background: var(--gradient-hero);
+          box-shadow: var(--shadow);
+          padding: 2.5rem 1.5rem;
+          margin-bottom: 1.5rem;
         }
-        .phil-search-icon {
+
+        .concepts-hero::before {
+          content: '';
           position: absolute;
-          left: 0.85rem;
-          top: 50%;
-          transform: translateY(-50%);
-          color: var(--text-light);
-          display: flex;
+          width: 280px;
+          height: 280px;
+          right: -90px;
+          bottom: -140px;
+          border-radius: 50%;
+          background: rgba(197, 165, 90, 0.18);
           pointer-events: none;
         }
-        .phil-search-input {
-          width: 100%;
-          padding: 0.65rem 2.5rem 0.65rem 2.5rem;
-          border: 1px solid var(--border);
-          border-radius: var(--radius);
-          font-family: inherit;
-          font-size: 0.9rem;
-          background: var(--bg-card);
-          color: var(--text);
-          transition: border-color var(--transition), box-shadow var(--transition);
-        }
-        .phil-search-input:focus {
-          border-color: var(--accent);
-          box-shadow: 0 0 0 3px rgba(44,82,130,0.08);
-          outline: none;
-        }
-        .phil-search-input::placeholder { color: var(--text-light); }
-        .phil-search-clear {
-          position: absolute;
-          right: 0.65rem;
-          top: 50%;
-          transform: translateY(-50%);
-          background: var(--bg-alt);
-          border: none;
-          border-radius: 50%;
-          width: 24px;
-          height: 24px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          color: var(--text-muted);
-          transition: all var(--transition);
-        }
-        .phil-search-clear:hover { background: var(--accent-light); color: var(--accent); }
 
-        /* Grid */
-        .phil-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-          gap: 1.5rem;
+        .concepts-hero-content {
+          position: relative;
+          z-index: 1;
         }
-        .phil-card {
+
+        .concepts-hero .page-desc {
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .concepts-hero-actions {
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 0.75rem;
+          margin-top: 1.25rem;
+        }
+
+        .concepts-fallback-note {
+          max-width: 720px;
+          margin: 1rem auto 0;
+          border: 1px solid #fed7aa;
+          background: #fff7ed;
+          color: #c2410c;
+          border-radius: var(--radius);
+          padding: 0.75rem 1rem;
+          font-size: 0.9rem;
+          font-weight: 700;
+        }
+
+        .concepts-summary {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .concept-summary-card {
           background: var(--bg-card);
           border: 1px solid var(--border-light);
           border-radius: var(--radius-lg);
-          overflow: hidden;
-          color: var(--text);
-          transition: all var(--transition-slow);
+          padding: 1rem;
+          box-shadow: var(--shadow-xs);
+        }
+
+        .concept-summary-card strong {
+          display: block;
+          color: var(--accent);
+          font-family: var(--font-serif);
+          font-size: 1.7rem;
+          line-height: 1;
+          margin-bottom: 0.35rem;
+        }
+
+        .concept-summary-card span {
+          color: var(--text-muted);
+          font-size: 0.9rem;
+          font-weight: 700;
+        }
+
+        .concepts-toolbar {
+          background: var(--bg-card);
+          border: 1px solid var(--border-light);
+          border-radius: var(--radius-xl);
+          padding: 1.25rem;
+          margin-bottom: 1.5rem;
+          box-shadow: var(--shadow-xs);
+        }
+
+        .concepts-toolbar-main {
+          display: grid;
+          grid-template-columns: 1fr minmax(220px, 300px);
+          gap: 1rem;
+          align-items: end;
+          margin-bottom: 1rem;
+        }
+
+        .concepts-search,
+        .concepts-filter {
           display: flex;
           flex-direction: column;
+          gap: 0.4rem;
         }
-        .phil-card:hover {
+
+        .concepts-search span,
+        .concepts-filter span {
+          color: var(--text-light);
+          font-size: 0.75rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+
+        .concepts-search input,
+        .concepts-filter select {
+          width: 100%;
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          background: var(--bg-alt);
+          color: var(--text);
+          padding: 0.75rem 0.9rem;
+          font: inherit;
+          outline: none;
+          transition: border-color var(--transition), box-shadow var(--transition);
+        }
+
+        .concepts-search input:focus,
+        .concepts-filter select:focus {
           border-color: var(--accent);
-          box-shadow: var(--shadow-lg);
-          transform: translateY(-4px);
-          text-decoration: none;
+          box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.12);
         }
 
-        .phil-img-wrap {
-          position: relative;
-          width: 100%;
-          aspect-ratio: 4 / 3;
-          overflow: hidden;
-          background: var(--accent-light);
-        }
-        .phil-img-wrap img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: transform var(--transition-slow);
-        }
-        .phil-card:hover .phil-img-wrap img { transform: scale(1.06); }
-
-        .phil-img-overlay {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(180deg, transparent 50%, rgba(26,26,46,0.6) 100%);
-          pointer-events: none;
+        .concepts-period-tabs {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
         }
 
-        .phil-placeholder {
-          width: 100%;
-          height: 100%;
+        .concepts-period-tabs button {
+          border: 1px solid var(--border);
+          background: var(--bg-alt);
+          color: var(--text-muted);
+          border-radius: 999px;
+          padding: 0.52rem 0.85rem;
+          cursor: pointer;
+          font: inherit;
+          font-weight: 800;
+          transition: all var(--transition);
+        }
+
+        .concepts-period-tabs button:hover,
+        .concepts-period-tabs button.active {
+          color: white;
+          background: var(--accent);
+          border-color: var(--accent);
+          box-shadow: var(--shadow-accent);
+        }
+
+        .concepts-result-header {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 1rem;
+          margin-bottom: 1.25rem;
+        }
+
+        .concepts-result-header h2 {
+          margin: 0 0 0.35rem;
+          color: var(--text);
+          font-family: var(--font-serif);
+          font-size: 1.45rem;
+        }
+
+        .concepts-result-header p {
+          margin: 0;
+          color: var(--text-muted);
+          line-height: 1.65;
+        }
+
+        .concepts-sections {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+        }
+
+        .concept-period-section {
+          background: var(--bg-card);
+          border: 1px solid var(--border-light);
+          border-radius: var(--radius-xl);
+          padding: 1.35rem;
+          box-shadow: var(--shadow-xs);
+        }
+
+        .concept-period-header {
+          display: grid;
+          grid-template-columns: auto 1fr auto;
+          gap: 1rem;
+          align-items: flex-start;
+          margin-bottom: 1.25rem;
+        }
+
+        .concept-period-icon {
+          width: 48px;
+          height: 48px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-family: var(--font-serif);
-          font-size: 4rem;
-          font-weight: 600;
-          color: var(--accent);
+          border-radius: var(--radius-lg);
           background: var(--accent-light);
+          color: var(--accent);
+          font-size: 1.35rem;
+          font-weight: 800;
         }
 
-        .phil-info {
-          padding: 1rem 1.25rem 1.25rem;
-          display: flex;
-          flex-direction: column;
-          gap: 0.25rem;
-        }
-        .phil-info h3 {
-          margin: 0;
-          font-size: 1.15rem;
-          font-weight: 600;
-          color: var(--text);
-        }
-        .phil-name-vi {
-          font-size: 0.85rem;
-          color: var(--text-light);
-        }
-        .phil-dates {
-          font-size: 0.8rem;
-          color: var(--text-muted);
-          margin-bottom: 0.4rem;
-        }
-        .phil-info .badge {
-          align-self: flex-start;
-          margin-top: 0.15rem;
-        }
-
-        /* Sections */
-        .phil-section { margin-bottom: 2.5rem; }
-        .phil-section--ext { margin-bottom: 1rem; }
-        .phil-section-header { margin-bottom: 1.25rem; }
-        .phil-section-badge {
-          display: inline-block;
-          padding: 0.2rem 0.6rem;
+        .concept-period-badge {
+          display: inline-flex;
+          width: fit-content;
+          margin-bottom: 0.35rem;
+          border-radius: 999px;
           background: #c53030;
           color: white;
-          border-radius: 99px;
-          font-size: 0.7rem;
-          font-weight: 600;
-          letter-spacing: 0.03em;
+          padding: 0.2rem 0.6rem;
+          font-size: 0.72rem;
+          font-weight: 800;
           text-transform: uppercase;
-          margin-bottom: 0.35rem;
-        }
-        .phil-section-badge--ext { background: var(--accent); }
-        .phil-section-title {
-          margin: 0;
-          font-size: 1.3rem;
-          font-weight: 600;
-          font-family: var(--font-serif);
-          color: var(--text);
-        }
-        .phil-card--ktct {
-          border-color: rgba(197,48,48,0.2);
-        }
-        .phil-card--ktct:hover {
-          border-color: #c53030;
-          box-shadow: 0 8px 24px rgba(197,48,48,0.15);
+          letter-spacing: 0.04em;
         }
 
-        @media (max-width: 480px) {
-          .phil-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
-          .phil-info { padding: 0.75rem 0.9rem 1rem; }
-          .phil-info h3 { font-size: 1rem; }
-          .phil-header { flex-direction: column; gap: 0.25rem; }
-          .phil-search { max-width: 100%; }
+        .concept-period-header h2 {
+          margin: 0 0 0.35rem;
+          color: var(--text);
+          font-family: var(--font-serif);
+          font-size: 1.35rem;
+        }
+
+        .concept-period-header p {
+          margin: 0;
+          color: var(--text-muted);
+          line-height: 1.65;
+        }
+
+        .concept-period-count {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 34px;
+          border-radius: 999px;
+          background: var(--bg-alt);
+          color: var(--text-light);
+          padding: 0.35rem 0.75rem;
+          font-size: 0.82rem;
+          font-weight: 800;
+          white-space: nowrap;
+        }
+
+        .concepts-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 1rem;
+        }
+
+        .concept-card {
+          display: grid;
+          grid-template-columns: auto 1fr;
+          gap: 0.85rem;
+          min-height: 100%;
+          background: var(--bg-alt);
+          border: 1px solid var(--border-light);
+          border-radius: var(--radius-lg);
+          padding: 1.1rem;
+          color: var(--text);
+          text-decoration: none;
+          transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+        }
+
+        .concept-card:hover {
+          border-color: var(--accent);
+          box-shadow: var(--shadow);
+          transform: translateY(-3px);
+          text-decoration: none;
+        }
+
+        .concept-card-icon {
+          width: 42px;
+          height: 42px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          background: white;
+          border: 1px solid var(--border-light);
+          color: var(--accent);
+          border-radius: var(--radius);
+          font-size: 1.1rem;
+          font-weight: 800;
+        }
+
+        .concept-card-body {
+          min-width: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.55rem;
+        }
+
+        .concept-card-topline {
+          min-height: 24px;
+        }
+
+        .concept-card h3 {
+          margin: 0;
+          color: var(--text);
+          font-size: 1.02rem;
+          line-height: 1.35;
+          font-weight: 800;
+        }
+
+        .concept-card p {
+          margin: 0;
+          color: var(--text-muted);
+          font-size: 0.88rem;
+          line-height: 1.65;
+        }
+
+        .concept-card-link {
+          margin-top: auto;
+          color: var(--accent);
+          font-size: 0.86rem;
+          font-weight: 800;
+        }
+
+        @media (max-width: 980px) {
+          .concepts-summary {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .concepts-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
+        @media (max-width: 760px) {
+          .concepts-hero {
+            padding: 1.5rem 1rem;
+          }
+
+          .concepts-toolbar-main {
+            grid-template-columns: 1fr;
+          }
+
+          .concepts-result-header {
+            flex-direction: column;
+          }
+
+          .concept-period-header {
+            grid-template-columns: 1fr;
+          }
+
+          .concept-period-count {
+            width: fit-content;
+          }
+
+          .concepts-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 520px) {
+          .concepts-summary {
+            grid-template-columns: 1fr;
+          }
+
+          .concepts-hero-actions .btn {
+            width: 100%;
+            justify-content: center;
+          }
         }
       `}</style>
     </div>
+  );
+}
+
+function SummaryCard({ label, value }) {
+  return (
+    <article className="concept-summary-card">
+      <strong>{value}</strong>
+      <span>{label}</span>
+    </article>
   );
 }
