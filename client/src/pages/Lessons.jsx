@@ -124,8 +124,7 @@ export default function Lessons() {
           <div>
             <h2>Mức hoàn thành bài đọc</h2>
             <p>
-              Dữ liệu được lưu trên trình duyệt bằng localStorage, phù hợp cho bản frontend
-              không cần đăng nhập.
+              Tiến độ hoàn thành hiện tại của bạn.
             </p>
           </div>
           <strong>{summary.completionPercentage}%</strong>
