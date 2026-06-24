@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { philosophers as api } from '../api';
-
+import { staticPeople, getStaticPerson } from '../data/staticPartyHistoryData';
 export default function Compare() {
   const [list, setList] = useState([]);
   const [a, setA] = useState('');
@@ -11,24 +11,67 @@ export default function Compare() {
   const [comparing, setComparing] = useState(false);
 
   useEffect(() => {
-    api.list().then(({ philosophers }) => {
-      setList(philosophers || []);
-      setLoading(false);
-    }).catch(() => setLoading(false));
+    api.list()
+      .then(({ philosophers }) => {
+        setList(philosophers?.length ? philosophers : staticPeople);
+        setLoading(false);
+      })
+      .catch(() => {
+        setList(staticPeople);
+        setLoading(false);
+      });
   }, []);
+
+  const toComparePerson = (person) => ({
+    name: person.name,
+    school: person.school,
+    summary: person.summary,
+    concepts: person.concepts || [],
+    imageUrl: person.imageUrl,
+    slug: person.slug,
+  });
 
   const handleCompare = () => {
     if (!a || !b) return;
+
     setComparing(true);
-    Promise.all([api.get(a), api.get(b)]).then(([r1, r2]) => {
-      const p1 = r1.philosopher;
-      const p2 = r2.philosopher;
-      setComparison({
-        p1: { name: p1.name, school: p1.school, summary: p1.summary, concepts: p1.concepts || [], imageUrl: p1.imageUrl, slug: p1.slug },
-        p2: { name: p2.name, school: p2.school, summary: p2.summary, concepts: p2.concepts || [], imageUrl: p2.imageUrl, slug: p2.slug }
+
+    Promise.all([
+      api.get(a).catch(() => ({ philosopher: getStaticPerson(a) })),
+      api.get(b).catch(() => ({ philosopher: getStaticPerson(b) })),
+    ])
+      .then(([r1, r2]) => {
+        const p1 = r1.philosopher || getStaticPerson(a);
+        const p2 = r2.philosopher || getStaticPerson(b);
+
+        if (!p1 || !p2) {
+          setComparison(null);
+          setComparing(false);
+          return;
+        }
+
+        setComparison({
+          p1: toComparePerson(p1),
+          p2: toComparePerson(p2),
+        });
+
+        setComparing(false);
+      })
+      .catch(() => {
+        const p1 = getStaticPerson(a);
+        const p2 = getStaticPerson(b);
+
+        if (p1 && p2) {
+          setComparison({
+            p1: toComparePerson(p1),
+            p2: toComparePerson(p2),
+          });
+        } else {
+          setComparison(null);
+        }
+
+        setComparing(false);
       });
-      setComparing(false);
-    }).catch(() => { setComparison(null); setComparing(false); });
   };
 
   if (loading) return (

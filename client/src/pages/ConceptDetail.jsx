@@ -2,18 +2,27 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { concepts as api } from '../api';
 import { user as userApi } from '../api';
-
+import { getStaticConcept } from '../data/staticPartyHistoryData';
 export default function ConceptDetail({ user }) {
   const { slug } = useParams();
   const [concept, setConcept] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get(slug).then(({ concept: c }) => {
-      setConcept(c);
-      setLoading(false);
-      if (user && c?._id) userApi.viewContent(c._id).catch(() => {});
-    }).catch(() => setLoading(false));
+    api.get(slug)
+      .then(({ concept: c }) => {
+        const nextConcept = c || getStaticConcept(slug);
+        setConcept(nextConcept);
+        setLoading(false);
+
+        if (user && c?._id) {
+          userApi.viewContent(c._id).catch(() => { });
+        }
+      })
+      .catch(() => {
+        setConcept(getStaticConcept(slug));
+        setLoading(false);
+      });
   }, [slug, user]);
 
   if (loading) return (

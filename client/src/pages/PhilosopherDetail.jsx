@@ -1,17 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { philosophers as api } from '../api';
-
+import { getStaticPerson } from '../data/staticPartyHistoryData';
 export default function PhilosopherDetail({ user }) {
   const { slug } = useParams();
   const [philosopher, setPhilosopher] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get(slug).then(({ philosopher: p }) => {
-      setPhilosopher(p);
-      setLoading(false);
-    }).catch(() => setLoading(false));
+    api.get(slug)
+      .then(({ philosopher: p }) => {
+        setPhilosopher(p || getStaticPerson(slug));
+        setLoading(false);
+      })
+      .catch(() => {
+        setPhilosopher(getStaticPerson(slug));
+        setLoading(false);
+      });
   }, [slug]);
 
   if (loading) return (
@@ -133,7 +138,7 @@ export default function PhilosopherDetail({ user }) {
                 <div key={i} className={`pd-work-card stagger-${(i % 4) + 2}`}>
                   <div className="pd-work-header">
                     <span className="pd-work-icon" aria-hidden="true">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>
                     </span>
                     <div>
                       <h4 className="pd-work-title">{w.title}</h4>
@@ -155,7 +160,7 @@ export default function PhilosopherDetail({ user }) {
               {influences.length > 0 && (
                 <div className="pd-influence-col">
                   <span className="pd-influence-label">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
                     Chịu ảnh hưởng từ
                   </span>
                   <div className="pd-influence-tags">
@@ -168,7 +173,7 @@ export default function PhilosopherDetail({ user }) {
               {influencedBy.length > 0 && (
                 <div className="pd-influence-col">
                   <span className="pd-influence-label">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 5v14M5 12l7 7 7-7" /></svg>
                     Đã ảnh hưởng đến
                   </span>
                   <div className="pd-influence-tags">

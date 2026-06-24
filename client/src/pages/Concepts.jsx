@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { concepts as api } from '../api';
-
+import { staticConcepts } from '../data/staticPartyHistoryData';
 const CONCEPT_ICONS = {
   '1930-1945': '★',
   '1945-1975': '⚑',
@@ -17,11 +17,16 @@ export default function Concepts() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.list().then(({ concepts: c }) => {
-      setList(c || []);
-      setLoading(false);
-    }).catch(() => setLoading(false));
-  }, []);
+    api.list()
+      .then(({ concepts: c }) => {
+        setList(c?.length ? c : staticConcepts);
+        setLoading(false);
+      })
+      .catch(() => {
+        setList(staticConcepts);
+        setLoading(false);
+      });
+  }, []); 
 
   const ktctList = list.filter(isKtctConcept);
   const otherList = list.filter(c => !isKtctConcept(c));
