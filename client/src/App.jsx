@@ -1,22 +1,21 @@
 import { useEffect, useState, lazy, Suspense } from 'react';
 import { Routes, Route, useSearchParams, useLocation } from 'react-router-dom';
-import { auth, setToken, getToken, stats as statsApi } from './api';
+import { auth, setToken, stats as statsApi } from './api';
 import Layout from './components/Layout';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 
-// Tự động cuộn lên đầu trang + track pageview khi đổi route
 function ScrollToTopOnNav() {
   const { pathname } = useLocation();
+
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Track page view (fire-and-forget)
     statsApi.track(pathname);
   }, [pathname]);
+
   return null;
 }
 
-// Lazy-loaded pages for code splitting
 const Home = lazy(() => import('./pages/Home'));
 const Philosophers = lazy(() => import('./pages/Philosophers'));
 const PhilosopherDetail = lazy(() => import('./pages/PhilosopherDetail'));
@@ -29,6 +28,7 @@ const Stats = lazy(() => import('./pages/Stats'));
 const Lessons = lazy(() => import('./pages/Lessons'));
 const LessonDetail = lazy(() => import('./pages/LessonDetail'));
 const LessonQuiz = lazy(() => import('./pages/LessonQuiz'));
+const ReviewGames = lazy(() => import('./pages/ReviewGames'));
 const ChatBox = lazy(() => import('./components/ChatBox'));
 const PrivacyBanner = lazy(() => import('./components/PrivacyBanner'));
 
@@ -37,21 +37,21 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [searchParams] = useSearchParams();
 
-  // Handle OAuth redirect with JWT token
   useEffect(() => {
     const token = searchParams.get('token');
+
     if (token) {
-      // Store token from OAuth redirect
       setToken(token);
-      // Clean URL
       window.history.replaceState({}, '', window.location.pathname || '/');
     }
 
-    // Fetch user from stored token
-    auth.me().then(({ user: u }) => {
-      setUser(u || null);
-      setLoading(false);
-    }).catch(() => setLoading(false));
+    auth
+      .me()
+      .then(({ user: currentUser }) => {
+        setUser(currentUser || null);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   const handleLogout = () => {
@@ -62,10 +62,22 @@ function App() {
   return (
     <div className="app-root">
       <ScrollToTopOnNav />
-      <a href="#main-content" className="skip-link">Chuyển đến nội dung chính</a>
+
+      <a href="#main-content" className="skip-link">
+        Chuyển đến nội dung chính
+      </a>
+
       <Layout user={user} loading={loading} onLogout={handleLogout} />
+
       <main id="main-content" className="app-main">
-        <Suspense fallback={<div className="loading-wrap"><div className="loading-spinner" aria-label="Đang tải" /><span className="loading-text">Đang tải...</span></div>}>
+        <Suspense
+          fallback={
+            <div className="loading-wrap">
+              <div className="loading-spinner" aria-label="Đang tải" />
+              <span className="loading-text">Đang tải...</span>
+            </div>
+          }
+        >
           <Routes>
             <Route path="/" element={<Home user={user} />} />
             <Route path="/triet-gia" element={<Philosophers />} />
@@ -75,6 +87,7 @@ function App() {
             <Route path="/bai-hoc" element={<Lessons />} />
             <Route path="/bai-hoc/:slug" element={<LessonDetail />} />
             <Route path="/bai-hoc/:slug/quiz" element={<LessonQuiz />} />
+            <Route path="/tro-choi-on-tap" element={<ReviewGames />} />
             <Route path="/dashboard" element={<Dashboard user={user} />} />
             <Route path="/trac-nghiem" element={<Quiz />} />
             <Route path="/so-sanh" element={<Compare />} />
@@ -82,11 +95,15 @@ function App() {
           </Routes>
         </Suspense>
       </main>
+
       <Footer />
+
       <Suspense fallback={null}>
         <ChatBox user={user} />
       </Suspense>
+
       <ScrollToTop />
+
       <Suspense fallback={null}>
         <PrivacyBanner />
       </Suspense>

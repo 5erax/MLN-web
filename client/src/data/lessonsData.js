@@ -3,8 +3,17 @@ import {
   resistanceLessonQuiz,
 } from './resistanceLessonData.js';
 
-export const lessons = [resistanceLesson];
+import {
+  expandedLessons,
+  expandedLessonQuizzes,
+} from './expandedLessonsData.js';
+
+export const lessons = [
+  ...expandedLessons,
+  resistanceLesson,
+];
 
 export const lessonQuizzes = {
+  ...expandedLessonQuizzes,
   [resistanceLesson.slug]: resistanceLessonQuiz,
 };

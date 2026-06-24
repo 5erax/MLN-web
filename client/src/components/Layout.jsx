@@ -24,9 +24,10 @@ export default function Layout({ user, loading, onLogout }) {
     return location.pathname.startsWith(path);
   };
 
-  const navItems = [
+   const navItems = [
     { to: '/', label: 'Trang chủ' },
     { to: '/bai-hoc', label: 'Bài học' },
+    { to: '/tro-choi-on-tap', label: 'Ôn tập' },
     { to: '/triet-gia', label: 'Nhân vật' },
     { to: '/khai-niem', label: 'Chủ đề - văn kiện' },
     { to: '/so-sanh', label: 'So sánh' },
