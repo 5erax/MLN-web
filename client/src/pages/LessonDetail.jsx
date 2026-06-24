@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { lessons, lessonQuizzes } from '../data/lessonsData';
-
+import LessonSources from '../components/LessonSources';
 export default function LessonDetail() {
   const { slug } = useParams();
   const lesson = lessons.find((l) => l.slug === slug);
@@ -68,7 +68,7 @@ export default function LessonDetail() {
           </section>
         ))}
       </article>
-
+      <LessonSources sources={lesson.sources} />
       {/* Quiz CTA */}
       <div className="ld-cta stagger-7">
         <div className="ld-cta-inner">

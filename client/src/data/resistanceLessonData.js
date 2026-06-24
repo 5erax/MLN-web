@@ -7,6 +7,23 @@ export const resistanceLesson = {
   category: 'Lịch sử Đảng',
   description:
     'Phân tích cách Đảng hoàn chỉnh đường lối, xây dựng lực lượng, phá Kế hoạch Nava, giành thắng lợi tại Điện Biên Phủ và đấu tranh tại Hội nghị Genève.',
+  sources: [
+    {
+      title: 'Giáo trình Lịch sử Đảng Cộng sản Việt Nam',
+      publisher: 'NXB Chính trị quốc gia Sự thật',
+      note: 'Dùng làm nguồn chính để học giai đoạn Đảng lãnh đạo kháng chiến chống thực dân Pháp đến thắng lợi năm 1954.',
+    },
+    {
+      title: 'Văn kiện Đại hội đại biểu toàn quốc lần thứ II',
+      publisher: 'Văn kiện Đảng năm 1951',
+      note: 'Dùng để đối chiếu nội dung về Đảng Lao động Việt Nam, Chính cương năm 1951 và đường lối kháng chiến.',
+    },
+    {
+      title: 'Tài liệu về Chiến dịch Điện Biên Phủ và Hiệp định Genève',
+      publisher: 'Tài liệu lịch sử kháng chiến chống Pháp',
+      note: 'Dùng để kiểm chứng diễn biến, ý nghĩa thắng lợi quân sự và ngoại giao năm 1954.',
+    },
+  ],
   sections: [
     {
       id: 'mo-dau',
