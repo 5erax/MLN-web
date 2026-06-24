@@ -1160,49 +1160,633 @@ export const CONCEPTS = Object.fromEntries(
   Object.entries(CONCEPT_DETAILS).map(([slug, detail]) => [slug, detail.description])
 );
 
-const normalize = (value = '') => value
-  .toLowerCase()
-  .normalize('NFD')
-  .replace(/[\u0300-\u036f]/g, '')
-  .replace(/đ/g, 'd');
+const normalize = (value = '') =>
+  value
+    .toString()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/[^\w\s/-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 
-export function getChatResponse(query) {
-  const normalized = normalize(query);
+const tokenize = (value = '') =>
+  normalize(value)
+    .split(' ')
+    .filter((token) => token.length >= 2);
 
+const hasAny = (text, keywords = []) =>
+  keywords.some((keyword) => text.includes(normalize(keyword)));
+
+const hasAllImportantWords = (text, value = '') => {
+  const tokens = tokenize(value).filter((token) => token.length >= 3);
+
+  if (!tokens.length) return false;
+
+  return tokens.every((token) => text.includes(token));
+};
+
+const formatBulletList = (items = []) => {
+  if (!items.length) return '- Chưa có dữ liệu chi tiết trong hệ thống.';
+
+  return items.map((item) => `- ${item}`).join('\n');
+};
+
+const formatTimelineItems = (items = []) => {
+  if (!items.length) return '- Chưa có mốc thời gian phù hợp trong dữ liệu.';
+
+  return items.map((item) => `- **${item.year}:** ${item.event}`).join('\n');
+};
+
+const INTENT_KEYWORDS = {
+  event: [
+    'su kien',
+    'moc',
+    'moc thoi gian',
+    'dien ra',
+    'xay ra',
+    'co gi',
+    'nam nao',
+    'thoi gian',
+    'giai doan nao',
+  ],
+  meaning: [
+    'y nghia',
+    'vai tro',
+    'vi sao',
+    'tai sao',
+    'nguyen nhan',
+    'ket qua',
+    'bai hoc',
+    'tac dong',
+  ],
+  definition: [
+    'la gi',
+    'la nhu the nao',
+    'noi dung',
+    'tom tat',
+    'trinh bay',
+    'phan tich',
+    'khai niem',
+  ],
+  compare: [
+    'so sanh',
+    'khac nhau',
+    'giong nhau',
+    'phan biet',
+    'diem giong',
+    'diem khac',
+  ],
+};
+
+function detectIntent(normalizedQuery) {
+  if (hasAny(normalizedQuery, INTENT_KEYWORDS.compare)) return 'compare';
+  if (hasAny(normalizedQuery, INTENT_KEYWORDS.event)) return 'event';
+  if (hasAny(normalizedQuery, INTENT_KEYWORDS.meaning)) return 'meaning';
+  if (hasAny(normalizedQuery, INTENT_KEYWORDS.definition)) return 'definition';
+
+  return 'general';
+}
+
+const PERIODS = [
+  {
+    id: '1930-1945',
+    title: 'Giai đoạn 1930-1945: Đảng ra đời và lãnh đạo giành chính quyền',
+    aliases: [
+      '1930-1945',
+      '1930 1945',
+      '1930 den 1945',
+      '1930 đến 1945',
+      'giai doan 1930',
+      'giai đoạn 1930',
+      'dang ra doi',
+      'đảng ra đời',
+      'gianh chinh quyen',
+      'giành chính quyền',
+      'cach mang thang tam',
+      'cách mạng tháng tám',
+      'tong khoi nghia',
+      'tổng khởi nghĩa',
+      'truoc 1945',
+      'trước 1945',
+    ],
+    summary:
+      'Đây là giai đoạn Đảng Cộng sản Việt Nam ra đời, xác lập đường lối cách mạng, trải qua các cao trào đấu tranh, chuyển hướng chiến lược giải phóng dân tộc và lãnh đạo Cách mạng Tháng Tám năm 1945.',
+    keyPoints: [
+      'Đảng Cộng sản Việt Nam ra đời đầu năm 1930.',
+      'Cương lĩnh chính trị đầu tiên xác định nhiệm vụ giải phóng dân tộc.',
+      'Cao trào 1930-1931 và Xô viết Nghệ - Tĩnh khẳng định vai trò lãnh đạo của Đảng.',
+      'Phong trào dân chủ 1936-1939 mở rộng lực lượng chính trị của quần chúng.',
+      'Từ 1939, Đảng chuyển hướng chiến lược, đặt nhiệm vụ giải phóng dân tộc lên hàng đầu.',
+      'Hội nghị Trung ương 8 năm 1941 hoàn chỉnh chủ trương giải phóng dân tộc.',
+      'Cách mạng Tháng Tám năm 1945 giành chính quyền trong cả nước.',
+    ],
+  },
+  {
+    id: '1945-1975',
+    title: 'Giai đoạn 1945-1975: Kháng chiến và thống nhất đất nước',
+    aliases: [
+      '1945-1975',
+      '1945 1975',
+      '1945 den 1975',
+      '1945 đến 1975',
+      'khang chien chong phap',
+      'kháng chiến chống pháp',
+      'khang chien chong my',
+      'kháng chiến chống mỹ',
+      'dien bien phu',
+      'điện biên phủ',
+      'giai phong mien nam',
+      'giải phóng miền nam',
+      'thong nhat dat nuoc',
+      'thống nhất đất nước',
+      'mua xuan 1975',
+      'mùa xuân 1975',
+    ],
+    summary:
+      'Đây là giai đoạn Đảng lãnh đạo nhân dân bảo vệ chính quyền cách mạng, tiến hành kháng chiến chống thực dân Pháp, xây dựng miền Bắc, đấu tranh giải phóng miền Nam và thống nhất đất nước.',
+    keyPoints: [
+      'Bảo vệ chính quyền cách mạng sau Cách mạng Tháng Tám.',
+      'Toàn quốc kháng chiến chống thực dân Pháp từ cuối năm 1946.',
+      'Chiến thắng Điện Biên Phủ năm 1954 tạo cơ sở cho Hiệp định Genève.',
+      'Đại hội III năm 1960 xác định đường lối cách mạng hai miền.',
+      'Kết hợp đấu tranh quân sự, chính trị và ngoại giao trong kháng chiến chống Mỹ.',
+      'Đại thắng mùa Xuân năm 1975 giải phóng miền Nam, thống nhất đất nước.',
+    ],
+  },
+  {
+    id: 'Từ 1975',
+    title: 'Giai đoạn từ 1975: Xây dựng đất nước, đổi mới và hội nhập',
+    aliases: [
+      'tu 1975',
+      'từ 1975',
+      'sau 1975',
+      'sau nam 1975',
+      'doi moi',
+      'đổi mới',
+      'dai hoi vi',
+      'đại hội vi',
+      'dai hoi 6',
+      'đại hội 6',
+      '1986',
+      'hoi nhap',
+      'hội nhập',
+      'kinh te thi truong',
+      'kinh tế thị trường',
+      'cong nghiep hoa',
+      'công nghiệp hóa',
+    ],
+    summary:
+      'Đây là giai đoạn cả nước thống nhất đi lên chủ nghĩa xã hội, khắc phục khó khăn sau chiến tranh, khởi xướng công cuộc đổi mới từ Đại hội VI năm 1986 và từng bước hội nhập quốc tế.',
+    keyPoints: [
+      'Sau 1975, cả nước bước vào thời kỳ xây dựng và bảo vệ Tổ quốc trong điều kiện mới.',
+      'Đại hội VI năm 1986 khởi xướng đường lối đổi mới toàn diện.',
+      'Đổi mới trước hết là đổi mới tư duy kinh tế.',
+      'Từng bước hình thành nhận thức về kinh tế thị trường định hướng xã hội chủ nghĩa.',
+      'Đẩy mạnh công nghiệp hóa, hiện đại hóa và hội nhập quốc tế.',
+    ],
+  },
+];
+
+const CONCEPT_ALIASES = {
+  'cuong-linh-chinh-tri-dau-tien': [
+    'cuong linh',
+    'cương lĩnh',
+    'cuong linh dau tien',
+    'cương lĩnh đầu tiên',
+    'chanh cuong van tat',
+    'chánh cương vắn tắt',
+    'sach luoc van tat',
+    'sách lược vắn tắt',
+    'hoi nghi thanh lap dang',
+    'hội nghị thành lập đảng',
+  ],
+  'luan-cuong-chinh-tri-1930': [
+    'luan cuong',
+    'luận cương',
+    'luan cuong 1930',
+    'luận cương 1930',
+    'luan cuong chinh tri',
+    'luận cương chính trị',
+    'tran phu',
+    'trần phú',
+  ],
+  'xo-viet-nghe-tinh': [
+    'xo viet nghe tinh',
+    'xô viết nghệ tĩnh',
+    'nghe tinh',
+    'nghệ tĩnh',
+    'cao trao 1930',
+    'cao trào 1930',
+    '1930-1931',
+    '1930 1931',
+  ],
+  'mat-tran-viet-minh': [
+    'viet minh',
+    'việt minh',
+    'mat tran viet minh',
+    'mặt trận việt minh',
+    'viet nam doc lap dong minh',
+    'việt nam độc lập đồng minh',
+  ],
+  'cach-mang-thang-tam': [
+    'cach mang thang tam',
+    'cách mạng tháng tám',
+    'cach mang thang 8',
+    'cách mạng tháng 8',
+    'tong khoi nghia thang tam',
+    'tổng khởi nghĩa tháng tám',
+    'tong khoi nghia thang 8',
+    'tổng khởi nghĩa tháng 8',
+    'tong khoi nghia 1945',
+    'tổng khởi nghĩa 1945',
+    'thang tam 1945',
+    'tháng tám 1945',
+    'thang 8 1945',
+    'tháng 8 1945',
+    'gianh chinh quyen 1945',
+    'giành chính quyền 1945',
+  ],
+  'khang-chien-toan-dan': [
+    'khang chien toan dan',
+    'kháng chiến toàn dân',
+    'khang chien toan dien',
+    'kháng chiến toàn diện',
+    'toan dan toan dien',
+    'toàn dân toàn diện',
+    'truong ky',
+    'trường kỳ',
+    'tu luc canh sinh',
+    'tự lực cánh sinh',
+  ],
+  'chien-tranh-nhan-dan': [
+    'chien tranh nhan dan',
+    'chiến tranh nhân dân',
+    'du kich',
+    'du kích',
+    'ba thu quan',
+    'ba thứ quân',
+    'luc luong vu trang',
+    'lực lượng vũ trang',
+  ],
+  'dien-bien-phu': [
+    'dien bien phu',
+    'điện biên phủ',
+    '7/5/1954',
+    '7 5 1954',
+    'ke hoach nava',
+    'kế hoạch nava',
+    'danh chac tien chac',
+    'đánh chắc tiến chắc',
+  ],
+  'duong-loi-cach-mang-hai-mien': [
+    'duong loi cach mang hai mien',
+    'đường lối cách mạng hai miền',
+    'cach mang hai mien',
+    'cách mạng hai miền',
+    'dai hoi iii',
+    'đại hội iii',
+    'dai hoi 3',
+    'đại hội 3',
+    'mien bac',
+    'miền bắc',
+    'mien nam',
+    'miền nam',
+  ],
+  'dau-tranh-ba-mat-tran': [
+    'ba mat tran',
+    'ba mặt trận',
+    'quan su chinh tri ngoai giao',
+    'quân sự chính trị ngoại giao',
+    'ket hop quan su chinh tri ngoai giao',
+    'kết hợp quân sự chính trị ngoại giao',
+    'hiep dinh paris',
+    'hiệp định paris',
+  ],
+  'dai-thang-mua-xuan-1975': [
+    'dai thang mua xuan',
+    'đại thắng mùa xuân',
+    'mua xuan 1975',
+    'mùa xuân 1975',
+    '30/4/1975',
+    '30 4 1975',
+    'chien dich ho chi minh',
+    'chiến dịch hồ chí minh',
+    'giai phong mien nam',
+    'giải phóng miền nam',
+  ],
+  'doi-moi-1986': [
+    'doi moi',
+    'đổi mới',
+    'doi moi 1986',
+    'đổi mới 1986',
+    'dai hoi vi',
+    'đại hội vi',
+    'dai hoi 6',
+    'đại hội 6',
+    'nhin thang vao su that',
+    'nhìn thẳng vào sự thật',
+  ],
+  'kinh-te-thi-truong-dinh-huong-xhcn': [
+    'kinh te thi truong',
+    'kinh tế thị trường',
+    'dinh huong xa hoi chu nghia',
+    'định hướng xã hội chủ nghĩa',
+    'kinh te thi truong dinh huong xa hoi chu nghia',
+    'kinh tế thị trường định hướng xã hội chủ nghĩa',
+  ],
+  'cong-nghiep-hoa-hien-dai-hoa': [
+    'cong nghiep hoa',
+    'công nghiệp hóa',
+    'hien dai hoa',
+    'hiện đại hóa',
+    'cong nghiep hoa hien dai hoa',
+    'công nghiệp hóa hiện đại hóa',
+  ],
+  'hoi-nhap-quoc-te': [
+    'hoi nhap',
+    'hội nhập',
+    'hoi nhap quoc te',
+    'hội nhập quốc tế',
+    'doi ngoai',
+    'đối ngoại',
+    'wto',
+  ],
+};
+
+function findPeriod(normalizedQuery) {
+  return PERIODS.find((period) =>
+    period.aliases.some((alias) => normalizedQuery.includes(normalize(alias)))
+  );
+}
+
+function getTimelineForPeriod(periodId) {
+  return TIMELINE.filter((item) =>
+    normalize(item.era).includes(normalize(periodId))
+  );
+}
+
+function findPerson(normalizedQuery) {
   for (const [slug, person] of Object.entries(PHILOSOPHERS)) {
-    const names = [person.name, person.nameVi, slug].filter(Boolean).map(normalize);
-    if (names.some((name) => normalized.includes(name))) {
-      return {
-        content: `**${person.name} (${person.birthDeath})**\n\n${person.summary}\n\n**Đóng góp nổi bật:**\n${person.concepts.map((item) => `- ${item}`).join('\n')}`,
-        topicDetected: person.name,
-        rejected: false
-      };
+    const names = [person.name, person.nameVi, slug]
+      .filter(Boolean)
+      .map(normalize);
+
+    if (names.some((name) => normalizedQuery.includes(name))) {
+      return { slug, person };
     }
   }
 
-  for (const detail of Object.values(CONCEPT_DETAILS)) {
-    if (normalized.includes(normalize(detail.title))) {
-      return {
-        content: `**${detail.title}**\n\n${detail.description}\n\n*Giai đoạn: ${detail.school}*`,
-        topicDetected: detail.title,
-        rejected: false
-      };
+  return null;
+}
+
+function findConcept(normalizedQuery) {
+  for (const [slug, detail] of Object.entries(CONCEPT_DETAILS)) {
+    const titleMatch =
+      normalizedQuery.includes(normalize(detail.title)) ||
+      hasAllImportantWords(normalizedQuery, detail.title);
+
+    const aliasMatch = (CONCEPT_ALIASES[slug] || []).some((alias) =>
+      normalizedQuery.includes(normalize(alias))
+    );
+
+    if (titleMatch || aliasMatch) {
+      return { slug, detail };
     }
   }
 
-  const broadTopics = ['dang', 'lich su', 'cach mang', 'khang chien', 'doi moi', 'dai hoi', 'viet nam', 'dien bien phu', 'thang tam'];
-  if (broadTopics.some((topic) => normalized.includes(topic))) {
+  return null;
+}
+
+function buildPeriodResponse(period, intent) {
+  const events = getTimelineForPeriod(period.id);
+
+  if (intent === 'event') {
     return {
-      content: '**Lịch sử Đảng Cộng sản Việt Nam** được trình bày theo ba chặng chính:\n\n1. **1930-1945:** Đảng ra đời, hoàn chỉnh đường lối giải phóng dân tộc và lãnh đạo Cách mạng Tháng Tám.\n2. **1945-1975:** Bảo vệ chính quyền, tiến hành hai cuộc kháng chiến và thống nhất đất nước.\n3. **Từ 1975:** Xây dựng đất nước, khởi xướng đổi mới và hội nhập quốc tế.\n\nBạn hãy nêu một sự kiện, nhân vật hoặc văn kiện cụ thể để tôi giải thích sâu hơn.',
-      topicDetected: 'Lịch sử Đảng',
-      rejected: false
+      content:
+        `**${period.title}** có các mốc nổi bật sau:\n\n` +
+        `${formatTimelineItems(events)}\n\n` +
+        `**Ý chính cần nhớ:**\n${formatBulletList(period.keyPoints)}\n\n` +
+        'Bạn có thể hỏi tiếp một mốc cụ thể, ví dụ: “Cách mạng Tháng Tám là gì?” hoặc “Hội nghị Trung ương 8 năm 1941 có ý nghĩa gì?”.',
+      topicDetected: period.id,
+      rejected: false,
     };
   }
 
   return {
-    content: 'Tôi hỗ trợ nội dung **Lịch sử Đảng Cộng sản Việt Nam**. Bạn có thể hỏi về sự ra đời của Đảng, Cách mạng Tháng Tám, hai cuộc kháng chiến, công cuộc đổi mới, các đại hội, nhân vật hoặc văn kiện tiêu biểu.',
-    topicDetected: 'Ngoài phạm vi',
-    rejected: true
+    content:
+      `**${period.title}**\n\n${period.summary}\n\n` +
+      `**Ý chính cần nắm:**\n${formatBulletList(period.keyPoints)}\n\n` +
+      `**Một số mốc tiêu biểu:**\n${formatTimelineItems(events.slice(0, 6))}`,
+    topicDetected: period.id,
+    rejected: false,
+  };
+}
+
+function buildConceptResponse(slug, detail, intent) {
+  const relatedEvents = TIMELINE.filter((item) =>
+    normalize(item.era).includes(normalize(detail.school))
+  ).slice(0, 6);
+
+  if (intent === 'event') {
+    return {
+      content:
+        `**${detail.title}** thuộc giai đoạn **${detail.school}**.\n\n` +
+        `${detail.description}\n\n` +
+        `**Một số mốc liên quan:**\n${formatTimelineItems(relatedEvents)}`,
+      topicDetected: detail.title,
+      rejected: false,
+    };
+  }
+
+  if (intent === 'meaning') {
+    return {
+      content:
+        `**${detail.title}**\n\n${detail.description}\n\n` +
+        `**Ý nghĩa / vai trò khi học:**\n` +
+        '- Giúp nhận diện đường lối, nhiệm vụ hoặc phương pháp cách mạng trong từng giai đoạn.\n' +
+        '- Là điểm kiến thức thường dùng để liên hệ với sự kiện, nhân vật và văn kiện cùng thời kỳ.\n' +
+        '- Khi ôn thi, nên nắm bối cảnh ra đời, nội dung chính và ý nghĩa lịch sử.\n\n' +
+        `*Giai đoạn: ${detail.school}*`,
+      topicDetected: detail.title,
+      rejected: false,
+    };
+  }
+
+  return {
+    content:
+      `**${detail.title}**\n\n${detail.description}\n\n` +
+      `**Cách học nhanh:**\n` +
+      '- Ghi nhớ bối cảnh xuất hiện.\n' +
+      '- Nắm nội dung trọng tâm.\n' +
+      '- Liên hệ với nhân vật, văn kiện và sự kiện cùng giai đoạn.\n\n' +
+      `*Giai đoạn: ${detail.school}*`,
+    topicDetected: detail.title,
+    rejected: false,
+  };
+}
+
+function buildPersonResponse(person) {
+  const works = (person.works || []).map((work) =>
+    work.year
+      ? `${work.title} (${work.year}): ${work.description}`
+      : `${work.title}: ${work.description}`
+  );
+
+  return {
+    content:
+      `**${person.name} (${person.birthDeath})**\n\n${person.summary}\n\n` +
+      `**Đóng góp nổi bật:**\n${formatBulletList(person.concepts)}\n\n` +
+      `**Tác phẩm / hoạt động liên quan:**\n${formatBulletList(works)}`,
+    topicDetected: person.name,
+    rejected: false,
+  };
+}
+
+function buildCompareResponse(normalizedQuery) {
+  const asksCuongLinh = hasAny(normalizedQuery, ['cuong linh', 'chanh cuong']);
+  const asksLuanCuong = hasAny(normalizedQuery, ['luan cuong']);
+
+  if (asksCuongLinh && asksLuanCuong) {
+    const cuongLinh = CONCEPT_DETAILS['cuong-linh-chinh-tri-dau-tien'];
+    const luanCuong = CONCEPT_DETAILS['luan-cuong-chinh-tri-1930'];
+
+    return {
+      content:
+        `**So sánh Cương lĩnh chính trị đầu tiên và Luận cương chính trị tháng 10/1930**\n\n` +
+        `**Cương lĩnh chính trị đầu tiên:**\n${cuongLinh.description}\n\n` +
+        `**Luận cương chính trị tháng 10/1930:**\n${luanCuong.description}\n\n` +
+        `**Điểm cần nhớ khi ôn thi:**\n` +
+        '- Cương lĩnh đầu tiên nổi bật ở việc đặt nhiệm vụ giải phóng dân tộc lên hàng đầu.\n' +
+        '- Luận cương tháng 10/1930 nhấn mạnh đấu tranh giai cấp và liên minh công - nông.\n' +
+        '- Câu hỏi so sánh thường yêu cầu nêu ưu điểm, hạn chế và bối cảnh ra đời của từng văn kiện.',
+      topicDetected: 'So sánh Cương lĩnh và Luận cương',
+      rejected: false,
+    };
+  }
+
+  return null;
+}
+
+function buildBroadResponse(normalizedQuery) {
+  if (
+    hasAny(normalizedQuery, [
+      'lich su dang',
+      'dang cong san viet nam',
+      'tong quan',
+      'toan bo',
+      'he thong',
+    ])
+  ) {
+    return {
+      content:
+        '**Lịch sử Đảng Cộng sản Việt Nam** có thể hệ thống theo ba chặng lớn:\n\n' +
+        '1. **1930-1945:** Đảng ra đời, xác lập đường lối cách mạng và lãnh đạo Cách mạng Tháng Tám.\n' +
+        '2. **1945-1975:** Bảo vệ chính quyền, tiến hành kháng chiến chống Pháp, chống Mỹ và thống nhất đất nước.\n' +
+        '3. **Từ 1975:** Xây dựng đất nước, đổi mới và hội nhập quốc tế.\n\n' +
+        'Bạn có thể hỏi theo dạng: “1930-1945 có sự kiện gì?”, “Cách mạng Tháng Tám là gì?”, “Đại hội VI có ý nghĩa gì?”.',
+      topicDetected: 'Tổng quan Lịch sử Đảng',
+      rejected: false,
+    };
+  }
+
+  if (hasAny(normalizedQuery, ['dai hoi'])) {
+    return {
+      content:
+        '**Các Đại hội Đảng** là những mốc quan trọng tổng kết thực tiễn, bổ sung đường lối và xác định nhiệm vụ chiến lược cho từng thời kỳ.\n\n' +
+        '**Một số mốc thường gặp khi học:**\n' +
+        '- **Đại hội II năm 1951:** Đảng ra hoạt động công khai với tên Đảng Lao động Việt Nam.\n' +
+        '- **Đại hội III năm 1960:** Xác định đường lối cách mạng hai miền.\n' +
+        '- **Đại hội VI năm 1986:** Khởi xướng công cuộc đổi mới.\n\n' +
+        'Bạn có thể hỏi cụ thể hơn, ví dụ: “Đại hội VI là gì?” hoặc “Đại hội III xác định nhiệm vụ hai miền thế nào?”.',
+      topicDetected: 'Đại hội Đảng',
+      rejected: false,
+    };
+  }
+
+  return null;
+}
+
+export function getChatResponse(query) {
+  const normalized = normalize(query);
+  const intent = detectIntent(normalized);
+
+  if (!normalized) {
+    return {
+      content:
+        'Bạn hãy nhập một câu hỏi về **Lịch sử Đảng Cộng sản Việt Nam**, ví dụ: “1930-1945 có sự kiện gì?” hoặc “Cách mạng Tháng Tám là gì?”.',
+      topicDetected: 'Câu hỏi trống',
+      rejected: true,
+    };
+  }
+
+  const compareResponse = buildCompareResponse(normalized);
+  if (compareResponse) return compareResponse;
+
+  const personMatch = findPerson(normalized);
+  if (personMatch) {
+    return buildPersonResponse(personMatch.person);
+  }
+
+  const conceptMatch = findConcept(normalized);
+  if (conceptMatch) {
+    return buildConceptResponse(conceptMatch.slug, conceptMatch.detail, intent);
+  }
+
+  const periodMatch = findPeriod(normalized);
+  if (periodMatch) {
+    return buildPeriodResponse(periodMatch, intent);
+  }
+
+  const broadResponse = buildBroadResponse(normalized);
+  if (broadResponse) return broadResponse;
+
+  const broadTopics = [
+    'dang',
+    'lich su',
+    'cach mang',
+    'khang chien',
+    'doi moi',
+    'dai hoi',
+    'viet nam',
+    'dien bien phu',
+    'thang tam',
+    'thang 8',
+    'van kien',
+    'cuong linh',
+    'luan cuong',
+    'giai phong',
+    'thong nhat',
+    'hoi nhap',
+    'khai nghia',
+    'tong khoi nghia',
+  ];
+
+  if (broadTopics.some((topic) => normalized.includes(topic))) {
+    return {
+      content:
+        '**Lịch sử Đảng Cộng sản Việt Nam** được trình bày theo ba chặng chính:\n\n' +
+        '1. **1930-1945:** Đảng ra đời, hoàn chỉnh đường lối giải phóng dân tộc và lãnh đạo Cách mạng Tháng Tám.\n' +
+        '2. **1945-1975:** Bảo vệ chính quyền, tiến hành hai cuộc kháng chiến và thống nhất đất nước.\n' +
+        '3. **Từ 1975:** Xây dựng đất nước, khởi xướng đổi mới và hội nhập quốc tế.\n\n' +
+        'Bạn hãy nêu một **sự kiện, nhân vật, giai đoạn hoặc văn kiện cụ thể** để tôi giải thích sâu hơn.',
+      topicDetected: 'Lịch sử Đảng',
+      rejected: false,
+    };
+  }
+
+  return {
+    content:
+      'Tôi hỗ trợ tra cứu nội dung **Lịch sử Đảng Cộng sản Việt Nam**. Bạn có thể hỏi theo các dạng:\n\n' +
+      '- “1930-1945 có sự kiện gì?”\n' +
+      '- “Tổng khởi nghĩa tháng 8 là gì?”\n' +
+      '- “Cương lĩnh chính trị đầu tiên là gì?”\n' +
+      '- “So sánh Cương lĩnh và Luận cương 1930”\n' +
+      '- “Đại hội VI có ý nghĩa gì?”\n' +
+      '- “Võ Nguyên Giáp có vai trò gì?”',
+    topicDetected: 'Chưa nhận diện rõ',
+    rejected: true,
   };
 }
 

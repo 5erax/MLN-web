@@ -1,6 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { quote, philosophers as philApi, schools as schoolsApi, timeline as timelineApi } from '../api';
+import {
+  quote,
+  philosophers as philApi,
+  schools as schoolsApi,
+  timeline as timelineApi,
+  concepts as conceptsApi,
+} from '../api';
+import { lessons } from '../data/lessonsData';
+import { examBankStats } from '../data/examQuestionBank';
+import { sourceCategories } from '../data/sourceLibraryData';
 
 const FEATURES = [
   { to: '/bai-hoc', title: 'Bài giảng', desc: 'Học theo tiến trình lịch sử, đường lối và các bước ngoặt lớn.', icon: '📖' },
@@ -26,6 +35,8 @@ export default function Home({ user }) {
   const [renewalLeaders, setRenewalLeaders] = useState([]);
   const [schoolsList, setSchoolsList] = useState([]);
   const [timelineData, setTimelineData] = useState([]);
+  const [allLeaders, setAllLeaders] = useState([]);
+  const [conceptsList, setConceptsList] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -34,17 +45,54 @@ export default function Home({ user }) {
       philApi.list().catch(() => ({ philosophers: [] })),
       schoolsApi.list().catch(() => ({ schools: [] })),
       timelineApi.list().catch(() => ({ timeline: [] })),
-    ]).then(([quoteRes, philRes, schoolRes, timelineRes]) => {
+      conceptsApi.list().catch(() => ({ concepts: [] })),
+    ]).then(([quoteRes, philRes, schoolRes, timelineRes, conceptRes]) => {
       setDailyQuote(quoteRes.quote);
+
       const all = philRes.philosophers || [];
-      setResistanceLeaders(all.filter(p => RESISTANCE_PERIODS.includes(p.school)));
-      setRenewalLeaders(all.filter(p => !RESISTANCE_PERIODS.includes(p.school)));
+
+      setAllLeaders(all);
+      setResistanceLeaders(all.filter((p) => RESISTANCE_PERIODS.includes(p.school)));
+      setRenewalLeaders(all.filter((p) => !RESISTANCE_PERIODS.includes(p.school)));
+
       setSchoolsList(schoolRes.schools || []);
       setTimelineData(timelineRes.timeline || []);
+      setConceptsList(conceptRes.concepts || []);
+
       setLoading(false);
     });
   }, []);
+  const totalSources = sourceCategories.reduce(
+    (total, category) => total + (category.sources?.length || 0),
+    0
+  );
 
+  const homeStats = [
+    {
+      value: allLeaders.length,
+      label: 'Nhân vật',
+    },
+    {
+      value: schoolsList.length,
+      label: 'Giai đoạn',
+    },
+    {
+      value: conceptsList.length,
+      label: 'Chủ đề',
+    },
+    {
+      value: lessons.length,
+      label: 'Bài học',
+    },
+    {
+      value: examBankStats.total,
+      label: 'Câu ôn thi',
+    },
+    {
+      value: totalSources,
+      label: 'Nguồn học liệu',
+    },
+  ];
   if (loading) return (
     <div className="page">
       <div className="loading-wrap"><div className="loading-spinner" aria-label="Đang tải" /><span className="loading-text">Đang tải...</span></div>
@@ -83,25 +131,16 @@ export default function Home({ user }) {
 
       {/* Stats Strip */}
       <section className="home-stats-strip stagger-1">
-        <div className="home-stat-item">
-          <span className="home-stat-num">8</span>
-          <span className="home-stat-label">Nhân vật</span>
-        </div>
-        <div className="home-stat-divider" />
-        <div className="home-stat-item">
-          <span className="home-stat-num">3</span>
-          <span className="home-stat-label">Giai đoạn</span>
-        </div>
-        <div className="home-stat-divider" />
-        <div className="home-stat-item">
-          <span className="home-stat-num">15</span>
-          <span className="home-stat-label">Chủ đề</span>
-        </div>
-        <div className="home-stat-divider" />
-        <div className="home-stat-item">
-          <span className="home-stat-num">95+</span>
-          <span className="home-stat-label">Năm lãnh đạo</span>
-        </div>
+        {homeStats.map((stat, index) => (
+          <div className="home-stat-group" key={stat.label}>
+            {index > 0 && <div className="home-stat-divider" />}
+
+            <div className="home-stat-item">
+              <span className="home-stat-num">{stat.value}</span>
+              <span className="home-stat-label">{stat.label}</span>
+            </div>
+          </div>
+        ))}
       </section>
 
       {/* Daily Quote */}
@@ -250,7 +289,7 @@ export default function Home({ user }) {
       <section className="home-cta stagger-7">
         <div className="home-cta-inner">
           <div className="home-cta-icon" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
           </div>
           <div>
             <h3>Trợ lý Lịch sử Đảng</h3>
@@ -362,40 +401,86 @@ export default function Home({ user }) {
 
         /* ---- Stats Strip ---- */
         .home-stats-strip {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 1.75rem;
-          padding: 1.25rem 1.5rem;
-          background: var(--bg-card);
-          border: 1px solid var(--border-light);
-          border-radius: var(--radius-xl);
-          margin-bottom: 3rem;
-          box-shadow: var(--shadow);
-        }
-        .home-stat-item { text-align: center; transition: transform 0.2s ease; cursor: default; }
-        .home-stat-item:hover { transform: scale(1.05); }
-        .home-stat-item:hover .home-stat-num { color: var(--accent-hover); }
-        .home-stat-num {
-          display: block;
-          font-family: var(--font-serif);
-          font-size: 1.75rem;
-          font-weight: 700;
-          color: var(--accent);
-          line-height: 1.1;
-        }
-        .home-stat-label {
-          font-size: 0.75rem;
-          color: var(--text-light);
-          text-transform: uppercase;
-          letter-spacing: 0.04em;
-        }
-        .home-stat-divider {
-          width: 1px;
-          height: 36px;
-          background: var(--border-light);
-          flex-shrink: 0;
-        }
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: center;
+  gap: 0;
+  margin: 1.5rem 0 2rem;
+  padding: 1rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-xs);
+}
+
+.home-stat-group {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  min-width: 0;
+}
+
+.home-stat-group:first-child {
+  grid-template-columns: 1fr;
+}
+
+.home-stat-divider {
+  width: 1px;
+  height: 42px;
+  background: var(--border-light);
+  margin: 0 0.85rem;
+}
+
+.home-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 0;
+}
+
+.home-stat-num {
+  color: var(--accent);
+  font-family: var(--font-serif);
+  font-size: clamp(1.35rem, 3vw, 1.9rem);
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+
+.home-stat-label {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+@media (max-width: 900px) {
+  .home-stats-strip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .home-stat-group {
+    grid-template-columns: 1fr;
+  }
+
+  .home-stat-divider {
+    display: none;
+  }
+
+  .home-stat-item {
+    padding: 0.75rem;
+    border-radius: var(--radius);
+    background: var(--bg-alt);
+  }
+}
+
+@media (max-width: 520px) {
+  .home-stats-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 
         /* ---- Daily Quote ---- */
         .daily-quote {
