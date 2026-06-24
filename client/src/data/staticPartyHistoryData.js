@@ -9,7 +9,7 @@ export const staticPeople = [
     school: 'Giai đoạn 1930-1945',
     summary:
       'Nguyễn Ái Quốc - Hồ Chí Minh chuẩn bị về tư tưởng, chính trị và tổ chức cho sự ra đời của Đảng Cộng sản Việt Nam. Người chủ trì Hội nghị thành lập Đảng đầu năm 1930, lãnh đạo Cách mạng Tháng Tám và cùng Trung ương Đảng hoạch định đường lối kháng chiến, kiến quốc.',
-    imageUrl: '',
+    imageUrl: '/people/ho-chi-minh.jpg',
     imageAlt: '',
     imageCaption: '',
     imageSource: '',
@@ -59,7 +59,7 @@ export const staticPeople = [
     school: 'Giai đoạn 1930-1945',
     summary:
       'Trần Phú là Tổng Bí thư đầu tiên của Đảng. Đồng chí chủ trì xây dựng Luận cương chính trị tháng 10/1930 và góp phần củng cố tổ chức Đảng trong những năm đầu đầy thử thách.',
-    imageUrl: '',
+    imageUrl: '/people/tran-phu.jpg',
     concepts: [
       'Khẳng định vai trò lãnh đạo của Đảng của giai cấp công nhân.',
       'Nhấn mạnh liên minh công nhân - nông dân trong cách mạng Đông Dương.',
@@ -87,7 +87,7 @@ export const staticPeople = [
     school: 'Giai đoạn 1930-1945',
     summary:
       'Lê Hồng Phong có vai trò quan trọng trong khôi phục hệ thống tổ chức Đảng sau cao trào 1930-1931, chuẩn bị Đại hội I của Đảng và duy trì mối liên hệ với phong trào cộng sản quốc tế.',
-    imageUrl: '',
+    imageUrl: '/people/le-hong-phong.jpg',
     concepts: [
       'Khôi phục tổ chức và hệ thống lãnh đạo của Đảng.',
       'Kết nối phong trào cách mạng trong nước với phong trào quốc tế.',
@@ -143,7 +143,7 @@ export const staticPeople = [
     school: 'Giai đoạn 1945-1975',
     summary:
       'Trường Chinh tham gia lãnh đạo Tổng khởi nghĩa Tháng Tám, kháng chiến chống thực dân Pháp và công cuộc xây dựng đất nước. Đồng chí có đóng góp lớn trong hình thành đường lối kháng chiến toàn dân, toàn diện, trường kỳ và tự lực cánh sinh.',
-    imageUrl: '',
+    imageUrl: '/people/truong-chinh.jpg',
     concepts: [
       'Kháng chiến toàn dân, toàn diện, trường kỳ và dựa vào sức mình là chính.',
       'Kết hợp nhiệm vụ kháng chiến với kiến quốc.',
@@ -171,7 +171,7 @@ export const staticPeople = [
     school: 'Giai đoạn 1945-1975',
     summary:
       'Đại tướng Võ Nguyên Giáp là Tổng Tư lệnh Quân đội nhân dân Việt Nam. Dưới sự lãnh đạo của Đảng và Chủ tịch Hồ Chí Minh, Đại tướng trực tiếp chỉ huy nhiều chiến dịch lớn, tiêu biểu là Chiến dịch Điện Biên Phủ năm 1954.',
-    imageUrl: '',
+    imageUrl: '/people/vo-nguyen-giap.jpg',
     concepts: [
       'Xây dựng lực lượng vũ trang nhân dân và thế trận chiến tranh nhân dân.',
       'Kết hợp chiến tranh du kích với tác chiến tập trung.',
@@ -199,7 +199,7 @@ export const staticPeople = [
     school: 'Giai đoạn 1945-1975',
     summary:
       'Lê Duẩn có nhiều đóng góp trong hoạch định đường lối cách mạng miền Nam, xây dựng quyết tâm chiến lược giải phóng miền Nam và thống nhất đất nước.',
-    imageUrl: '',
+    imageUrl: '/people/le-duan.jpg',
     concepts: [
       'Tiến hành đồng thời cách mạng xã hội chủ nghĩa ở miền Bắc và cách mạng dân tộc dân chủ nhân dân ở miền Nam.',
       'Kết hợp đấu tranh chính trị, quân sự và ngoại giao.',
@@ -227,7 +227,7 @@ export const staticPeople = [
     school: 'Giai đoạn từ 1975',
     summary:
       'Nguyễn Văn Linh là Tổng Bí thư đầu thời kỳ đổi mới. Đồng chí cùng Ban Chấp hành Trung ương khóa VI lãnh đạo chuyển đổi tư duy kinh tế, khắc phục cơ chế tập trung quan liêu, bao cấp và mở đường cho công cuộc đổi mới toàn diện.',
-    imageUrl: '',
+    imageUrl: '/people/nguyen-van-linh.jpg',
     concepts: [
       'Nhìn thẳng vào sự thật, đánh giá đúng sự thật và nói rõ sự thật.',
       'Đổi mới tư duy trước hết là đổi mới tư duy kinh tế.',
