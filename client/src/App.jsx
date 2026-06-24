@@ -33,6 +33,7 @@ const ChatBox = lazy(() => import('./components/ChatBox'));
 const PrivacyBanner = lazy(() => import('./components/PrivacyBanner'));
 const SourceLibrary = lazy(() => import('./pages/SourceLibrary'));
 const LearningProgress = lazy(() => import('./pages/LearningProgress'));
+const ExamPractice = lazy(() => import('./pages/ExamPractice'));
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -80,6 +81,7 @@ function App() {
           }
         >
           <Routes>
+            <Route path="/on-thi" element={<ExamPractice />} />
             <Route path="/nguon-hoc-lieu" element={<SourceLibrary />} />
             <Route path="/tien-do" element={<LearningProgress />} />
             <Route path="/" element={<Home user={user} />} />
