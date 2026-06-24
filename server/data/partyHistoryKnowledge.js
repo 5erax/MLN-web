@@ -7,6 +7,11 @@ export const PHILOSOPHERS = {
   'ho-chi-minh': {
     name: 'Hồ Chí Minh',
     nameVi: 'Nguyễn Ái Quốc - Hồ Chí Minh',
+    imageUrl: '/people/ho-chi-minh.jpg',
+    imageAlt: 'Chân dung Hồ Chí Minh',
+    imageCaption: 'Hồ Chí Minh - lãnh tụ cách mạng Việt Nam',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/',
     birthDeath: '1890-1969',
     era: 'Thành lập Đảng và kháng chiến',
     school: 'Giai đoạn 1930-1945',
@@ -31,6 +36,11 @@ export const PHILOSOPHERS = {
   },
   'tran-phu': {
     name: 'Trần Phú',
+    imageUrl: '/people/tran-phu.jpg',
+    imageAlt: 'Chân dung Trần Phú',
+    imageCaption: 'Trần Phú - Tổng Bí thư đầu tiên của Đảng',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/',
     nameVi: 'Trần Phú',
     birthDeath: '1904-1931',
     era: 'Thành lập Đảng',
@@ -49,6 +59,11 @@ export const PHILOSOPHERS = {
     influencedBy: ['Công tác xây dựng Đảng thời kỳ đầu']
   },
   'le-hong-phong': {
+    imageUrl: '/people/le-hong-phong.jpg',
+    imageAlt: 'Chân dung Lê Hồng Phong',
+    imageCaption: 'Lê Hồng Phong - Tổng Bí thư của Đảng thời kỳ khôi phục tổ chức',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/',
     name: 'Lê Hồng Phong',
     nameVi: 'Lê Hồng Phong',
     birthDeath: '1902-1942',
@@ -68,6 +83,11 @@ export const PHILOSOPHERS = {
     influencedBy: ['Công tác tổ chức và cán bộ của Đảng']
   },
   'nguyen-van-cu': {
+    imageUrl: '/people/nguyen-van-cu.jpg',
+    imageAlt: 'Chân dung Nguyễn Văn Cừ',
+    imageCaption: 'Nguyễn Văn Cừ - Tổng Bí thư của Đảng giai đoạn 1938-1940',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/',
     name: 'Nguyễn Văn Cừ',
     nameVi: 'Nguyễn Văn Cừ',
     birthDeath: '1912-1941',
@@ -87,6 +107,11 @@ export const PHILOSOPHERS = {
     influencedBy: ['Công tác xây dựng, chỉnh đốn Đảng']
   },
   'truong-chinh': {
+    imageUrl: '/people/truong-chinh.jpg',
+    imageAlt: 'Chân dung Trường Chinh',
+    imageCaption: 'Trường Chinh - nhà lãnh đạo của Đảng trong kháng chiến và đổi mới',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/',
     name: 'Trường Chinh',
     nameVi: 'Trường Chinh',
     birthDeath: '1907-1988',
@@ -106,6 +131,11 @@ export const PHILOSOPHERS = {
     influencedBy: ['Đường lối kháng chiến', 'Tư duy đổi mới']
   },
   'vo-nguyen-giap': {
+    imageUrl: '/people/vo-nguyen-giap.jpg',
+    imageAlt: 'Chân dung Võ Nguyên Giáp',
+    imageCaption: 'Võ Nguyên Giáp - Đại tướng, Tổng Tư lệnh Quân đội nhân dân Việt Nam',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/',
     name: 'Võ Nguyên Giáp',
     nameVi: 'Võ Nguyên Giáp',
     birthDeath: '1911-2013',
@@ -125,6 +155,11 @@ export const PHILOSOPHERS = {
     influencedBy: ['Nghệ thuật quân sự Việt Nam hiện đại']
   },
   'le-duan': {
+    imageUrl: '/people/le-duan.jpg',
+    imageAlt: 'Chân dung Lê Duẩn',
+    imageCaption: 'Lê Duẩn - Tổng Bí thư của Đảng thời kỳ kháng chiến chống Mỹ và sau thống nhất',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/',
     name: 'Lê Duẩn',
     nameVi: 'Lê Duẩn',
     birthDeath: '1907-1986',
@@ -144,6 +179,11 @@ export const PHILOSOPHERS = {
     influencedBy: ['Đường lối kháng chiến chống Mỹ, cứu nước']
   },
   'nguyen-van-linh': {
+    imageUrl: '/people/nguyen-van-linh.jpg',
+    imageAlt: 'Chân dung Nguyễn Văn Linh',
+    imageCaption: 'Nguyễn Văn Linh - Tổng Bí thư đầu thời kỳ đổi mới',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/',
     name: 'Nguyễn Văn Linh',
     nameVi: 'Nguyễn Văn Linh',
     birthDeath: '1915-1998',
