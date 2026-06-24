@@ -2,117 +2,117 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { lessons } from '../data/lessonsData';
 import {
-  getLearningProgress,
-  getLearningSummary,
-  resetAllLearningProgress,
+    getLearningProgress,
+    getLearningSummary,
+    resetAllLearningProgress,
 } from '../utils/learningProgress';
 
 export default function LearningProgress() {
-  const [version, setVersion] = useState(0);
+    const [version, setVersion] = useState(0);
 
-  const progress = useMemo(() => getLearningProgress(), [version]);
-  const summary = useMemo(() => getLearningSummary(lessons), [version]);
+    const progress = useMemo(() => getLearningProgress(), [version]);
+    const summary = useMemo(() => getLearningSummary(lessons), [version]);
 
-  const handleReset = () => {
-    const confirmed = window.confirm(
-      'Bạn có chắc muốn xóa toàn bộ tiến độ học tập trên trình duyệt này không?'
-    );
+    const handleReset = () => {
+        const confirmed = window.confirm(
+            'Bạn có chắc muốn xóa toàn bộ tiến độ học tập trên trình duyệt này không?'
+        );
 
-    if (!confirmed) return;
+        if (!confirmed) return;
 
-    resetAllLearningProgress();
-    setVersion((value) => value + 1);
-  };
+        resetAllLearningProgress();
+        setVersion((value) => value + 1);
+    };
 
-  return (
-    <div className="page page--wide progress-page">
-      <header className="progress-hero">
-        <span className="badge badge-school">Tiến độ học tập</span>
-        <h1 className="page-title">Theo dõi quá trình học Lịch sử Đảng</h1>
-        <p className="page-desc">
-          Tiến độ được lưu cục bộ trên trình duyệt bằng localStorage. Dữ liệu này không cần đăng nhập
-          và không gửi lên server.
-        </p>
+    return (
+        <div className="page page--wide progress-page">
+            <header className="progress-hero">
+                <span className="badge badge-school">Tiến độ học tập</span>
+                <h1 className="page-title">Theo dõi quá trình học Lịch sử Đảng</h1>
+                <p className="page-desc">
+                    Theo dõi những bài đã học, quiz đã hoàn thành và các nội dung cần ôn lại để
+                    bạn biết nên học gì tiếp theo.
+                </p>
 
-        <div className="progress-actions">
-          <Link to="/bai-hoc" className="btn btn-primary">
-            Tiếp tục học
-          </Link>
-          <button type="button" className="btn btn-outline" onClick={handleReset}>
-            Xóa tiến độ
-          </button>
-        </div>
-      </header>
+                <div className="progress-actions">
+                    <Link to="/bai-hoc" className="btn btn-primary">
+                        Tiếp tục học
+                    </Link>
+                    <button type="button" className="btn btn-outline" onClick={handleReset}>
+                        Xóa tiến độ
+                    </button>
+                </div>
+            </header>
 
-      <section className="progress-summary-grid">
-        <SummaryCard label="Tổng bài học" value={summary.totalLessons} />
-        <SummaryCard label="Đã đọc" value={summary.readLessons} />
-        <SummaryCard label="Quiz đã làm" value={summary.completedQuizzes} />
-        <SummaryCard label="Quiz đã đạt" value={summary.passedQuizzes} />
-        <SummaryCard label="Cần ôn lại" value={summary.needsReview} />
-      </section>
+            <section className="progress-summary-grid">
+                <SummaryCard label="Tổng bài học" value={summary.totalLessons} />
+                <SummaryCard label="Đã đọc" value={summary.readLessons} />
+                <SummaryCard label="Quiz đã làm" value={summary.completedQuizzes} />
+                <SummaryCard label="Quiz đã đạt" value={summary.passedQuizzes} />
+                <SummaryCard label="Cần ôn lại" value={summary.needsReview} />
+            </section>
 
-      <section className="progress-meter-card">
-        <div className="progress-meter-top">
-          <h2>Mức hoàn thành bài đọc</h2>
-          <strong>{summary.completionPercentage}%</strong>
-        </div>
-        <div className="progress-meter">
-          <div
-            className="progress-meter-fill"
-            style={{ width: `${summary.completionPercentage}%` }}
-          />
-        </div>
-      </section>
+            <section className="progress-meter-card">
+                <div className="progress-meter-top">
+                    <h2>Tiến độ hoàn thành bài học</h2>
+                    <strong>{summary.completionPercentage}%</strong>
+                </div>
+                <div className="progress-meter">
+                    <div
+                        className="progress-meter-fill"
+                        style={{ width: `${summary.completionPercentage}%` }}
+                    />
+                </div>
+            </section>
 
-      <section className="progress-lessons">
-        <div className="progress-section-heading">
-          <h2>Chi tiết từng bài</h2>
-          <p>
-            Bài chưa đạt quiz sẽ được gợi ý ôn lại để tránh học qua loa nhưng không nắm chắc kiến thức.
-          </p>
-        </div>
-
-        <div className="progress-lesson-list">
-          {lessons.map((lesson) => {
-            const item = progress[lesson.slug] || {};
-            const status = getStatus(item);
-
-            return (
-              <article key={lesson.slug} className="progress-lesson-card">
-                <div className="progress-lesson-main">
-                  <span className={`progress-status ${status.className}`}>
-                    {status.label}
-                  </span>
-                  <h3>{lesson.title}</h3>
-                  <p>{lesson.description}</p>
-
-                  <div className="progress-lesson-meta">
-                    <span>{lesson.sections.length} phần học</span>
-                    <span>
-                      Điểm cao nhất:{' '}
-                      <strong>
-                        {item.bestPercentage ? `${item.bestPercentage}%` : 'Chưa có'}
-                      </strong>
-                    </span>
-                  </div>
+            <section className="progress-lessons">
+                <div className="progress-section-heading">
+                    <h2>Chi tiết từng bài</h2>
+                    <p>
+                        Bài chưa đạt quiz sẽ được gợi ý ôn lại để tránh học qua loa nhưng không nắm chắc kiến thức.
+                    </p>
                 </div>
 
-                <div className="progress-lesson-actions">
-                  <Link to={`/bai-hoc/${lesson.slug}`} className="btn btn-outline btn-sm">
-                    Đọc bài
-                  </Link>
-                  <Link to={`/bai-hoc/${lesson.slug}/quiz`} className="btn btn-primary btn-sm">
-                    Làm quiz
-                  </Link>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-      </section>
+                <div className="progress-lesson-list">
+                    {lessons.map((lesson) => {
+                        const item = progress[lesson.slug] || {};
+                        const status = getStatus(item);
 
-      <style>{`
+                        return (
+                            <article key={lesson.slug} className="progress-lesson-card">
+                                <div className="progress-lesson-main">
+                                    <span className={`progress-status ${status.className}`}>
+                                        {status.label}
+                                    </span>
+                                    <h3>{lesson.title}</h3>
+                                    <p>{lesson.description}</p>
+
+                                    <div className="progress-lesson-meta">
+                                        <span>{lesson.sections.length} phần học</span>
+                                        <span>
+                                            Điểm cao nhất:{' '}
+                                            <strong>
+                                                {item.bestPercentage ? `${item.bestPercentage}%` : 'Chưa có'}
+                                            </strong>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div className="progress-lesson-actions">
+                                    <Link to={`/bai-hoc/${lesson.slug}`} className="btn btn-outline btn-sm">
+                                        Đọc bài
+                                    </Link>
+                                    <Link to={`/bai-hoc/${lesson.slug}/quiz`} className="btn btn-primary btn-sm">
+                                        Làm quiz
+                                    </Link>
+                                </div>
+                            </article>
+                        );
+                    })}
+                </div>
+            </section>
+
+            <style>{`
         .progress-page {
           padding-bottom: 4rem;
         }
@@ -332,43 +332,43 @@ export default function LearningProgress() {
           }
         }
       `}</style>
-    </div>
-  );
+        </div>
+    );
 }
 
 function SummaryCard({ label, value }) {
-  return (
-    <article className="progress-summary-card">
-      <strong>{value}</strong>
-      <span>{label}</span>
-    </article>
-  );
+    return (
+        <article className="progress-summary-card">
+            <strong>{value}</strong>
+            <span>{label}</span>
+        </article>
+    );
 }
 
 function getStatus(progress) {
-  if (progress.passed) {
-    return {
-      label: 'Đã đạt quiz',
-      className: 'progress-status--passed',
-    };
-  }
+    if (progress.passed) {
+        return {
+            label: 'Đã đạt quiz',
+            className: 'progress-status--passed',
+        };
+    }
 
-  if (progress.needsReview) {
-    return {
-      label: 'Cần ôn lại',
-      className: 'progress-status--review',
-    };
-  }
+    if (progress.needsReview) {
+        return {
+            label: 'Cần ôn lại',
+            className: 'progress-status--review',
+        };
+    }
 
-  if (progress.read) {
-    return {
-      label: 'Đã đọc',
-      className: 'progress-status--read',
-    };
-  }
+    if (progress.read) {
+        return {
+            label: 'Đã đọc',
+            className: 'progress-status--read',
+        };
+    }
 
-  return {
-    label: 'Chưa học',
-    className: 'progress-status--new',
-  };
+    return {
+        label: 'Chưa học',
+        className: 'progress-status--new',
+    };
 }

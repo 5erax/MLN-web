@@ -28,7 +28,7 @@ export default function ConceptDetail({ user }) {
         setLoading(false);
 
         if (user && c?._id) {
-          userApi.viewContent(c._id).catch(() => {});
+          userApi.viewContent(c._id).catch(() => { });
         }
       })
       .catch(() => {
@@ -224,7 +224,12 @@ export default function ConceptDetail({ user }) {
 
                   <div className="cd-source-tags">
                     {relatedSources.map((source) => (
-                      <span key={source}>{source}</span>
+                      <Link
+                        key={source}
+                        to={`/nguon-hoc-lieu?q=${encodeURIComponent(source)}`}
+                      >
+                        {source}
+                      </Link>
                     ))}
                   </div>
 
@@ -555,7 +560,7 @@ export default function ConceptDetail({ user }) {
         }
 
         .cd-related-tags a,
-        .cd-source-tags span {
+        .cd-source-tags a {
           display: inline-flex;
           align-items: center;
           min-height: 34px;

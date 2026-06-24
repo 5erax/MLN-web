@@ -1,13 +1,30 @@
-import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import {
     sourceCategories,
     sourceUsageRules,
 } from '../data/sourceLibraryData';
 
 export default function SourceLibrary() {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const initialKeyword = searchParams.get('q') || '';
+
     const [activeCategory, setActiveCategory] = useState('all');
-    const [keyword, setKeyword] = useState('');
+    const [keyword, setKeyword] = useState(initialKeyword);
+
+    useEffect(() => {
+        setKeyword(searchParams.get('q') || '');
+    }, [searchParams]);
+
+    const updateKeyword = (value) => {
+        setKeyword(value);
+
+        if (value.trim()) {
+            setSearchParams({ q: value.trim() });
+        } else {
+            setSearchParams({});
+        }
+    };
 
     const allSources = useMemo(() => {
         return sourceCategories.flatMap((category) =>
@@ -100,7 +117,7 @@ export default function SourceLibrary() {
                         <input
                             type="search"
                             value={keyword}
-                            onChange={(event) => setKeyword(event.target.value)}
+                            onChange={(event) => updateKeyword(event.target.value)}
                             placeholder="Ví dụ: Cương lĩnh, đổi mới, Đại hội VI..."
                         />
                     </label>
@@ -193,7 +210,13 @@ export default function SourceLibrary() {
                                     <h4>Bài học liên quan</h4>
                                     <div className="source-related-tags">
                                         {(source.relatedLessons || []).map((lesson) => (
-                                            <span key={lesson}>{lesson}</span>
+                                            <button
+                                                key={lesson}
+                                                type="button"
+                                                onClick={() => updateKeyword(lesson)}
+                                            >
+                                                {lesson}
+                                            </button>
                                         ))}
                                     </div>
                                 </div>
@@ -493,7 +516,29 @@ export default function SourceLibrary() {
           flex-wrap: wrap;
           gap: 0.4rem;
         }
+.source-related-tags button {
+  border: 1px solid var(--border-light);
+  background: var(--bg-alt);
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 0.32rem 0.65rem;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    color var(--transition),
+    background var(--transition),
+    border-color var(--transition),
+    transform var(--transition);
+}
 
+.source-related-tags button:hover {
+  color: var(--accent);
+  background: var(--accent-light);
+  border-color: rgba(44, 82, 130, 0.18);
+  transform: translateY(-1px);
+}
         .source-related-tags span {
           background: var(--accent-gold-light);
           color: var(--accent-gold);
