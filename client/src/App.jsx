@@ -31,7 +31,7 @@ const LessonQuiz = lazy(() => import('./pages/LessonQuiz'));
 const ReviewGames = lazy(() => import('./pages/ReviewGames'));
 const ChatBox = lazy(() => import('./components/ChatBox'));
 const PrivacyBanner = lazy(() => import('./components/PrivacyBanner'));
-
+const SourceLibrary = lazy(() => import('./pages/SourceLibrary'));
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -79,6 +79,7 @@ function App() {
           }
         >
           <Routes>
+            <Route path="/nguon-hoc-lieu" element={<SourceLibrary />} />
             <Route path="/" element={<Home user={user} />} />
             <Route path="/triet-gia" element={<Philosophers />} />
             <Route path="/triet-gia/:slug" element={<PhilosopherDetail user={user} />} />
