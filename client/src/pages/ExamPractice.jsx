@@ -1,416 +1,432 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  examChapters,
-  examDifficulties,
-  examQuestionBank,
+    examChapters,
+    examDifficulties,
+    examQuestionBank,
 } from '../data/examQuestionBank';
-
+import { saveExamMistakes } from '../utils/wrongQuestionStore';
 const EXAM_SIZE_OPTIONS = [10, 20, 40];
 
 function shuffle(list) {
-  return [...list].sort(() => Math.random() - 0.5);
+    return [...list].sort(() => Math.random() - 0.5);
 }
 
 function getDifficultyLabel(id) {
-  return examDifficulties.find((item) => item.id === id)?.label || id;
+    return examDifficulties.find((item) => item.id === id)?.label || id;
 }
 
 function getChapterLabel(id) {
-  return examChapters.find((item) => item.id === id)?.label || id;
+    return examChapters.find((item) => item.id === id)?.label || id;
 }
 
 export default function ExamPractice() {
-  const [chapterId, setChapterId] = useState('all');
-  const [difficulty, setDifficulty] = useState('all');
-  const [examSize, setExamSize] = useState(10);
-  const [questions, setQuestions] = useState([]);
-  const [answers, setAnswers] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+    const [chapterId, setChapterId] = useState('all');
+    const [difficulty, setDifficulty] = useState('all');
+    const [examSize, setExamSize] = useState(10);
+    const [questions, setQuestions] = useState([]);
+    const [answers, setAnswers] = useState({});
+    const [submitted, setSubmitted] = useState(false);
+    const [savedMistakesCount, setSavedMistakesCount] = useState(0);
+    const availableQuestions = useMemo(() => {
+        return examQuestionBank.filter((question) => {
+            const matchesChapter = chapterId === 'all' || question.chapterId === chapterId;
+            const matchesDifficulty =
+                difficulty === 'all' || question.difficulty === difficulty;
 
-  const availableQuestions = useMemo(() => {
-    return examQuestionBank.filter((question) => {
-      const matchesChapter = chapterId === 'all' || question.chapterId === chapterId;
-      const matchesDifficulty =
-        difficulty === 'all' || question.difficulty === difficulty;
+            return matchesChapter && matchesDifficulty;
+        });
+    }, [chapterId, difficulty]);
 
-      return matchesChapter && matchesDifficulty;
-    });
-  }, [chapterId, difficulty]);
+    const canStart = availableQuestions.length > 0;
 
-  const canStart = availableQuestions.length > 0;
+    const startExam = () => {
+        const selectedQuestions = shuffle(availableQuestions)
+            .slice(0, Math.min(examSize, availableQuestions.length))
+            .map((question) => ({
+                ...question,
+                options: shuffle(question.options),
+            }));
 
-  const startExam = () => {
-    const selectedQuestions = shuffle(availableQuestions)
-      .slice(0, Math.min(examSize, availableQuestions.length))
-      .map((question) => ({
-        ...question,
-        options: shuffle(question.options),
-      }));
+        setQuestions(selectedQuestions);
+        setAnswers({});
+        setSubmitted(false);
+        setSavedMistakesCount(0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
-    setQuestions(selectedQuestions);
-    setAnswers({});
-    setSubmitted(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+    const resetExam = () => {
+        setQuestions([]);
+        setAnswers({});
+        setSubmitted(false);
+        setSavedMistakesCount(0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
-  const resetExam = () => {
-    setQuestions([]);
-    setAnswers({});
-    setSubmitted(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+    const chooseAnswer = (questionId, optionId) => {
+        if (submitted) return;
 
-  const chooseAnswer = (questionId, optionId) => {
-    if (submitted) return;
+        setAnswers((prev) => ({
+            ...prev,
+            [questionId]: optionId,
+        }));
+    };
 
-    setAnswers((prev) => ({
-      ...prev,
-      [questionId]: optionId,
-    }));
-  };
+    const score = questions.reduce((total, question) => {
+        return total + (answers[question.id] === question.correctAnswer ? 1 : 0);
+    }, 0);
 
-  const score = questions.reduce((total, question) => {
-    return total + (answers[question.id] === question.correctAnswer ? 1 : 0);
-  }, 0);
+    const total = questions.length;
+    const answeredCount = Object.keys(answers).length;
+    const percentage = total > 0 ? Math.round((score / total) * 100) : 0;
+    const passed = submitted && percentage >= 70;
+    const submitExam = () => {
+        const savedCount = saveExamMistakes(questions, answers);
+        setSavedMistakesCount(savedCount);
+        setSubmitted(true);
+    };
+    if (questions.length > 0) {
+        return (
+            <ExamSession
+                questions={questions}
+                answers={answers}
+                submitted={submitted}
+                score={score}
+                total={total}
+                percentage={percentage}
+                passed={passed}
+                answeredCount={answeredCount}
+                savedMistakesCount={savedMistakesCount}
+                chooseAnswer={chooseAnswer}
+                submitExam={submitExam}
+                resetExam={resetExam}
+            />
+        );
+    }
 
-  const total = questions.length;
-  const answeredCount = Object.keys(answers).length;
-  const percentage = total > 0 ? Math.round((score / total) * 100) : 0;
-  const passed = submitted && percentage >= 70;
-
-  if (questions.length > 0) {
     return (
-      <ExamSession
-        questions={questions}
-        answers={answers}
-        submitted={submitted}
-        score={score}
-        total={total}
-        percentage={percentage}
-        passed={passed}
-        answeredCount={answeredCount}
-        chooseAnswer={chooseAnswer}
-        setSubmitted={setSubmitted}
-        resetExam={resetExam}
-      />
+        <div className="page page--wide exam-page">
+            <header className="exam-hero">
+                <span className="badge badge-school">Luyện thi tổng hợp</span>
+                <h1 className="page-title">Ôn thi Lịch sử Đảng theo chương</h1>
+                <p className="page-desc">
+                    Chọn chương, độ khó và số lượng câu hỏi để tạo đề luyện tập. Mỗi câu có giải thích
+                    đáp án để người học hiểu sai ở đâu và cần ôn lại phần nào.
+                </p>
+
+                <div className="exam-hero-actions">
+                    <Link to="/bai-hoc" className="btn btn-primary">
+                        Xem bài học
+                    </Link>
+                    <Link to="/on-lai-cau-sai" className="btn btn-outline">
+                        Luyện câu sai
+                    </Link>
+                    <Link to="/tro-choi-on-tap" className="btn btn-outline">
+                        Ôn tập tương tác
+                    </Link>
+                    <Link to="/tien-do" className="btn btn-ghost">
+                        Tiến độ học
+                    </Link>
+                </div>
+            </header>
+
+            <section className="exam-builder">
+                <div className="exam-builder-main">
+                    <h2>Tạo đề luyện tập</h2>
+                    <p>
+                        Hệ thống sẽ lấy ngẫu nhiên câu hỏi phù hợp với bộ lọc. Nếu ngân hàng câu hỏi
+                        chưa đủ 20 hoặc 40 câu, đề sẽ lấy tối đa số câu hiện có.
+                    </p>
+
+                    <div className="exam-form-grid">
+                        <label>
+                            <span>Chương</span>
+                            <select
+                                value={chapterId}
+                                onChange={(event) => setChapterId(event.target.value)}
+                            >
+                                {examChapters.map((chapter) => (
+                                    <option key={chapter.id} value={chapter.id}>
+                                        {chapter.label}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+
+                        <label>
+                            <span>Độ khó</span>
+                            <select
+                                value={difficulty}
+                                onChange={(event) => setDifficulty(event.target.value)}
+                            >
+                                {examDifficulties.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                        {item.label}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                    </div>
+
+                    <div className="exam-size-options">
+                        <span>Số câu hỏi</span>
+                        <div>
+                            {EXAM_SIZE_OPTIONS.map((size) => (
+                                <button
+                                    key={size}
+                                    type="button"
+                                    className={examSize === size ? 'active' : ''}
+                                    onClick={() => setExamSize(size)}
+                                >
+                                    {size} câu
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    <button
+                        type="button"
+                        className="btn btn-primary btn-lg"
+                        onClick={startExam}
+                        disabled={!canStart}
+                    >
+                        Bắt đầu luyện tập
+                    </button>
+                </div>
+
+                <aside className="exam-builder-side">
+                    <h3>Thông tin bộ lọc</h3>
+
+                    <dl>
+                        <div>
+                            <dt>Chương</dt>
+                            <dd>{getChapterLabel(chapterId)}</dd>
+                        </div>
+                        <div>
+                            <dt>Độ khó</dt>
+                            <dd>{getDifficultyLabel(difficulty)}</dd>
+                        </div>
+                        <div>
+                            <dt>Câu phù hợp</dt>
+                            <dd>{availableQuestions.length} câu</dd>
+                        </div>
+                        <div>
+                            <dt>Đề sẽ tạo</dt>
+                            <dd>{Math.min(examSize, availableQuestions.length)} câu</dd>
+                        </div>
+                    </dl>
+
+                    {!canStart && (
+                        <p className="exam-warning">
+                            Không có câu hỏi phù hợp. Hãy đổi chương hoặc độ khó.
+                        </p>
+                    )}
+                </aside>
+            </section>
+
+            <section className="exam-bank-overview">
+                <h2>Tổng quan ngân hàng câu hỏi</h2>
+
+                <div className="exam-overview-grid">
+                    <OverviewCard label="Tổng câu hỏi" value={examQuestionBank.length} />
+                    <OverviewCard
+                        label="1930-1945"
+                        value={examQuestionBank.filter((q) => q.chapterId === '1930-1945').length}
+                    />
+                    <OverviewCard
+                        label="1945-1975"
+                        value={examQuestionBank.filter((q) => q.chapterId === '1945-1975').length}
+                    />
+                    <OverviewCard
+                        label="Từ 1975"
+                        value={examQuestionBank.filter((q) => q.chapterId === '1975-now').length}
+                    />
+                </div>
+            </section>
+
+            <ExamStyle />
+        </div>
     );
-  }
-
-  return (
-    <div className="page page--wide exam-page">
-      <header className="exam-hero">
-        <span className="badge badge-school">Luyện thi tổng hợp</span>
-        <h1 className="page-title">Ôn thi Lịch sử Đảng theo chương</h1>
-        <p className="page-desc">
-          Chọn chương, độ khó và số lượng câu hỏi để tạo đề luyện tập. Mỗi câu có giải thích
-          đáp án để người học hiểu sai ở đâu và cần ôn lại phần nào.
-        </p>
-
-        <div className="exam-hero-actions">
-          <Link to="/bai-hoc" className="btn btn-primary">
-            Xem bài học
-          </Link>
-          <Link to="/tro-choi-on-tap" className="btn btn-outline">
-            Ôn tập tương tác
-          </Link>
-          <Link to="/tien-do" className="btn btn-ghost">
-            Tiến độ học
-          </Link>
-        </div>
-      </header>
-
-      <section className="exam-builder">
-        <div className="exam-builder-main">
-          <h2>Tạo đề luyện tập</h2>
-          <p>
-            Hệ thống sẽ lấy ngẫu nhiên câu hỏi phù hợp với bộ lọc. Nếu ngân hàng câu hỏi
-            chưa đủ 20 hoặc 40 câu, đề sẽ lấy tối đa số câu hiện có.
-          </p>
-
-          <div className="exam-form-grid">
-            <label>
-              <span>Chương</span>
-              <select
-                value={chapterId}
-                onChange={(event) => setChapterId(event.target.value)}
-              >
-                {examChapters.map((chapter) => (
-                  <option key={chapter.id} value={chapter.id}>
-                    {chapter.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label>
-              <span>Độ khó</span>
-              <select
-                value={difficulty}
-                onChange={(event) => setDifficulty(event.target.value)}
-              >
-                {examDifficulties.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-
-          <div className="exam-size-options">
-            <span>Số câu hỏi</span>
-            <div>
-              {EXAM_SIZE_OPTIONS.map((size) => (
-                <button
-                  key={size}
-                  type="button"
-                  className={examSize === size ? 'active' : ''}
-                  onClick={() => setExamSize(size)}
-                >
-                  {size} câu
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <button
-            type="button"
-            className="btn btn-primary btn-lg"
-            onClick={startExam}
-            disabled={!canStart}
-          >
-            Bắt đầu luyện tập
-          </button>
-        </div>
-
-        <aside className="exam-builder-side">
-          <h3>Thông tin bộ lọc</h3>
-
-          <dl>
-            <div>
-              <dt>Chương</dt>
-              <dd>{getChapterLabel(chapterId)}</dd>
-            </div>
-            <div>
-              <dt>Độ khó</dt>
-              <dd>{getDifficultyLabel(difficulty)}</dd>
-            </div>
-            <div>
-              <dt>Câu phù hợp</dt>
-              <dd>{availableQuestions.length} câu</dd>
-            </div>
-            <div>
-              <dt>Đề sẽ tạo</dt>
-              <dd>{Math.min(examSize, availableQuestions.length)} câu</dd>
-            </div>
-          </dl>
-
-          {!canStart && (
-            <p className="exam-warning">
-              Không có câu hỏi phù hợp. Hãy đổi chương hoặc độ khó.
-            </p>
-          )}
-        </aside>
-      </section>
-
-      <section className="exam-bank-overview">
-        <h2>Tổng quan ngân hàng câu hỏi</h2>
-
-        <div className="exam-overview-grid">
-          <OverviewCard label="Tổng câu hỏi" value={examQuestionBank.length} />
-          <OverviewCard
-            label="1930-1945"
-            value={examQuestionBank.filter((q) => q.chapterId === '1930-1945').length}
-          />
-          <OverviewCard
-            label="1945-1975"
-            value={examQuestionBank.filter((q) => q.chapterId === '1945-1975').length}
-          />
-          <OverviewCard
-            label="Từ 1975"
-            value={examQuestionBank.filter((q) => q.chapterId === '1975-now').length}
-          />
-        </div>
-      </section>
-
-      <ExamStyle />
-    </div>
-  );
 }
 
 function ExamSession({
-  questions,
-  answers,
-  submitted,
-  score,
-  total,
-  percentage,
-  passed,
-  answeredCount,
-  chooseAnswer,
-  setSubmitted,
-  resetExam,
+    questions,
+    answers,
+    submitted,
+    score,
+    total,
+    percentage,
+    passed,
+    answeredCount,
+    savedMistakesCount,
+    chooseAnswer,
+    submitExam,
+    resetExam,
 }) {
-  return (
-    <div className="page page--wide exam-page">
-      <header className="exam-session-header">
-        <div>
-          <span className="badge badge-school">Đề luyện tập</span>
-          <h1 className="page-title">Bài ôn thi tổng hợp</h1>
-          <p className="page-desc">
-            Trả lời toàn bộ câu hỏi, sau đó bấm nộp bài để xem điểm và giải thích.
-          </p>
-        </div>
-
-        <button type="button" className="btn btn-outline" onClick={resetExam}>
-          Tạo đề khác
-        </button>
-      </header>
-
-      <section className="exam-progress-card">
-        <div className="exam-progress-top">
-          <span>
-            Đã trả lời <strong>{answeredCount}</strong>/{total} câu
-          </span>
-          {submitted && (
-            <span>
-              Kết quả: <strong>{score}/{total}</strong> — {percentage}%
-            </span>
-          )}
-        </div>
-
-        <div className="exam-progress-bar">
-          <div
-            className="exam-progress-fill"
-            style={{ width: `${(answeredCount / total) * 100}%` }}
-          />
-        </div>
-      </section>
-
-      {submitted && (
-        <section className={`exam-result ${passed ? 'exam-result--passed' : 'exam-result--review'}`}>
-          <h2>{passed ? 'Đạt yêu cầu' : 'Cần ôn thêm'}</h2>
-          <p>
-            Bạn trả lời đúng {score}/{total} câu ({percentage}%).
-            {passed
-              ? ' Bạn đã nắm tương đối tốt phần kiến thức được kiểm tra.'
-              : ' Hãy xem lại các câu sai và quay lại bài học liên quan.'}
-          </p>
-        </section>
-      )}
-
-      <section className="exam-question-list">
-        {questions.map((question, index) => {
-          const selected = answers[question.id];
-          const isCorrect = selected === question.correctAnswer;
-
-          return (
-            <article
-              key={question.id}
-              className={`exam-question-card ${
-                submitted ? (isCorrect ? 'is-correct' : 'is-wrong') : ''
-              }`}
-            >
-              <div className="exam-question-top">
+    return (
+        <div className="page page--wide exam-page">
+            <header className="exam-session-header">
                 <div>
-                  <span className="exam-question-number">
-                    Câu {index + 1}
-                  </span>
-                  <h2>{question.question}</h2>
+                    <span className="badge badge-school">Đề luyện tập</span>
+                    <h1 className="page-title">Bài ôn thi tổng hợp</h1>
+                    <p className="page-desc">
+                        Trả lời toàn bộ câu hỏi, sau đó bấm nộp bài để xem điểm và giải thích.
+                    </p>
                 </div>
 
-                <div className="exam-question-tags">
-                  <span>{question.chapterLabel}</span>
-                  <span>{getDifficultyLabel(question.difficulty)}</span>
+                <button type="button" className="btn btn-outline" onClick={resetExam}>
+                    Tạo đề khác
+                </button>
+            </header>
+
+            <section className="exam-progress-card">
+                <div className="exam-progress-top">
+                    <span>
+                        Đã trả lời <strong>{answeredCount}</strong>/{total} câu
+                    </span>
+                    {submitted && (
+                        <span>
+                            Kết quả: <strong>{score}/{total}</strong> — {percentage}%
+                        </span>
+                    )}
                 </div>
-              </div>
 
-              <div className="exam-options">
-                {question.options.map((option) => {
-                  const isSelected = selected === option.id;
-                  const isRightOption = submitted && option.id === question.correctAnswer;
-                  const isWrongSelected =
-                    submitted && isSelected && option.id !== question.correctAnswer;
+                <div className="exam-progress-bar">
+                    <div
+                        className="exam-progress-fill"
+                        style={{ width: `${(answeredCount / total) * 100}%` }}
+                    />
+                </div>
+            </section>
 
-                  return (
-                    <button
-                      key={option.id}
-                      type="button"
-                      className={`exam-option ${
-                        isSelected ? 'is-selected' : ''
-                      } ${isRightOption ? 'is-right' : ''} ${
-                        isWrongSelected ? 'is-wrong' : ''
-                      }`}
-                      onClick={() => chooseAnswer(question.id, option.id)}
-                    >
-                      <span className="exam-option-letter">
-                        {option.id.toUpperCase()}
-                      </span>
-                      <span>{option.text}</span>
-                    </button>
-                  );
+            {submitted && (
+                <section className={`exam-result ${passed ? 'exam-result--passed' : 'exam-result--review'}`}>
+                    <h2>{passed ? 'Đạt yêu cầu' : 'Cần ôn thêm'}</h2>
+                    <p>
+                        Bạn trả lời đúng {score}/{total} câu ({percentage}%).
+                        {passed
+                            ? ' Bạn đã nắm tương đối tốt phần kiến thức được kiểm tra.'
+                            : ' Hãy xem lại các câu sai và quay lại bài học liên quan.'}
+                    </p>
+
+                    {savedMistakesCount > 0 && (
+                        <div className="exam-result-actions">
+                            <Link to="/on-lai-cau-sai" className="btn btn-primary btn-sm">
+                                Luyện lại {savedMistakesCount} câu sai
+                            </Link>
+                        </div>
+                    )}
+                </section>
+            )}
+
+            <section className="exam-question-list">
+                {questions.map((question, index) => {
+                    const selected = answers[question.id];
+                    const isCorrect = selected === question.correctAnswer;
+
+                    return (
+                        <article
+                            key={question.id}
+                            className={`exam-question-card ${submitted ? (isCorrect ? 'is-correct' : 'is-wrong') : ''
+                                }`}
+                        >
+                            <div className="exam-question-top">
+                                <div>
+                                    <span className="exam-question-number">
+                                        Câu {index + 1}
+                                    </span>
+                                    <h2>{question.question}</h2>
+                                </div>
+
+                                <div className="exam-question-tags">
+                                    <span>{question.chapterLabel}</span>
+                                    <span>{getDifficultyLabel(question.difficulty)}</span>
+                                </div>
+                            </div>
+
+                            <div className="exam-options">
+                                {question.options.map((option) => {
+                                    const isSelected = selected === option.id;
+                                    const isRightOption = submitted && option.id === question.correctAnswer;
+                                    const isWrongSelected =
+                                        submitted && isSelected && option.id !== question.correctAnswer;
+
+                                    return (
+                                        <button
+                                            key={option.id}
+                                            type="button"
+                                            className={`exam-option ${isSelected ? 'is-selected' : ''
+                                                } ${isRightOption ? 'is-right' : ''} ${isWrongSelected ? 'is-wrong' : ''
+                                                }`}
+                                            onClick={() => chooseAnswer(question.id, option.id)}
+                                        >
+                                            <span className="exam-option-letter">
+                                                {option.id.toUpperCase()}
+                                            </span>
+                                            <span>{option.text}</span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+
+                            {submitted && (
+                                <div className="exam-explanation">
+                                    <strong>Giải thích:</strong> {question.explanation}
+                                    {question.relatedLessonSlug && (
+                                        <div className="exam-related-lesson">
+                                            <Link to={`/bai-hoc/${question.relatedLessonSlug}`}>
+                                                Xem lại bài học liên quan
+                                            </Link>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </article>
+                    );
                 })}
-              </div>
+            </section>
 
-              {submitted && (
-                <div className="exam-explanation">
-                  <strong>Giải thích:</strong> {question.explanation}
-                  {question.relatedLessonSlug && (
-                    <div className="exam-related-lesson">
-                      <Link to={`/bai-hoc/${question.relatedLessonSlug}`}>
-                        Xem lại bài học liên quan
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              )}
-            </article>
-          );
-        })}
-      </section>
+            <div className="exam-submit-bar">
+                {!submitted ? (
+                    <button
+                        type="button"
+                        className="btn btn-primary btn-lg"
+                        onClick={submitExam}
+                        disabled={answeredCount < total}
+                    >
+                        {answeredCount < total
+                            ? `Còn ${total - answeredCount} câu chưa trả lời`
+                            : 'Nộp bài'}
+                    </button>
+                ) : (
+                    <>
+                        <button type="button" className="btn btn-primary" onClick={resetExam}>
+                            Tạo đề mới
+                        </button>
+                        <Link to="/bai-hoc" className="btn btn-outline">
+                            Xem lại bài học
+                        </Link>
+                    </>
+                )}
+            </div>
 
-      <div className="exam-submit-bar">
-        {!submitted ? (
-          <button
-            type="button"
-            className="btn btn-primary btn-lg"
-            onClick={() => setSubmitted(true)}
-            disabled={answeredCount < total}
-          >
-            {answeredCount < total
-              ? `Còn ${total - answeredCount} câu chưa trả lời`
-              : 'Nộp bài'}
-          </button>
-        ) : (
-          <>
-            <button type="button" className="btn btn-primary" onClick={resetExam}>
-              Tạo đề mới
-            </button>
-            <Link to="/bai-hoc" className="btn btn-outline">
-              Xem lại bài học
-            </Link>
-          </>
-        )}
-      </div>
-
-      <ExamStyle />
-    </div>
-  );
+            <ExamStyle />
+        </div>
+    );
 }
 
 function OverviewCard({ label, value }) {
-  return (
-    <article className="exam-overview-card">
-      <strong>{value}</strong>
-      <span>{label}</span>
-    </article>
-  );
+    return (
+        <article className="exam-overview-card">
+            <strong>{value}</strong>
+            <span>{label}</span>
+        </article>
+    );
 }
 
 function ExamStyle() {
-  return (
-    <style>{`
+    return (
+        <style>{`
       .exam-page {
         padding-bottom: 4rem;
       }
@@ -812,7 +828,9 @@ function ExamStyle() {
         margin-top: 0.5rem;
         font-weight: 700;
       }
-
+.exam-result-actions {
+  margin-top: 1rem;
+}
       .exam-submit-bar {
         position: sticky;
         bottom: 1rem;
@@ -847,5 +865,5 @@ function ExamStyle() {
         }
       }
     `}</style>
-  );
+    );
 }

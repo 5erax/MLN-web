@@ -15,7 +15,7 @@ function ScrollToTopOnNav() {
 
   return null;
 }
-
+const WrongQuestionPractice = lazy(() => import('./pages/WrongQuestionPractice'));
 const Home = lazy(() => import('./pages/Home'));
 const Philosophers = lazy(() => import('./pages/Philosophers'));
 const PhilosopherDetail = lazy(() => import('./pages/PhilosopherDetail'));
@@ -81,6 +81,7 @@ function App() {
           }
         >
           <Routes>
+            <Route path="/on-lai-cau-sai" element={<WrongQuestionPractice />} />
             <Route path="/on-thi" element={<ExamPractice />} />
             <Route path="/nguon-hoc-lieu" element={<SourceLibrary />} />
             <Route path="/tien-do" element={<LearningProgress />} />

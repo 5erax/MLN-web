@@ -24,11 +24,12 @@ export default function Layout({ user, loading, onLogout }) {
     return location.pathname.startsWith(path);
   };
 
-  const navItems = [
+ const navItems = [
   { to: '/', label: 'Trang chủ' },
   { to: '/bai-hoc', label: 'Bài học' },
   { to: '/tro-choi-on-tap', label: 'Ôn tập' },
   { to: '/on-thi', label: 'Ôn thi' },
+  { to: '/on-lai-cau-sai', label: 'Câu sai' },
   { to: '/tien-do', label: 'Tiến độ' },
   { to: '/nguon-hoc-lieu', label: 'Nguồn học liệu' },
   { to: '/triet-gia', label: 'Nhân vật' },
