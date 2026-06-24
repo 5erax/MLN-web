@@ -161,6 +161,864 @@ export const PHILOSOPHERS = {
     ],
     influences: ['Thực tiễn khủng hoảng kinh tế - xã hội trước đổi mới'],
     influencedBy: ['Công cuộc đổi mới và hội nhập quốc tế']
+  },
+  'pham-van-dong': {
+    name: 'Phạm Văn Đồng',
+    nameVi: 'Phạm Văn Đồng',
+    birthDeath: '1906-2000',
+    era: 'Kháng chiến, kiến quốc và xây dựng đất nước',
+    school: 'Giai đoạn 1945-1975',
+    imageUrl: '/people/pham-van-dong.jpg',
+    imageAlt: 'Chân dung Phạm Văn Đồng',
+    imageCaption: 'Phạm Văn Đồng - nhà lãnh đạo cấp cao của Đảng và Nhà nước Việt Nam',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Phạm Văn Đồng là nhà lãnh đạo cấp cao của Đảng và Nhà nước Việt Nam, người học trò gần gũi của Chủ tịch Hồ Chí Minh. Đồng chí có nhiều đóng góp trong công tác Chính phủ, ngoại giao, xây dựng chính quyền cách mạng, kháng chiến kiến quốc và quản lý đất nước sau thống nhất.',
+    concepts: [
+      'Xây dựng chính quyền cách mạng và tổ chức bộ máy nhà nước sau Cách mạng Tháng Tám.',
+      'Kết hợp nhiệm vụ kháng chiến với kiến quốc trong điều kiện đất nước còn nhiều khó khăn.',
+      'Đóng góp quan trọng trong hoạt động ngoại giao và quản lý nhà nước.',
+      'Gắn bó với tư tưởng Hồ Chí Minh về độc lập dân tộc, đoàn kết và phụng sự nhân dân.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Hoạt động trong Chính phủ Việt Nam Dân chủ Cộng hòa',
+        year: '1945-1976',
+        description:
+          'Tham gia xây dựng và điều hành bộ máy nhà nước trong thời kỳ kháng chiến, kiến quốc và xây dựng miền Bắc.',
+      },
+      {
+        title: 'Hoạt động đối ngoại trong kháng chiến',
+        year: '1945-1975',
+        description:
+          'Có nhiều đóng góp trong công tác ngoại giao, tranh thủ sự ủng hộ quốc tế đối với cách mạng Việt Nam.',
+      },
+      {
+        title: 'Quản lý đất nước sau thống nhất',
+        year: '1976-1987',
+        description:
+          'Tiếp tục giữ vai trò quan trọng trong Chính phủ sau khi đất nước thống nhất.',
+      },
+    ],
+    influences: ['Tư tưởng Hồ Chí Minh', 'Đường lối kháng chiến kiến quốc của Đảng'],
+    influencedBy: ['Công tác quản lý nhà nước', 'Ngoại giao cách mạng Việt Nam'],
+  },
+
+  'ton-duc-thang': {
+    name: 'Tôn Đức Thắng',
+    nameVi: 'Tôn Đức Thắng',
+    birthDeath: '1888-1980',
+    era: 'Phong trào công nhân, kháng chiến và xây dựng nhà nước',
+    school: 'Giai đoạn 1945-1975',
+    imageUrl: '/people/ton-duc-thang.jpg',
+    imageAlt: 'Chân dung Tôn Đức Thắng',
+    imageCaption: 'Tôn Đức Thắng - nhà hoạt động cách mạng, Chủ tịch nước Việt Nam Dân chủ Cộng hòa và Cộng hòa xã hội chủ nghĩa Việt Nam',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Tôn Đức Thắng là nhà hoạt động cách mạng tiêu biểu, gắn với phong trào công nhân và sự nghiệp đại đoàn kết dân tộc. Đồng chí có nhiều đóng góp trong kháng chiến, xây dựng Mặt trận dân tộc thống nhất và củng cố Nhà nước Việt Nam sau Cách mạng Tháng Tám.',
+    concepts: [
+      'Gắn phong trào công nhân Việt Nam với phong trào cách mạng giải phóng dân tộc.',
+      'Thể hiện tinh thần đoàn kết quốc tế và đoàn kết dân tộc.',
+      'Có vai trò quan trọng trong Mặt trận dân tộc thống nhất.',
+      'Góp phần củng cố Nhà nước cách mạng và khối đại đoàn kết toàn dân.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Hoạt động trong phong trào công nhân',
+        year: 'Trước 1945',
+        description:
+          'Gắn bó với phong trào công nhân và hoạt động yêu nước trong thời kỳ đấu tranh chống thực dân.',
+      },
+      {
+        title: 'Hoạt động trong Mặt trận dân tộc thống nhất',
+        year: '1945-1975',
+        description:
+          'Góp phần xây dựng khối đoàn kết toàn dân trong kháng chiến và kiến quốc.',
+      },
+      {
+        title: 'Củng cố Nhà nước Việt Nam sau thống nhất',
+        year: '1976-1980',
+        description:
+          'Tiếp tục giữ vai trò biểu tượng đoàn kết trong giai đoạn đầu sau khi đất nước thống nhất.',
+      },
+    ],
+    influences: ['Phong trào công nhân', 'Tư tưởng đại đoàn kết dân tộc'],
+    influencedBy: ['Mặt trận dân tộc thống nhất', 'Truyền thống đoàn kết của cách mạng Việt Nam'],
+  },
+
+  'pham-hung': {
+    name: 'Phạm Hùng',
+    nameVi: 'Phạm Hùng',
+    birthDeath: '1912-1988',
+    era: 'Kháng chiến chống Mỹ và xây dựng đất nước',
+    school: 'Giai đoạn 1945-1975',
+    imageUrl: '/people/pham-hung.jpg',
+    imageAlt: 'Chân dung Phạm Hùng',
+    imageCaption: 'Phạm Hùng - nhà lãnh đạo của Đảng và Nhà nước Việt Nam',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Phạm Hùng là nhà lãnh đạo cách mạng có nhiều đóng góp trong phong trào cách mạng miền Nam, kháng chiến chống Mỹ và công tác lãnh đạo, quản lý đất nước sau thống nhất. Đồng chí gắn với thực tiễn đấu tranh ở Nam Bộ và quá trình xây dựng chính quyền cách mạng.',
+    concepts: [
+      'Gắn bó với phong trào cách mạng miền Nam và Nam Bộ.',
+      'Đóng góp trong tổ chức lực lượng chính trị, quân sự và phong trào quần chúng.',
+      'Tham gia lãnh đạo trong giai đoạn kháng chiến chống Mỹ và xây dựng đất nước sau thống nhất.',
+      'Thể hiện vai trò của cán bộ lãnh đạo trưởng thành từ thực tiễn đấu tranh cách mạng.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Hoạt động cách mạng ở Nam Bộ',
+        year: '1945-1975',
+        description:
+          'Gắn với quá trình lãnh đạo phong trào cách mạng miền Nam trong kháng chiến.',
+      },
+      {
+        title: 'Công tác lãnh đạo sau thống nhất',
+        year: 'Sau 1975',
+        description:
+          'Tiếp tục tham gia lãnh đạo, quản lý nhà nước trong giai đoạn xây dựng đất nước.',
+      },
+    ],
+    influences: ['Thực tiễn cách mạng miền Nam', 'Đường lối kháng chiến chống Mỹ'],
+    influencedBy: ['Phong trào cách mạng Nam Bộ', 'Công tác tổ chức và lãnh đạo sau thống nhất'],
+  },
+
+  'le-duc-tho': {
+    name: 'Lê Đức Thọ',
+    nameVi: 'Lê Đức Thọ',
+    birthDeath: '1911-1990',
+    era: 'Xây dựng Đảng, kháng chiến và ngoại giao',
+    school: 'Giai đoạn 1945-1975',
+    imageUrl: '/people/le-duc-tho.jpg',
+    imageAlt: 'Chân dung Lê Đức Thọ',
+    imageCaption: 'Lê Đức Thọ - nhà lãnh đạo của Đảng, nhà hoạt động ngoại giao trong kháng chiến chống Mỹ',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Lê Đức Thọ là nhà lãnh đạo của Đảng, có nhiều đóng góp trong công tác tổ chức, xây dựng Đảng và hoạt động ngoại giao thời kỳ kháng chiến chống Mỹ. Đồng chí gắn với quá trình đàm phán Hiệp định Paris, góp phần tạo điều kiện cho thắng lợi cuối cùng của sự nghiệp giải phóng miền Nam.',
+    concepts: [
+      'Đóng góp trong công tác tổ chức và xây dựng Đảng.',
+      'Tham gia chỉ đạo, xử lý các vấn đề chiến lược trong kháng chiến chống Mỹ.',
+      'Gắn với mặt trận ngoại giao, đặc biệt là quá trình đàm phán Paris.',
+      'Thể hiện sự kết hợp giữa đấu tranh quân sự, chính trị và ngoại giao.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Công tác tổ chức của Đảng',
+        year: '1945-1975',
+        description:
+          'Có nhiều đóng góp trong xây dựng tổ chức, cán bộ và hệ thống lãnh đạo của Đảng.',
+      },
+      {
+        title: 'Đàm phán Paris',
+        year: '1968-1973',
+        description:
+          'Tham gia quá trình đàm phán ngoại giao dẫn tới Hiệp định Paris về Việt Nam.',
+      },
+    ],
+    influences: ['Đường lối kháng chiến chống Mỹ', 'Nghệ thuật ngoại giao cách mạng'],
+    influencedBy: ['Công tác xây dựng Đảng', 'Đấu tranh ngoại giao trong kháng chiến chống Mỹ'],
+  },
+
+  'nguyen-chi-thanh': {
+    name: 'Nguyễn Chí Thanh',
+    nameVi: 'Nguyễn Chí Thanh',
+    birthDeath: '1914-1967',
+    era: 'Kháng chiến và xây dựng lực lượng',
+    school: 'Giai đoạn 1945-1975',
+    imageUrl: '/people/nguyen-chi-thanh.jpg',
+    imageAlt: 'Chân dung Nguyễn Chí Thanh',
+    imageCaption: 'Nguyễn Chí Thanh - lãnh đạo quân sự, chính trị của cách mạng Việt Nam',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Nguyễn Chí Thanh là nhà lãnh đạo chính trị, quân sự tiêu biểu, có nhiều đóng góp trong xây dựng lực lượng vũ trang, công tác chính trị trong quân đội và phong trào cách mạng miền Nam. Đồng chí gắn với tinh thần tiến công và quan điểm phát huy sức mạnh chính trị của quần chúng trong chiến tranh cách mạng.',
+    concepts: [
+      'Chú trọng công tác chính trị, tư tưởng trong lực lượng vũ trang.',
+      'Gắn xây dựng quân đội với xây dựng Đảng và phát huy vai trò quần chúng.',
+      'Góp phần chỉ đạo phong trào cách mạng miền Nam trong kháng chiến chống Mỹ.',
+      'Thể hiện tinh thần chủ động tiến công trong chiến tranh cách mạng.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Công tác chính trị trong quân đội',
+        year: '1945-1967',
+        description:
+          'Có nhiều đóng góp trong xây dựng quân đội về chính trị, tư tưởng và tổ chức.',
+      },
+      {
+        title: 'Chỉ đạo chiến trường miền Nam',
+        year: '1960s',
+        description:
+          'Góp phần phát triển đường lối đấu tranh cách mạng ở miền Nam trong kháng chiến chống Mỹ.',
+      },
+    ],
+    influences: ['Đường lối chiến tranh nhân dân', 'Công tác chính trị trong quân đội'],
+    influencedBy: ['Xây dựng lực lượng vũ trang nhân dân', 'Phong trào cách mạng miền Nam'],
+  },
+
+  'hoang-quoc-viet': {
+    name: 'Hoàng Quốc Việt',
+    nameVi: 'Hoàng Quốc Việt',
+    birthDeath: '1905-1992',
+    era: 'Phong trào công nhân, Mặt trận và xây dựng Đảng',
+    school: 'Giai đoạn 1945-1975',
+    imageUrl: '/people/hoang-quoc-viet.jpg',
+    imageAlt: 'Chân dung Hoàng Quốc Việt',
+    imageCaption: 'Hoàng Quốc Việt - nhà hoạt động cách mạng, lãnh đạo trong công tác Mặt trận và công đoàn',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Hoàng Quốc Việt là nhà hoạt động cách mạng có nhiều đóng góp trong phong trào công nhân, công tác Mặt trận, công đoàn và xây dựng Đảng. Đồng chí gắn với việc tập hợp lực lượng quần chúng và phát huy vai trò của các tổ chức chính trị - xã hội trong cách mạng Việt Nam.',
+    concepts: [
+      'Gắn phong trào công nhân với sự lãnh đạo của Đảng.',
+      'Chú trọng công tác vận động quần chúng và xây dựng tổ chức chính trị - xã hội.',
+      'Đóng góp trong công tác Mặt trận và công đoàn.',
+      'Thể hiện vai trò của đoàn kết xã hội trong kháng chiến và xây dựng đất nước.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Hoạt động trong phong trào công nhân',
+        year: 'Trước và sau 1945',
+        description:
+          'Gắn với công tác vận động công nhân và tổ chức quần chúng.',
+      },
+      {
+        title: 'Công tác Mặt trận và công đoàn',
+        year: '1945-1975',
+        description:
+          'Góp phần xây dựng khối đoàn kết và phát huy sức mạnh các tổ chức quần chúng.',
+      },
+    ],
+    influences: ['Phong trào công nhân', 'Đường lối đại đoàn kết dân tộc'],
+    influencedBy: ['Công tác dân vận', 'Mặt trận và công đoàn Việt Nam'],
+  },
+
+  'nguyen-luong-bang': {
+    name: 'Nguyễn Lương Bằng',
+    nameVi: 'Nguyễn Lương Bằng',
+    birthDeath: '1904-1979',
+    era: 'Tài chính cách mạng, kháng chiến và xây dựng nhà nước',
+    school: 'Giai đoạn 1945-1975',
+    imageUrl: '/people/nguyen-luong-bang.jpg',
+    imageAlt: 'Chân dung Nguyễn Lương Bằng',
+    imageCaption: 'Nguyễn Lương Bằng - nhà hoạt động cách mạng, cán bộ lãnh đạo của Đảng và Nhà nước',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Nguyễn Lương Bằng là nhà hoạt động cách mạng có nhiều đóng góp trong công tác tài chính, xây dựng chính quyền cách mạng và củng cố bộ máy nhà nước. Đồng chí là tấm gương về đạo đức cách mạng, tinh thần tận tụy và kỷ luật trong hoạt động cách mạng.',
+    concepts: [
+      'Góp phần xây dựng nền tài chính cách mạng trong điều kiện kháng chiến.',
+      'Tham gia củng cố chính quyền cách mạng và bộ máy nhà nước.',
+      'Thể hiện phẩm chất đạo đức cách mạng, cần kiệm, liêm chính.',
+      'Có vai trò trong công tác tổ chức, kiểm tra và xây dựng Đảng.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Công tác tài chính cách mạng',
+        year: '1945-1954',
+        description:
+          'Gắn với nhiệm vụ xây dựng nguồn lực tài chính phục vụ kháng chiến và kiến quốc.',
+      },
+      {
+        title: 'Công tác lãnh đạo trong Nhà nước',
+        year: 'Sau 1954',
+        description:
+          'Tham gia nhiều nhiệm vụ lãnh đạo trong bộ máy Đảng và Nhà nước.',
+      },
+    ],
+    influences: ['Tư tưởng đạo đức cách mạng Hồ Chí Minh', 'Yêu cầu xây dựng chính quyền cách mạng'],
+    influencedBy: ['Công tác tài chính cách mạng', 'Xây dựng đạo đức cán bộ'],
+  },
+
+  'van-tien-dung': {
+    name: 'Văn Tiến Dũng',
+    nameVi: 'Văn Tiến Dũng',
+    birthDeath: '1917-2002',
+    era: 'Kháng chiến chống Pháp, chống Mỹ và thống nhất đất nước',
+    school: 'Giai đoạn 1945-1975',
+    imageUrl: '/people/van-tien-dung.jpg',
+    imageAlt: 'Chân dung Văn Tiến Dũng',
+    imageCaption: 'Văn Tiến Dũng - Đại tướng, nhà lãnh đạo quân sự của Quân đội nhân dân Việt Nam',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Đại tướng Văn Tiến Dũng là nhà lãnh đạo quân sự tiêu biểu của Quân đội nhân dân Việt Nam. Đồng chí tham gia lãnh đạo, chỉ huy nhiều nhiệm vụ quân sự quan trọng, đặc biệt gắn với giai đoạn cuối của cuộc kháng chiến chống Mỹ và Đại thắng mùa Xuân năm 1975.',
+    concepts: [
+      'Góp phần phát triển nghệ thuật chỉ đạo chiến dịch trong chiến tranh nhân dân.',
+      'Tham gia lãnh đạo quân sự trong giai đoạn quyết định của kháng chiến chống Mỹ.',
+      'Gắn với quá trình tổ chức và chỉ huy chiến dịch trong Tổng tiến công mùa Xuân 1975.',
+      'Thể hiện vai trò của Bộ Tổng tham mưu và chỉ đạo chiến lược quân sự.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Chỉ đạo quân sự trong kháng chiến chống Mỹ',
+        year: '1954-1975',
+        description:
+          'Tham gia nhiều nhiệm vụ lãnh đạo, chỉ huy quân sự trong cuộc kháng chiến chống Mỹ.',
+      },
+      {
+        title: 'Đại thắng mùa Xuân năm 1975',
+        year: '1975',
+        description:
+          'Gắn với quá trình chỉ đạo chiến dịch trong giai đoạn quyết định giải phóng miền Nam.',
+      },
+    ],
+    influences: ['Đường lối chiến tranh nhân dân', 'Nghệ thuật quân sự Việt Nam'],
+    influencedBy: ['Chỉ đạo chiến lược quân sự', 'Tổng tiến công và nổi dậy mùa Xuân 1975'],
+  },
+
+  'vo-van-kiet': {
+    name: 'Võ Văn Kiệt',
+    nameVi: 'Võ Văn Kiệt',
+    birthDeath: '1922-2008',
+    era: 'Kháng chiến, đổi mới và phát triển đất nước',
+    school: 'Giai đoạn từ 1975',
+    imageUrl: '/people/vo-van-kiet.jpg',
+    imageAlt: 'Chân dung Võ Văn Kiệt',
+    imageCaption: 'Võ Văn Kiệt - nhà lãnh đạo gắn với công cuộc đổi mới và phát triển đất nước',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Võ Văn Kiệt là nhà lãnh đạo có tư duy đổi mới mạnh mẽ, trưởng thành từ thực tiễn cách mạng miền Nam và có nhiều đóng góp trong phát triển kinh tế - xã hội sau thống nhất. Đồng chí gắn với tinh thần đổi mới, dám nghĩ, dám làm, thúc đẩy hạ tầng, mở cửa và hội nhập.',
+    concepts: [
+      'Gắn đổi mới với thực tiễn đời sống nhân dân và yêu cầu phát triển đất nước.',
+      'Thúc đẩy tư duy quản lý năng động, tháo gỡ cơ chế cũ và khuyến khích sản xuất.',
+      'Quan tâm phát triển hạ tầng, năng lượng và kết nối vùng.',
+      'Kết hợp ổn định chính trị với phát triển kinh tế và mở rộng quan hệ đối ngoại.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Thúc đẩy đổi mới kinh tế - xã hội',
+        year: 'Sau 1986',
+        description:
+          'Gắn với nhiều quyết sách và công trình phát triển trong giai đoạn đầu đổi mới.',
+      },
+      {
+        title: 'Phát triển hạ tầng và kết nối vùng',
+        year: '1990s',
+        description:
+          'Quan tâm thúc đẩy các dự án hạ tầng, năng lượng và phát triển kinh tế vùng.',
+      },
+    ],
+    influences: ['Thực tiễn Nam Bộ', 'Đường lối đổi mới của Đảng'],
+    influencedBy: ['Tư duy quản lý đổi mới', 'Phát triển kinh tế - xã hội sau 1986'],
+  },
+
+  'do-muoi': {
+    name: 'Đỗ Mười',
+    nameVi: 'Đỗ Mười',
+    birthDeath: '1917-2018',
+    era: 'Đổi mới và xây dựng Đảng',
+    school: 'Giai đoạn từ 1975',
+    imageUrl: '/people/do-muoi.jpg',
+    imageAlt: 'Chân dung Đỗ Mười',
+    imageCaption: 'Đỗ Mười - Tổng Bí thư của Đảng trong thời kỳ đầu đổi mới',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Đỗ Mười là Tổng Bí thư của Đảng trong giai đoạn đầu đổi mới, có vai trò trong quá trình tiếp tục thể chế hóa và triển khai đường lối đổi mới sau Đại hội VI. Đồng chí gắn với nhiệm vụ ổn định kinh tế - xã hội, xây dựng Đảng và hoàn thiện nhận thức về con đường phát triển đất nước.',
+    concepts: [
+      'Tiếp tục triển khai và củng cố đường lối đổi mới.',
+      'Chú trọng ổn định kinh tế - xã hội trong giai đoạn chuyển đổi cơ chế.',
+      'Góp phần xây dựng Đảng và củng cố hệ thống chính trị.',
+      'Gắn đổi mới kinh tế với định hướng xã hội chủ nghĩa và vai trò quản lý của Nhà nước.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Lãnh đạo trong thời kỳ đầu đổi mới',
+        year: '1991-1997',
+        description:
+          'Gắn với quá trình tiếp tục triển khai đường lối đổi mới sau Đại hội VI và Đại hội VII.',
+      },
+      {
+        title: 'Xây dựng Đảng và ổn định kinh tế - xã hội',
+        year: '1990s',
+        description:
+          'Chú trọng củng cố hệ thống chính trị, ổn định xã hội và phát triển kinh tế trong giai đoạn chuyển đổi.',
+      },
+    ],
+    influences: ['Đường lối đổi mới', 'Yêu cầu ổn định và phát triển sau khủng hoảng kinh tế - xã hội'],
+    influencedBy: ['Xây dựng Đảng thời kỳ đổi mới', 'Hoàn thiện cơ chế quản lý kinh tế'],
+  },
+
+  'nguyen-duc-binh': {
+    name: 'Nguyễn Đức Bình',
+    nameVi: 'Nguyễn Đức Bình',
+    birthDeath: '1927-2019',
+    era: 'Lý luận chính trị và xây dựng Đảng',
+    school: 'Giai đoạn từ 1975',
+    imageUrl: '/people/nguyen-duc-binh.jpg',
+    imageAlt: 'Chân dung Nguyễn Đức Bình',
+    imageCaption: 'Nguyễn Đức Bình - nhà lý luận chính trị, nhà lãnh đạo công tác tư tưởng của Đảng',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Nguyễn Đức Bình là nhà lý luận chính trị, có nhiều đóng góp trong công tác tư tưởng, lý luận và xây dựng Đảng thời kỳ đổi mới. Đồng chí gắn với việc nghiên cứu, bảo vệ và phát triển nền tảng tư tưởng của Đảng trong bối cảnh đất nước chuyển sang thời kỳ đổi mới.',
+    concepts: [
+      'Góp phần vào công tác tư tưởng, lý luận của Đảng.',
+      'Chú trọng bảo vệ nền tảng tư tưởng và định hướng xã hội chủ nghĩa.',
+      'Tham gia nghiên cứu, tổng kết thực tiễn đổi mới.',
+      'Gắn lý luận chính trị với yêu cầu xây dựng Đảng trong thời kỳ mới.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Công tác lý luận chính trị',
+        year: 'Thời kỳ đổi mới',
+        description:
+          'Có nhiều đóng góp trong nghiên cứu lý luận và tổng kết thực tiễn đổi mới.',
+      },
+      {
+        title: 'Công tác tư tưởng của Đảng',
+        year: 'Sau 1975',
+        description:
+          'Gắn với nhiệm vụ củng cố nền tảng tư tưởng và định hướng phát triển đất nước.',
+      },
+    ],
+    influences: ['Chủ nghĩa Mác - Lênin', 'Tư tưởng Hồ Chí Minh', 'Thực tiễn đổi mới'],
+    influencedBy: ['Công tác tư tưởng lý luận', 'Xây dựng Đảng trong thời kỳ đổi mới'],
+  },
+  'pham-van-dong': {
+    name: 'Phạm Văn Đồng',
+    nameVi: 'Phạm Văn Đồng',
+    birthDeath: '1906-2000',
+    era: 'Kháng chiến, kiến quốc và xây dựng đất nước',
+    school: 'Giai đoạn 1945-1975',
+    imageUrl: '/people/pham-van-dong.jpg',
+    imageAlt: 'Chân dung Phạm Văn Đồng',
+    imageCaption: 'Phạm Văn Đồng - nhà lãnh đạo cấp cao của Đảng và Nhà nước Việt Nam',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Phạm Văn Đồng là nhà lãnh đạo cấp cao của Đảng và Nhà nước Việt Nam, người học trò gần gũi của Chủ tịch Hồ Chí Minh. Đồng chí có nhiều đóng góp trong công tác Chính phủ, ngoại giao, xây dựng chính quyền cách mạng, kháng chiến kiến quốc và quản lý đất nước sau thống nhất.',
+    concepts: [
+      'Xây dựng chính quyền cách mạng và tổ chức bộ máy nhà nước sau Cách mạng Tháng Tám.',
+      'Kết hợp nhiệm vụ kháng chiến với kiến quốc trong điều kiện đất nước còn nhiều khó khăn.',
+      'Đóng góp quan trọng trong hoạt động ngoại giao và quản lý nhà nước.',
+      'Gắn bó với tư tưởng Hồ Chí Minh về độc lập dân tộc, đoàn kết và phụng sự nhân dân.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Hoạt động trong Chính phủ Việt Nam Dân chủ Cộng hòa',
+        year: '1945-1976',
+        description:
+          'Tham gia xây dựng và điều hành bộ máy nhà nước trong thời kỳ kháng chiến, kiến quốc và xây dựng miền Bắc.',
+      },
+      {
+        title: 'Hoạt động đối ngoại trong kháng chiến',
+        year: '1945-1975',
+        description:
+          'Có nhiều đóng góp trong công tác ngoại giao, tranh thủ sự ủng hộ quốc tế đối với cách mạng Việt Nam.',
+      },
+      {
+        title: 'Quản lý đất nước sau thống nhất',
+        year: '1976-1987',
+        description:
+          'Tiếp tục giữ vai trò quan trọng trong Chính phủ sau khi đất nước thống nhất.',
+      },
+    ],
+    influences: ['Tư tưởng Hồ Chí Minh', 'Đường lối kháng chiến kiến quốc của Đảng'],
+    influencedBy: ['Công tác quản lý nhà nước', 'Ngoại giao cách mạng Việt Nam'],
+  },
+
+  'ton-duc-thang': {
+    name: 'Tôn Đức Thắng',
+    nameVi: 'Tôn Đức Thắng',
+    birthDeath: '1888-1980',
+    era: 'Phong trào công nhân, kháng chiến và xây dựng nhà nước',
+    school: 'Giai đoạn 1945-1975',
+    imageUrl: '/people/ton-duc-thang.jpg',
+    imageAlt: 'Chân dung Tôn Đức Thắng',
+    imageCaption: 'Tôn Đức Thắng - nhà hoạt động cách mạng, Chủ tịch nước Việt Nam Dân chủ Cộng hòa và Cộng hòa xã hội chủ nghĩa Việt Nam',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Tôn Đức Thắng là nhà hoạt động cách mạng tiêu biểu, gắn với phong trào công nhân và sự nghiệp đại đoàn kết dân tộc. Đồng chí có nhiều đóng góp trong kháng chiến, xây dựng Mặt trận dân tộc thống nhất và củng cố Nhà nước Việt Nam sau Cách mạng Tháng Tám.',
+    concepts: [
+      'Gắn phong trào công nhân Việt Nam với phong trào cách mạng giải phóng dân tộc.',
+      'Thể hiện tinh thần đoàn kết quốc tế và đoàn kết dân tộc.',
+      'Có vai trò quan trọng trong Mặt trận dân tộc thống nhất.',
+      'Góp phần củng cố Nhà nước cách mạng và khối đại đoàn kết toàn dân.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Hoạt động trong phong trào công nhân',
+        year: 'Trước 1945',
+        description:
+          'Gắn bó với phong trào công nhân và hoạt động yêu nước trong thời kỳ đấu tranh chống thực dân.',
+      },
+      {
+        title: 'Hoạt động trong Mặt trận dân tộc thống nhất',
+        year: '1945-1975',
+        description:
+          'Góp phần xây dựng khối đoàn kết toàn dân trong kháng chiến và kiến quốc.',
+      },
+      {
+        title: 'Củng cố Nhà nước Việt Nam sau thống nhất',
+        year: '1976-1980',
+        description:
+          'Tiếp tục giữ vai trò biểu tượng đoàn kết trong giai đoạn đầu sau khi đất nước thống nhất.',
+      },
+    ],
+    influences: ['Phong trào công nhân', 'Tư tưởng đại đoàn kết dân tộc'],
+    influencedBy: ['Mặt trận dân tộc thống nhất', 'Truyền thống đoàn kết của cách mạng Việt Nam'],
+  },
+
+  'pham-hung': {
+    name: 'Phạm Hùng',
+    nameVi: 'Phạm Hùng',
+    birthDeath: '1912-1988',
+    era: 'Kháng chiến chống Mỹ và xây dựng đất nước',
+    school: 'Giai đoạn 1945-1975',
+    imageUrl: '/people/pham-hung.jpg',
+    imageAlt: 'Chân dung Phạm Hùng',
+    imageCaption: 'Phạm Hùng - nhà lãnh đạo của Đảng và Nhà nước Việt Nam',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Phạm Hùng là nhà lãnh đạo cách mạng có nhiều đóng góp trong phong trào cách mạng miền Nam, kháng chiến chống Mỹ và công tác lãnh đạo, quản lý đất nước sau thống nhất. Đồng chí gắn với thực tiễn đấu tranh ở Nam Bộ và quá trình xây dựng chính quyền cách mạng.',
+    concepts: [
+      'Gắn bó với phong trào cách mạng miền Nam và Nam Bộ.',
+      'Đóng góp trong tổ chức lực lượng chính trị, quân sự và phong trào quần chúng.',
+      'Tham gia lãnh đạo trong giai đoạn kháng chiến chống Mỹ và xây dựng đất nước sau thống nhất.',
+      'Thể hiện vai trò của cán bộ lãnh đạo trưởng thành từ thực tiễn đấu tranh cách mạng.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Hoạt động cách mạng ở Nam Bộ',
+        year: '1945-1975',
+        description:
+          'Gắn với quá trình lãnh đạo phong trào cách mạng miền Nam trong kháng chiến.',
+      },
+      {
+        title: 'Công tác lãnh đạo sau thống nhất',
+        year: 'Sau 1975',
+        description:
+          'Tiếp tục tham gia lãnh đạo, quản lý nhà nước trong giai đoạn xây dựng đất nước.',
+      },
+    ],
+    influences: ['Thực tiễn cách mạng miền Nam', 'Đường lối kháng chiến chống Mỹ'],
+    influencedBy: ['Phong trào cách mạng Nam Bộ', 'Công tác tổ chức và lãnh đạo sau thống nhất'],
+  },
+
+  'le-duc-tho': {
+    name: 'Lê Đức Thọ',
+    nameVi: 'Lê Đức Thọ',
+    birthDeath: '1911-1990',
+    era: 'Xây dựng Đảng, kháng chiến và ngoại giao',
+    school: 'Giai đoạn 1945-1975',
+    imageUrl: '/people/le-duc-tho.jpg',
+    imageAlt: 'Chân dung Lê Đức Thọ',
+    imageCaption: 'Lê Đức Thọ - nhà lãnh đạo của Đảng, nhà hoạt động ngoại giao trong kháng chiến chống Mỹ',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Lê Đức Thọ là nhà lãnh đạo của Đảng, có nhiều đóng góp trong công tác tổ chức, xây dựng Đảng và hoạt động ngoại giao thời kỳ kháng chiến chống Mỹ. Đồng chí gắn với quá trình đàm phán Hiệp định Paris, góp phần tạo điều kiện cho thắng lợi cuối cùng của sự nghiệp giải phóng miền Nam.',
+    concepts: [
+      'Đóng góp trong công tác tổ chức và xây dựng Đảng.',
+      'Tham gia chỉ đạo, xử lý các vấn đề chiến lược trong kháng chiến chống Mỹ.',
+      'Gắn với mặt trận ngoại giao, đặc biệt là quá trình đàm phán Paris.',
+      'Thể hiện sự kết hợp giữa đấu tranh quân sự, chính trị và ngoại giao.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Công tác tổ chức của Đảng',
+        year: '1945-1975',
+        description:
+          'Có nhiều đóng góp trong xây dựng tổ chức, cán bộ và hệ thống lãnh đạo của Đảng.',
+      },
+      {
+        title: 'Đàm phán Paris',
+        year: '1968-1973',
+        description:
+          'Tham gia quá trình đàm phán ngoại giao dẫn tới Hiệp định Paris về Việt Nam.',
+      },
+    ],
+    influences: ['Đường lối kháng chiến chống Mỹ', 'Nghệ thuật ngoại giao cách mạng'],
+    influencedBy: ['Công tác xây dựng Đảng', 'Đấu tranh ngoại giao trong kháng chiến chống Mỹ'],
+  },
+
+  'nguyen-chi-thanh': {
+    name: 'Nguyễn Chí Thanh',
+    nameVi: 'Nguyễn Chí Thanh',
+    birthDeath: '1914-1967',
+    era: 'Kháng chiến và xây dựng lực lượng',
+    school: 'Giai đoạn 1945-1975',
+    imageUrl: '/people/nguyen-chi-thanh.jpg',
+    imageAlt: 'Chân dung Nguyễn Chí Thanh',
+    imageCaption: 'Nguyễn Chí Thanh - lãnh đạo quân sự, chính trị của cách mạng Việt Nam',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Nguyễn Chí Thanh là nhà lãnh đạo chính trị, quân sự tiêu biểu, có nhiều đóng góp trong xây dựng lực lượng vũ trang, công tác chính trị trong quân đội và phong trào cách mạng miền Nam. Đồng chí gắn với tinh thần tiến công và quan điểm phát huy sức mạnh chính trị của quần chúng trong chiến tranh cách mạng.',
+    concepts: [
+      'Chú trọng công tác chính trị, tư tưởng trong lực lượng vũ trang.',
+      'Gắn xây dựng quân đội với xây dựng Đảng và phát huy vai trò quần chúng.',
+      'Góp phần chỉ đạo phong trào cách mạng miền Nam trong kháng chiến chống Mỹ.',
+      'Thể hiện tinh thần chủ động tiến công trong chiến tranh cách mạng.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Công tác chính trị trong quân đội',
+        year: '1945-1967',
+        description:
+          'Có nhiều đóng góp trong xây dựng quân đội về chính trị, tư tưởng và tổ chức.',
+      },
+      {
+        title: 'Chỉ đạo chiến trường miền Nam',
+        year: '1960s',
+        description:
+          'Góp phần phát triển đường lối đấu tranh cách mạng ở miền Nam trong kháng chiến chống Mỹ.',
+      },
+    ],
+    influences: ['Đường lối chiến tranh nhân dân', 'Công tác chính trị trong quân đội'],
+    influencedBy: ['Xây dựng lực lượng vũ trang nhân dân', 'Phong trào cách mạng miền Nam'],
+  },
+
+  'hoang-quoc-viet': {
+    name: 'Hoàng Quốc Việt',
+    nameVi: 'Hoàng Quốc Việt',
+    birthDeath: '1905-1992',
+    era: 'Phong trào công nhân, Mặt trận và xây dựng Đảng',
+    school: 'Giai đoạn 1945-1975',
+    imageUrl: '/people/hoang-quoc-viet.jpg',
+    imageAlt: 'Chân dung Hoàng Quốc Việt',
+    imageCaption: 'Hoàng Quốc Việt - nhà hoạt động cách mạng, lãnh đạo trong công tác Mặt trận và công đoàn',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Hoàng Quốc Việt là nhà hoạt động cách mạng có nhiều đóng góp trong phong trào công nhân, công tác Mặt trận, công đoàn và xây dựng Đảng. Đồng chí gắn với việc tập hợp lực lượng quần chúng và phát huy vai trò của các tổ chức chính trị - xã hội trong cách mạng Việt Nam.',
+    concepts: [
+      'Gắn phong trào công nhân với sự lãnh đạo của Đảng.',
+      'Chú trọng công tác vận động quần chúng và xây dựng tổ chức chính trị - xã hội.',
+      'Đóng góp trong công tác Mặt trận và công đoàn.',
+      'Thể hiện vai trò của đoàn kết xã hội trong kháng chiến và xây dựng đất nước.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Hoạt động trong phong trào công nhân',
+        year: 'Trước và sau 1945',
+        description:
+          'Gắn với công tác vận động công nhân và tổ chức quần chúng.',
+      },
+      {
+        title: 'Công tác Mặt trận và công đoàn',
+        year: '1945-1975',
+        description:
+          'Góp phần xây dựng khối đoàn kết và phát huy sức mạnh các tổ chức quần chúng.',
+      },
+    ],
+    influences: ['Phong trào công nhân', 'Đường lối đại đoàn kết dân tộc'],
+    influencedBy: ['Công tác dân vận', 'Mặt trận và công đoàn Việt Nam'],
+  },
+
+  'nguyen-luong-bang': {
+    name: 'Nguyễn Lương Bằng',
+    nameVi: 'Nguyễn Lương Bằng',
+    birthDeath: '1904-1979',
+    era: 'Tài chính cách mạng, kháng chiến và xây dựng nhà nước',
+    school: 'Giai đoạn 1945-1975',
+    imageUrl: '/people/nguyen-luong-bang.jpg',
+    imageAlt: 'Chân dung Nguyễn Lương Bằng',
+    imageCaption: 'Nguyễn Lương Bằng - nhà hoạt động cách mạng, cán bộ lãnh đạo của Đảng và Nhà nước',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Nguyễn Lương Bằng là nhà hoạt động cách mạng có nhiều đóng góp trong công tác tài chính, xây dựng chính quyền cách mạng và củng cố bộ máy nhà nước. Đồng chí là tấm gương về đạo đức cách mạng, tinh thần tận tụy và kỷ luật trong hoạt động cách mạng.',
+    concepts: [
+      'Góp phần xây dựng nền tài chính cách mạng trong điều kiện kháng chiến.',
+      'Tham gia củng cố chính quyền cách mạng và bộ máy nhà nước.',
+      'Thể hiện phẩm chất đạo đức cách mạng, cần kiệm, liêm chính.',
+      'Có vai trò trong công tác tổ chức, kiểm tra và xây dựng Đảng.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Công tác tài chính cách mạng',
+        year: '1945-1954',
+        description:
+          'Gắn với nhiệm vụ xây dựng nguồn lực tài chính phục vụ kháng chiến và kiến quốc.',
+      },
+      {
+        title: 'Công tác lãnh đạo trong Nhà nước',
+        year: 'Sau 1954',
+        description:
+          'Tham gia nhiều nhiệm vụ lãnh đạo trong bộ máy Đảng và Nhà nước.',
+      },
+    ],
+    influences: ['Tư tưởng đạo đức cách mạng Hồ Chí Minh', 'Yêu cầu xây dựng chính quyền cách mạng'],
+    influencedBy: ['Công tác tài chính cách mạng', 'Xây dựng đạo đức cán bộ'],
+  },
+
+  'van-tien-dung': {
+    name: 'Văn Tiến Dũng',
+    nameVi: 'Văn Tiến Dũng',
+    birthDeath: '1917-2002',
+    era: 'Kháng chiến chống Pháp, chống Mỹ và thống nhất đất nước',
+    school: 'Giai đoạn 1945-1975',
+    imageUrl: '/people/van-tien-dung.jpg',
+    imageAlt: 'Chân dung Văn Tiến Dũng',
+    imageCaption: 'Văn Tiến Dũng - Đại tướng, nhà lãnh đạo quân sự của Quân đội nhân dân Việt Nam',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Đại tướng Văn Tiến Dũng là nhà lãnh đạo quân sự tiêu biểu của Quân đội nhân dân Việt Nam. Đồng chí tham gia lãnh đạo, chỉ huy nhiều nhiệm vụ quân sự quan trọng, đặc biệt gắn với giai đoạn cuối của cuộc kháng chiến chống Mỹ và Đại thắng mùa Xuân năm 1975.',
+    concepts: [
+      'Góp phần phát triển nghệ thuật chỉ đạo chiến dịch trong chiến tranh nhân dân.',
+      'Tham gia lãnh đạo quân sự trong giai đoạn quyết định của kháng chiến chống Mỹ.',
+      'Gắn với quá trình tổ chức và chỉ huy chiến dịch trong Tổng tiến công mùa Xuân 1975.',
+      'Thể hiện vai trò của Bộ Tổng tham mưu và chỉ đạo chiến lược quân sự.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Chỉ đạo quân sự trong kháng chiến chống Mỹ',
+        year: '1954-1975',
+        description:
+          'Tham gia nhiều nhiệm vụ lãnh đạo, chỉ huy quân sự trong cuộc kháng chiến chống Mỹ.',
+      },
+      {
+        title: 'Đại thắng mùa Xuân năm 1975',
+        year: '1975',
+        description:
+          'Gắn với quá trình chỉ đạo chiến dịch trong giai đoạn quyết định giải phóng miền Nam.',
+      },
+    ],
+    influences: ['Đường lối chiến tranh nhân dân', 'Nghệ thuật quân sự Việt Nam'],
+    influencedBy: ['Chỉ đạo chiến lược quân sự', 'Tổng tiến công và nổi dậy mùa Xuân 1975'],
+  },
+
+  'vo-van-kiet': {
+    name: 'Võ Văn Kiệt',
+    nameVi: 'Võ Văn Kiệt',
+    birthDeath: '1922-2008',
+    era: 'Kháng chiến, đổi mới và phát triển đất nước',
+    school: 'Giai đoạn từ 1975',
+    imageUrl: '/people/vo-van-kiet.jpg',
+    imageAlt: 'Chân dung Võ Văn Kiệt',
+    imageCaption: 'Võ Văn Kiệt - nhà lãnh đạo gắn với công cuộc đổi mới và phát triển đất nước',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Võ Văn Kiệt là nhà lãnh đạo có tư duy đổi mới mạnh mẽ, trưởng thành từ thực tiễn cách mạng miền Nam và có nhiều đóng góp trong phát triển kinh tế - xã hội sau thống nhất. Đồng chí gắn với tinh thần đổi mới, dám nghĩ, dám làm, thúc đẩy hạ tầng, mở cửa và hội nhập.',
+    concepts: [
+      'Gắn đổi mới với thực tiễn đời sống nhân dân và yêu cầu phát triển đất nước.',
+      'Thúc đẩy tư duy quản lý năng động, tháo gỡ cơ chế cũ và khuyến khích sản xuất.',
+      'Quan tâm phát triển hạ tầng, năng lượng và kết nối vùng.',
+      'Kết hợp ổn định chính trị với phát triển kinh tế và mở rộng quan hệ đối ngoại.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Thúc đẩy đổi mới kinh tế - xã hội',
+        year: 'Sau 1986',
+        description:
+          'Gắn với nhiều quyết sách và công trình phát triển trong giai đoạn đầu đổi mới.',
+      },
+      {
+        title: 'Phát triển hạ tầng và kết nối vùng',
+        year: '1990s',
+        description:
+          'Quan tâm thúc đẩy các dự án hạ tầng, năng lượng và phát triển kinh tế vùng.',
+      },
+    ],
+    influences: ['Thực tiễn Nam Bộ', 'Đường lối đổi mới của Đảng'],
+    influencedBy: ['Tư duy quản lý đổi mới', 'Phát triển kinh tế - xã hội sau 1986'],
+  },
+
+  'do-muoi': {
+    name: 'Đỗ Mười',
+    nameVi: 'Đỗ Mười',
+    birthDeath: '1917-2018',
+    era: 'Đổi mới và xây dựng Đảng',
+    school: 'Giai đoạn từ 1975',
+    imageUrl: '/people/do-muoi.jpg',
+    imageAlt: 'Chân dung Đỗ Mười',
+    imageCaption: 'Đỗ Mười - Tổng Bí thư của Đảng trong thời kỳ đầu đổi mới',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Đỗ Mười là Tổng Bí thư của Đảng trong giai đoạn đầu đổi mới, có vai trò trong quá trình tiếp tục thể chế hóa và triển khai đường lối đổi mới sau Đại hội VI. Đồng chí gắn với nhiệm vụ ổn định kinh tế - xã hội, xây dựng Đảng và hoàn thiện nhận thức về con đường phát triển đất nước.',
+    concepts: [
+      'Tiếp tục triển khai và củng cố đường lối đổi mới.',
+      'Chú trọng ổn định kinh tế - xã hội trong giai đoạn chuyển đổi cơ chế.',
+      'Góp phần xây dựng Đảng và củng cố hệ thống chính trị.',
+      'Gắn đổi mới kinh tế với định hướng xã hội chủ nghĩa và vai trò quản lý của Nhà nước.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Lãnh đạo trong thời kỳ đầu đổi mới',
+        year: '1991-1997',
+        description:
+          'Gắn với quá trình tiếp tục triển khai đường lối đổi mới sau Đại hội VI và Đại hội VII.',
+      },
+      {
+        title: 'Xây dựng Đảng và ổn định kinh tế - xã hội',
+        year: '1990s',
+        description:
+          'Chú trọng củng cố hệ thống chính trị, ổn định xã hội và phát triển kinh tế trong giai đoạn chuyển đổi.',
+      },
+    ],
+    influences: ['Đường lối đổi mới', 'Yêu cầu ổn định và phát triển sau khủng hoảng kinh tế - xã hội'],
+    influencedBy: ['Xây dựng Đảng thời kỳ đổi mới', 'Hoàn thiện cơ chế quản lý kinh tế'],
+  },
+
+  'nguyen-duc-binh': {
+    name: 'Nguyễn Đức Bình',
+    nameVi: 'Nguyễn Đức Bình',
+    birthDeath: '1927-2019',
+    era: 'Lý luận chính trị và xây dựng Đảng',
+    school: 'Giai đoạn từ 1975',
+    imageUrl: '/people/nguyen-duc-binh.jpg',
+    imageAlt: 'Chân dung Nguyễn Đức Bình',
+    imageCaption: 'Nguyễn Đức Bình - nhà lý luận chính trị, nhà lãnh đạo công tác tư tưởng của Đảng',
+    imageSource: 'Tư liệu - Văn kiện Đảng',
+    imageSourceUrl: 'https://tulieuvankien.dangcongsan.vn/lanh-dao-dang-nha-nuoc',
+    summary:
+      'Nguyễn Đức Bình là nhà lý luận chính trị, có nhiều đóng góp trong công tác tư tưởng, lý luận và xây dựng Đảng thời kỳ đổi mới. Đồng chí gắn với việc nghiên cứu, bảo vệ và phát triển nền tảng tư tưởng của Đảng trong bối cảnh đất nước chuyển sang thời kỳ đổi mới.',
+    concepts: [
+      'Góp phần vào công tác tư tưởng, lý luận của Đảng.',
+      'Chú trọng bảo vệ nền tảng tư tưởng và định hướng xã hội chủ nghĩa.',
+      'Tham gia nghiên cứu, tổng kết thực tiễn đổi mới.',
+      'Gắn lý luận chính trị với yêu cầu xây dựng Đảng trong thời kỳ mới.',
+    ],
+    quotes: [],
+    works: [
+      {
+        title: 'Công tác lý luận chính trị',
+        year: 'Thời kỳ đổi mới',
+        description:
+          'Có nhiều đóng góp trong nghiên cứu lý luận và tổng kết thực tiễn đổi mới.',
+      },
+      {
+        title: 'Công tác tư tưởng của Đảng',
+        year: 'Sau 1975',
+        description:
+          'Gắn với nhiệm vụ củng cố nền tảng tư tưởng và định hướng phát triển đất nước.',
+      },
+    ],
+    influences: ['Chủ nghĩa Mác - Lênin', 'Tư tưởng Hồ Chí Minh', 'Thực tiễn đổi mới'],
+    influencedBy: ['Công tác tư tưởng lý luận', 'Xây dựng Đảng trong thời kỳ đổi mới'],
   }
 };
 
@@ -201,7 +1059,20 @@ export const SCHOOLS_DETAIL = {
     era: '1945-1975',
     description: 'Đảng lãnh đạo bảo vệ chính quyền cách mạng, tiến hành hai cuộc kháng chiến và hoàn thành giải phóng miền Nam, thống nhất đất nước.',
     keyIdeas: ['Kháng chiến kiến quốc', 'Chiến tranh nhân dân', 'Thống nhất đất nước'],
-    philosophers: ['Hồ Chí Minh', 'Trường Chinh', 'Võ Nguyên Giáp', 'Lê Duẩn'],
+    philosophers: [
+      'Hồ Chí Minh',
+      'Trường Chinh',
+      'Võ Nguyên Giáp',
+      'Lê Duẩn',
+      'Phạm Văn Đồng',
+      'Tôn Đức Thắng',
+      'Phạm Hùng',
+      'Lê Đức Thọ',
+      'Nguyễn Chí Thanh',
+      'Hoàng Quốc Việt',
+      'Nguyễn Lương Bằng',
+      'Văn Tiến Dũng'
+    ],
     icon: '\u2691'
   },
   'Giai đoạn từ 1975': {
@@ -209,7 +1080,16 @@ export const SCHOOLS_DETAIL = {
     era: 'Từ 1975',
     description: 'Đảng lãnh đạo cả nước quá độ lên chủ nghĩa xã hội, khởi xướng đổi mới, phát triển kinh tế thị trường định hướng xã hội chủ nghĩa và hội nhập quốc tế.',
     keyIdeas: ['Thống nhất về nhà nước', 'Đổi mới', 'Hội nhập quốc tế'],
-    philosophers: ['Trường Chinh', 'Nguyễn Văn Linh'],
+    philosophers: [
+      'Trường Chinh',
+      'Nguyễn Văn Linh',
+      'Phạm Văn Đồng',
+      'Tôn Đức Thắng',
+      'Phạm Hùng',
+      'Võ Văn Kiệt',
+      'Đỗ Mười',
+      'Nguyễn Đức Bình'
+    ],
     icon: '\u{1F4C8}'
   }
 };
