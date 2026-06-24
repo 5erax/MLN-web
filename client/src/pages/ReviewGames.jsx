@@ -1,67 +1,67 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  flashcards,
-  matchingPairs,
-  timelineEvents,
+    flashcards,
+    matchingPairs,
+    timelineEvents,
 } from '../data/reviewGamesData';
 
 function shuffle(list) {
-  return [...list].sort(() => Math.random() - 0.5);
+    return [...list].sort(() => Math.random() - 0.5);
 }
 
 export default function ReviewGames() {
-  const [activeTab, setActiveTab] = useState('flashcards');
+    const [activeTab, setActiveTab] = useState('flashcards');
 
-  return (
-    <div className="page page--wide games-page">
-      <header className="games-header">
-        <span className="badge badge-school">Ôn tập tương tác</span>
-        <h1 className="page-title">Trò chơi ôn tập Lịch sử Đảng</h1>
-        <p className="page-desc">
-          Ôn lại sự kiện, nhân vật, văn kiện và mốc thời gian qua flashcard,
-          ghép cặp và sắp xếp dòng thời gian.
-        </p>
+    return (
+        <div className="page page--wide games-page">
+            <header className="games-header">
+                <span className="badge badge-school">Ôn tập tương tác</span>
+                <h1 className="page-title">Trò chơi ôn tập Lịch sử Đảng</h1>
+                <p className="page-desc">
+                    Ôn lại sự kiện, nhân vật, văn kiện và mốc thời gian qua flashcard,
+                    ghép cặp và sắp xếp dòng thời gian.
+                </p>
 
-        <div className="games-actions">
-          <Link to="/bai-hoc" className="btn btn-outline btn-sm">
-            Xem bài học
-          </Link>
-          <Link to="/trac-nghiem" className="btn btn-primary btn-sm">
-            Làm trắc nghiệm tổng hợp
-          </Link>
-        </div>
-      </header>
+                <div className="games-actions">
+                    <Link to="/bai-hoc" className="btn btn-outline btn-sm">
+                        Xem bài học
+                    </Link>
+                    <Link to="/on-thi" className="btn btn-primary btn-sm">
+                        Luyện đề ôn thi
+                    </Link>
+                </div>
+            </header>
 
-      <nav className="games-tabs" aria-label="Chọn trò chơi ôn tập">
-        <button
-          type="button"
-          className={activeTab === 'flashcards' ? 'active' : ''}
-          onClick={() => setActiveTab('flashcards')}
-        >
-          Thẻ ghi nhớ
-        </button>
-        <button
-          type="button"
-          className={activeTab === 'matching' ? 'active' : ''}
-          onClick={() => setActiveTab('matching')}
-        >
-          Ghép cặp
-        </button>
-        <button
-          type="button"
-          className={activeTab === 'timeline' ? 'active' : ''}
-          onClick={() => setActiveTab('timeline')}
-        >
-          Dòng thời gian
-        </button>
-      </nav>
+            <nav className="games-tabs" aria-label="Chọn trò chơi ôn tập">
+                <button
+                    type="button"
+                    className={activeTab === 'flashcards' ? 'active' : ''}
+                    onClick={() => setActiveTab('flashcards')}
+                >
+                    Thẻ ghi nhớ
+                </button>
+                <button
+                    type="button"
+                    className={activeTab === 'matching' ? 'active' : ''}
+                    onClick={() => setActiveTab('matching')}
+                >
+                    Ghép cặp
+                </button>
+                <button
+                    type="button"
+                    className={activeTab === 'timeline' ? 'active' : ''}
+                    onClick={() => setActiveTab('timeline')}
+                >
+                    Dòng thời gian
+                </button>
+            </nav>
 
-      {activeTab === 'flashcards' && <FlashcardGame />}
-      {activeTab === 'matching' && <MatchingGame />}
-      {activeTab === 'timeline' && <TimelineGame />}
+            {activeTab === 'flashcards' && <FlashcardGame />}
+            {activeTab === 'matching' && <MatchingGame />}
+            {activeTab === 'timeline' && <TimelineGame />}
 
-      <style>{`
+            <style>{`
         .games-page {
           padding-bottom: 4rem;
         }
@@ -139,16 +139,20 @@ export default function ReviewGames() {
         }
 
         .flashcard {
-          min-height: 280px;
-          border: 1px solid var(--border-light);
-          background: var(--gradient-card);
-          border-radius: var(--radius-xl);
-          padding: 2rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          box-shadow: var(--shadow-md);
-        }
+  width: 100%;
+  min-height: 340px;
+  height: 340px;
+  border: 1px solid var(--border-light);
+  background: var(--gradient-card);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  text-align: left;
+}
 
         .flashcard-tag {
           display: inline-flex;
@@ -163,11 +167,14 @@ export default function ReviewGames() {
         }
 
         .flashcard-text {
-          font-size: 1.25rem;
-          line-height: 1.7;
-          color: var(--text);
-          margin: 0;
-        }
+  font-size: clamp(1rem, 2.6vw, 1.25rem);
+  line-height: 1.65;
+  color: var(--text);
+  margin: 0;
+  overflow-y: auto;
+  max-height: 190px;
+  padding-right: 0.25rem;
+}
 
         .flashcard-hint {
           color: var(--text-light);
@@ -310,7 +317,15 @@ export default function ReviewGames() {
           .matching-layout {
             grid-template-columns: 1fr;
           }
+        .flashcard {
+  min-height: 380px;
+  height: 380px;
+  padding: 1.35rem;
+}
 
+.flashcard-text {
+  max-height: 230px;
+}
           .timeline-card {
             grid-template-columns: 1fr;
             gap: 0.5rem;
@@ -321,226 +336,226 @@ export default function ReviewGames() {
           }
         }
       `}</style>
-    </div>
-  );
+        </div>
+    );
 }
 
 function FlashcardGame() {
-  const [index, setIndex] = useState(0);
-  const [flipped, setFlipped] = useState(false);
+    const [index, setIndex] = useState(0);
+    const [flipped, setFlipped] = useState(false);
 
-  const current = flashcards[index];
+    const current = flashcards[index];
 
-  const next = () => {
-    setIndex((prev) => (prev + 1) % flashcards.length);
-    setFlipped(false);
-  };
+    const next = () => {
+        setIndex((prev) => (prev + 1) % flashcards.length);
+        setFlipped(false);
+    };
 
-  const prev = () => {
-    setIndex((prev) => (prev - 1 + flashcards.length) % flashcards.length);
-    setFlipped(false);
-  };
+    const prev = () => {
+        setIndex((prev) => (prev - 1 + flashcards.length) % flashcards.length);
+        setFlipped(false);
+    };
 
-  return (
-    <section className="game-panel">
-      <div className="flashcard-wrap">
-        <h2 className="game-panel-title">Thẻ ghi nhớ</h2>
-        <p className="game-panel-desc">
-          Đọc câu hỏi, tự trả lời trong đầu, sau đó bấm lật thẻ để kiểm tra.
-        </p>
+    return (
+        <section className="game-panel">
+            <div className="flashcard-wrap">
+                <h2 className="game-panel-title">Thẻ ghi nhớ</h2>
+                <p className="game-panel-desc">
+                    Đọc câu hỏi, tự trả lời trong đầu, sau đó bấm lật thẻ để kiểm tra.
+                </p>
 
-        <button
-          type="button"
-          className="flashcard"
-          onClick={() => setFlipped((value) => !value)}
-          aria-label="Lật thẻ ghi nhớ"
-        >
-          <span className="flashcard-tag">{current.tag}</span>
-          <p className="flashcard-text">
-            {flipped ? current.back : current.front}
-          </p>
-          <span className="flashcard-hint">
-            {flipped ? 'Bấm để xem lại câu hỏi' : 'Bấm để xem đáp án'}
-          </span>
-        </button>
+                <button
+                    type="button"
+                    className="flashcard"
+                    onClick={() => setFlipped((value) => !value)}
+                    aria-label="Lật thẻ ghi nhớ"
+                >
+                    <span className="flashcard-tag">{current.tag}</span>
+                    <p className="flashcard-text">
+                        {flipped ? current.back : current.front}
+                    </p>
+                    <span className="flashcard-hint">
+                        {flipped ? 'Bấm để xem lại câu hỏi' : 'Bấm để xem đáp án'}
+                    </span>
+                </button>
 
-        <div className="flashcard-controls">
-          <button type="button" className="btn btn-outline btn-sm" onClick={prev}>
-            Câu trước
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary btn-sm"
-            onClick={() => setFlipped((value) => !value)}
-          >
-            Lật thẻ
-          </button>
-          <button type="button" className="btn btn-outline btn-sm" onClick={next}>
-            Câu tiếp
-          </button>
-        </div>
+                <div className="flashcard-controls">
+                    <button type="button" className="btn btn-outline btn-sm" onClick={prev}>
+                        Câu trước
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-primary btn-sm"
+                        onClick={() => setFlipped((value) => !value)}
+                    >
+                        Lật thẻ
+                    </button>
+                    <button type="button" className="btn btn-outline btn-sm" onClick={next}>
+                        Câu tiếp
+                    </button>
+                </div>
 
-        <div className="game-result">
-          Thẻ {index + 1}/{flashcards.length}
-        </div>
-      </div>
-    </section>
-  );
+                <div className="game-result">
+                    Thẻ {index + 1}/{flashcards.length}
+                </div>
+            </div>
+        </section>
+    );
 }
 
 function MatchingGame() {
-  const shuffledMeanings = useMemo(() => shuffle(matchingPairs), []);
-  const [answers, setAnswers] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+    const shuffledMeanings = useMemo(() => shuffle(matchingPairs), []);
+    const [answers, setAnswers] = useState({});
+    const [submitted, setSubmitted] = useState(false);
 
-  const correctCount = matchingPairs.reduce((total, pair) => {
-    return total + (answers[pair.id] === pair.id ? 1 : 0);
-  }, 0);
+    const correctCount = matchingPairs.reduce((total, pair) => {
+        return total + (answers[pair.id] === pair.id ? 1 : 0);
+    }, 0);
 
-  const choose = (pairId, meaningId) => {
-    if (submitted) return;
-    setAnswers((prev) => ({ ...prev, [pairId]: meaningId }));
-  };
+    const choose = (pairId, meaningId) => {
+        if (submitted) return;
+        setAnswers((prev) => ({ ...prev, [pairId]: meaningId }));
+    };
 
-  const reset = () => {
-    setAnswers({});
-    setSubmitted(false);
-  };
+    const reset = () => {
+        setAnswers({});
+        setSubmitted(false);
+    };
 
-  return (
-    <section className="game-panel">
-      <h2 className="game-panel-title">Ghép cặp khái niệm</h2>
-      <p className="game-panel-desc">
-        Chọn phần giải thích đúng cho từng nhân vật, sự kiện hoặc văn kiện.
-      </p>
-
-      <div className="matching-layout">
-        <div className="matching-col">
-          {matchingPairs.map((pair) => (
-            <div key={pair.id} className="matching-card">
-              <div className="matching-term">{pair.term}</div>
-              <div className="matching-options">
-                {shuffledMeanings.map((meaning) => {
-                  const selected = answers[pair.id] === meaning.id;
-                  const correct = submitted && selected && meaning.id === pair.id;
-                  const wrong = submitted && selected && meaning.id !== pair.id;
-
-                  return (
-                    <button
-                      key={meaning.id}
-                      type="button"
-                      className={`matching-option ${correct ? 'correct' : ''} ${wrong ? 'wrong' : ''}`}
-                      onClick={() => choose(pair.id, meaning.id)}
-                    >
-                      {selected ? '✓ ' : ''}
-                      {meaning.meaning}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="matching-col">
-          <div className="matching-card">
-            <h3 className="game-panel-title">Cách tính điểm</h3>
+    return (
+        <section className="game-panel">
+            <h2 className="game-panel-title">Ghép cặp khái niệm</h2>
             <p className="game-panel-desc">
-              Mỗi cặp đúng được 1 điểm. Bấm “Kiểm tra” sau khi chọn đủ đáp án.
+                Chọn phần giải thích đúng cho từng nhân vật, sự kiện hoặc văn kiện.
             </p>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => setSubmitted(true)}
-              disabled={Object.keys(answers).length < matchingPairs.length}
-            >
-              Kiểm tra
-            </button>
-            <button
-              type="button"
-              className="btn btn-outline"
-              onClick={reset}
-              style={{ marginLeft: '0.75rem' }}
-            >
-              Làm lại
-            </button>
 
-            {submitted && (
-              <div className="game-result">
-                Bạn đúng {correctCount}/{matchingPairs.length} cặp.
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+            <div className="matching-layout">
+                <div className="matching-col">
+                    {matchingPairs.map((pair) => (
+                        <div key={pair.id} className="matching-card">
+                            <div className="matching-term">{pair.term}</div>
+                            <div className="matching-options">
+                                {shuffledMeanings.map((meaning) => {
+                                    const selected = answers[pair.id] === meaning.id;
+                                    const correct = submitted && selected && meaning.id === pair.id;
+                                    const wrong = submitted && selected && meaning.id !== pair.id;
+
+                                    return (
+                                        <button
+                                            key={meaning.id}
+                                            type="button"
+                                            className={`matching-option ${correct ? 'correct' : ''} ${wrong ? 'wrong' : ''}`}
+                                            onClick={() => choose(pair.id, meaning.id)}
+                                        >
+                                            {selected ? '✓ ' : ''}
+                                            {meaning.meaning}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="matching-col">
+                    <div className="matching-card">
+                        <h3 className="game-panel-title">Cách tính điểm</h3>
+                        <p className="game-panel-desc">
+                            Mỗi cặp đúng được 1 điểm. Bấm “Kiểm tra” sau khi chọn đủ đáp án.
+                        </p>
+                        <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={() => setSubmitted(true)}
+                            disabled={Object.keys(answers).length < matchingPairs.length}
+                        >
+                            Kiểm tra
+                        </button>
+                        <button
+                            type="button"
+                            className="btn btn-outline"
+                            onClick={reset}
+                            style={{ marginLeft: '0.75rem' }}
+                        >
+                            Làm lại
+                        </button>
+
+                        {submitted && (
+                            <div className="game-result">
+                                Bạn đúng {correctCount}/{matchingPairs.length} cặp.
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
 }
 
 function TimelineGame() {
-  const [items, setItems] = useState(() => shuffle(timelineEvents));
-  const [checked, setChecked] = useState(false);
+    const [items, setItems] = useState(() => shuffle(timelineEvents));
+    const [checked, setChecked] = useState(false);
 
-  const move = (index, direction) => {
-    const nextIndex = index + direction;
-    if (nextIndex < 0 || nextIndex >= items.length) return;
+    const move = (index, direction) => {
+        const nextIndex = index + direction;
+        if (nextIndex < 0 || nextIndex >= items.length) return;
 
-    const nextItems = [...items];
-    const temp = nextItems[index];
-    nextItems[index] = nextItems[nextIndex];
-    nextItems[nextIndex] = temp;
+        const nextItems = [...items];
+        const temp = nextItems[index];
+        nextItems[index] = nextItems[nextIndex];
+        nextItems[nextIndex] = temp;
 
-    setItems(nextItems);
-    setChecked(false);
-  };
+        setItems(nextItems);
+        setChecked(false);
+    };
 
-  const isCorrect = items.every((item, index) => item.order === index + 1);
+    const isCorrect = items.every((item, index) => item.order === index + 1);
 
-  const reset = () => {
-    setItems(shuffle(timelineEvents));
-    setChecked(false);
-  };
+    const reset = () => {
+        setItems(shuffle(timelineEvents));
+        setChecked(false);
+    };
 
-  return (
-    <section className="game-panel">
-      <h2 className="game-panel-title">Sắp xếp dòng thời gian</h2>
-      <p className="game-panel-desc">
-        Dùng nút lên/xuống để sắp xếp các sự kiện theo đúng thứ tự lịch sử.
-      </p>
+    return (
+        <section className="game-panel">
+            <h2 className="game-panel-title">Sắp xếp dòng thời gian</h2>
+            <p className="game-panel-desc">
+                Dùng nút lên/xuống để sắp xếp các sự kiện theo đúng thứ tự lịch sử.
+            </p>
 
-      <div className="timeline-list">
-        {items.map((item, index) => (
-          <div key={item.id} className="timeline-card">
-            <span className="timeline-year">{item.year}</span>
-            <p className="timeline-event">{item.event}</p>
-            <div className="timeline-controls">
-              <button type="button" onClick={() => move(index, -1)} aria-label="Di chuyển lên">
-                ↑
-              </button>
-              <button type="button" onClick={() => move(index, 1)} aria-label="Di chuyển xuống">
-                ↓
-              </button>
+            <div className="timeline-list">
+                {items.map((item, index) => (
+                    <div key={item.id} className="timeline-card">
+                        <span className="timeline-year">{item.year}</span>
+                        <p className="timeline-event">{item.event}</p>
+                        <div className="timeline-controls">
+                            <button type="button" onClick={() => move(index, -1)} aria-label="Di chuyển lên">
+                                ↑
+                            </button>
+                            <button type="button" onClick={() => move(index, 1)} aria-label="Di chuyển xuống">
+                                ↓
+                            </button>
+                        </div>
+                    </div>
+                ))}
             </div>
-          </div>
-        ))}
-      </div>
 
-      <div className="timeline-actions">
-        <button type="button" className="btn btn-primary" onClick={() => setChecked(true)}>
-          Kiểm tra thứ tự
-        </button>
-        <button type="button" className="btn btn-outline" onClick={reset}>
-          Trộn lại
-        </button>
-      </div>
+            <div className="timeline-actions">
+                <button type="button" className="btn btn-primary" onClick={() => setChecked(true)}>
+                    Kiểm tra thứ tự
+                </button>
+                <button type="button" className="btn btn-outline" onClick={reset}>
+                    Trộn lại
+                </button>
+            </div>
 
-      {checked && (
-        <div className="game-result">
-          {isCorrect
-            ? 'Chính xác. Bạn đã sắp xếp đúng toàn bộ dòng thời gian.'
-            : 'Chưa đúng. Hãy kiểm tra lại thứ tự các mốc lịch sử.'}
-        </div>
-      )}
-    </section>
-  );
+            {checked && (
+                <div className="game-result">
+                    {isCorrect
+                        ? 'Chính xác. Bạn đã sắp xếp đúng toàn bộ dòng thời gian.'
+                        : 'Chưa đúng. Hãy kiểm tra lại thứ tự các mốc lịch sử.'}
+                </div>
+            )}
+        </section>
+    );
 }
